@@ -1,4 +1,5 @@
-| Use Case Name(Copy This file for use cases) | [Use Case Name] |
+| Cancel Reservation
+ | [Use Case Name] |
 |---------------|-----------------|
 | Actor         | [Actor Name]    |
 | Preconditions | 1. [Precondition 1] <br>2. [Precondition 2]|
