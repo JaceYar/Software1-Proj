@@ -1,0 +1,30 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.next
+pom.xml.bak
+pom.xml.versions
+pom.xml.releaseBackup
+poms/
+*.war
+*.ear
+*.jar
+*.class
+
+# IDE-specific files and directories
+.idea/         # IntelliJ IDEA
+.vscode/       # VS Code
+*.iml          # IntelliJ IDEA module files
+.project       # Eclipse
+.classpath     # Eclipse
+.settings/     # Eclipse
+.metadata/     # Eclipse
+
+# Operating System files
+.DS_Store      # macOS
+Thumbs.db      # Windows
+
+# Maven Wrapper
+# The .mvn folder can be committed to ensure a fully encapsulated build setup for all users.
+# If you choose to ignore it, uncomment the following line:
+# .mvn/wrapper/maven-wrapper.jar
