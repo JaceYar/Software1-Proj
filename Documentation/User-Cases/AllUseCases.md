@@ -5,6 +5,8 @@
 2. [Make Reservation](#2-make-reservation)
 3. [Process Check-In](#3-process-check-in)
 4. [Search Available Room](#4-search-available-room)
+5. [Cancel Reservation](#5-cancel-reservation)
+6. [Modify Reservation](#6-modify-reservation)
 
 ---
 
@@ -187,3 +189,88 @@ Hotel Guest
 # Extensions
 
 # Special Requirements
+
+---
+
+## 5. Cancel Reservation
+
+# Use Case Name:
+Cancel Reservation
+
+# Actor
+Hotel Guest
+
+# Preconditions
+- The hotel guest is logged into the system
+- The guest has an existing reservation
+
+# Postconditions
+- The reservation is canceled only if cancellation is permitted
+- If cancellation is permitted, any applicable cancellation penalty is recorded
+- If cancellation is not permitted, the reservation remains unchanged
+
+# Main Success Scenario
+1. The guest selects the option to view reservations
+2. The system displays the guest's reservations
+3. The guest selects a reservation to cancel
+4. The system checks the time remaining until the reservation's check-in date
+5. The system determines that the cancellation request is more than the required time
+6. The system displays the applicable cancellation policy and any penalty (if required)
+7. The guest confirms the cancellation
+8. The system cancels the reservation
+9. The system displays a cancellation confirmation message
+
+# Extensions
+4a. Cancellation not allowed (within a specific time frame):
+    1. The system determines that the cancellation request is within X hours of the check-in time
+    2. The system displays a message explaining that cancellation is not permitted according to the policy
+    3. The reservation remains unchanged
+
+# Special Requirements
+- The system must enforce the X-hour cancellation policy exactly
+- Time comparisons must use the hotel's local time zone
+- All cancellation attempts must be logged for auditing and billing purposes
+
+---
+
+## 6. Modify Reservation
+
+# Use Case Name:
+Modify Reservation
+
+# Actor
+Hotel Guest
+
+# Preconditions
+- The hotel guest is logged into the system
+- The guest has an existing reservation
+- The reservation has not yet started
+
+# Postconditions
+- The reservation is updated only if modification is permitted
+- If modification is not permitted, the reservation remains unchanged
+- Any change in price is recalculated and recorded
+
+# Main Success Scenario
+1. The guest selects the option to view their reservations
+2. The system displays the guest's reservations
+3. The guest selects a reservation to modify
+4. The system displays the current reservation details
+5. The guest enters the requested changes (e.g., dates or room type)
+6. The system checks whether the modification request is more than X hours before the check-in time
+7. The system checks room availability for the requested changes
+8. The system recalculates the reservation cost, if applicable
+9. The system displays the updated reservation details
+10. The guest confirms the modification
+11. The system updates the reservation
+12. The system displays a modification confirmation message
+
+# Extensions
+6a. Modification not allowed (within X hours of check-in):
+    1. The system determines that the modification request is within X hours of the check-in time
+    2. The system displays a message explaining that modifications are not permitted according to the policy
+
+# Special Requirements
+- The system must enforce the X-hour modification policy exactly
+- Availability checks must be consistent with current reservations
+- Price recalculation must follow hotel pricing rules
