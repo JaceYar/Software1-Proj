@@ -1,3 +1,15 @@
+# To Do
+- [x] Review the Project Overview page and Problem Statement again more thoroughly.  
+- [x] (If there were any updates,) Updated requirements clarification questions (and answers if given already).
+- [x] Create the scrum dashboard for task management.
+- [x] Create the code repository (e.g., Github, Bitbucket) and clone it to local. Include the repository link in the documentation.
+- [x] Use-case diagram, clearly illustrating system boundary and actors (including system actors).
+- [x] At least 6-7 use cases in brief form.
+
+# Links
+[Github](https://github.com/JaceYar/Software1-Proj)
+[Jira](https://csi-3471-drop-table-teams.atlassian.net/jira/software/projects/SCRUM/boards/1)
+
 # Use Cases
 
 ## Table of Contents
@@ -274,3 +286,9 @@ Hotel Guest
 - The system must enforce the X-hour modification policy exactly
 - Availability checks must be consistent with current reservations
 - Price recalculation must follow hotel pricing rules
+
+---
+
+## Use Case Diagram
+
+![Use Case Diagram](Use-Case-Diagram1.jpg)
