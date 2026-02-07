@@ -8,6 +8,22 @@
 [Jira](https://csi-3471-drop-table-teams.atlassian.net/jira/software/projects/SCRUM/boards/1)
 
 
+## Getting Started
+
+We're using jOOQ. This is a useful tool that generates an ORM straight from our schema file, located in `schema.sql`. Every time you update the schema, make sure to regenerate the ORM.
+
+### Setup
+
+```bash
+# generates new source code
+./scripts/generate-db.sh
+
+# Start the app
+./scripts/run.sh
+```
+
+---
+
 This project follows the **Maven Standard Directory Layout** to ensure consistency across development environments.
 
 | Directory / File | Description |
