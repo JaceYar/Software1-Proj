@@ -1,5 +1,6 @@
-| Use Case Name(Copy This file for use cases) | Modify Reservation |
+| Use Case Name| Modify Reservation |
 |---------------|-----------------|
+| Author | Zain Altaf |
 | Actor         | Hotel Guest    |
 | Preconditions | 1. The hotel guest is logged into the system. <br>2.The guest has an existing reservation. <br> 3. The reservation has not yet started.|
 |Postconditions | 1. The reservation is updated only if modification is permitted. <br> 2. If modification is not permitted, the reservation remains unchanged. <br> 3. Any change in price is recalculated and recorded. |
