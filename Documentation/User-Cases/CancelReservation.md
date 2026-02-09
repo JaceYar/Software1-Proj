@@ -1,6 +1,5 @@
 | Use Case Name| Cancel Reservation |
 |---------------|-----------------|
-| Author | Zain Altaf |
 | Actor         | Hotel Guest    |
 | Preconditions | 1. The hotel guest is logged into the system. <br>2. The guest has an existing reservation.|
 |Postconditions | 1. The reservation is canceled only if cancellation is permitted. <br> 2. If cancellation is permitted, any applicable cancellation penalty is recorded. <br> 3.If cancellation is not permitted, the reservation remains unchanged.|
@@ -8,4 +7,4 @@
 |Extensions| [4]a. **Cancellation not allowed (within a specific time frame)**<br>&nbsp;&nbsp;&nbsp;&nbsp;    [4]a1 he system determines that the cancellation request is within x hours of the check-in time.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4]a2 The system displays a message explaining that cancellation is not permitted according to the policy.<br>[4]a3 The reservation remains unchanged.|
 |Special Reqs| ● The system must enforce the X-hour cancellation policy exactly.<br>● Time comparisons must use the hotel's local time zone. <br> ● All cancellation attempts must be logged for auditing and billing purposes.|
 
-Author:
+Author: Zain Altaf

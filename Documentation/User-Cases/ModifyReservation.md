@@ -1,6 +1,5 @@
 | Use Case Name| Modify Reservation |
 |---------------|-----------------|
-| Author | Zain Altaf |
 | Actor         | Hotel Guest    |
 | Preconditions | 1. The hotel guest is logged into the system. <br>2.The guest has an existing reservation. <br> 3. The reservation has not yet started.|
 |Postconditions | 1. The reservation is updated only if modification is permitted. <br> 2. If modification is not permitted, the reservation remains unchanged. <br> 3. Any change in price is recalculated and recorded. |
@@ -8,4 +7,4 @@
 |Extensions| [6]a. **Modification not allowed (within X hours of check-in)**<br>&nbsp;&nbsp;&nbsp;&nbsp;    [6]a1 The system determines that the modification request is within X hours of the check-in time.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 The system displays a message explaining that modifications are not permitted according to the policy.|
 |Special Reqs| ● The system must enforce the X-hour modification policy exactly.<br>● Availability checks must be consistent with current reservations.<br> ● Price recalculation must follow hotel pricing rules.|
 
-Author:
+Author: Zain Altaf

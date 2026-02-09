@@ -7,4 +7,4 @@
 | Extensions | [2]a. **Duplicate Room Number**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 System prevents saving and alerts the clerk that the room number already exists<br>[4]a. **Rate Overrides**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 Clerk can manually set a "Promotion Rate" for a specific room |
 | Special Reqs | ● Data Integrity: The system must enforce that "Suite" types only exist on the "Urban Elegance" floor as per the problem statement |
 
-Author:Erick Martinez
+Author: Jonathan Deiss
