@@ -1,6 +1,9 @@
 # Use Case Name: 
 Search Available Room
 
+# Author: #
+James Bagwell
+
 # Actor
 Hotel Guest
 
