@@ -1,5 +1,6 @@
 | Use Case Name| Cancel Reservation |
 |---------------|-----------------|
+| Author | Zain Altaf |
 | Actor         | Hotel Guest    |
 | Preconditions | 1. The hotel guest is logged into the system. <br>2. The guest has an existing reservation.|
 |Postconditions | 1. The reservation is canceled only if cancellation is permitted. <br> 2. If cancellation is permitted, any applicable cancellation penalty is recorded. <br> 3.If cancellation is not permitted, the reservation remains unchanged.|
