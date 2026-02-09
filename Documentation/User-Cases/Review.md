@@ -1,6 +1,7 @@
 | Use Case Name | Leaving and / or Viewing a Review |
 |---------------|-----------------|
 | Actor         | Previous Hotel Guest / Potential Guest |
+| Author        | James Bagwell |
 | Preconditions | 1. The user is on the review / details page. <br>2. To leave a review, the user must be logged into their account and theyu must have reserved AND checked-in to a room previously. |
 | Postconditions | 1. The new review is saved to the database and displayed on the hotel page. <br> 2. The hotel’s average star rating is updated. |
 | Main Success Scenario | 1. The User selects the "Reviews" tab on the hotel detail page. <br>2. The System displays a list of existing reviews and the current average rating. <br>3. The User clicks the button to leave a review. <br>4. The User leaves a star rating ( 1–5 ) and writes their review in the text field. <br> 5. The User clicks the submits the review. <br> 6. The System validates the review and indicates that the review was successfully left. |
