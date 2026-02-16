@@ -1,7 +1,7 @@
 | Use Case Name | Guest Registration & Authentication |
 |---------------|-----------------|
-| Actor         | Guest          |
-| Author        | Aaron Evans    |
+| Actor         | Guest           |
+| Author        | Erick Martinez  |
 | Preconditions | 1. The guest has access to the hotel system portal <br>2. The guest is not currently logged into an existing account |
 | Postconditions | 1. A new guest profile is created in the database <br>2. Payment information is securely tokenized/stored <br>3. The guest is automatically logged in and redirected to the dashboard <br>4. A "Welcome [Name]" message is displayed |
 | Main Success Scenario | 1. The guest selects the "Register" or "Create Account" option <br>2. The guest enters personal details: Full Name, Address, Email, and Password <br>3. The guest enters payment details: Credit Card Number, Expiration Date, and CVV <br>4. The system validates the format of all fields (e.g., email syntax, credit card Luhn algorithm) <br>5. The system checks if the email address is already registered <br>6. The system encrypts the password and stores the guest profile <br>7. The system authenticates the new session <br>8. The system displays a "Welcome [Guest Name]" message on the homepage/dashboard |
