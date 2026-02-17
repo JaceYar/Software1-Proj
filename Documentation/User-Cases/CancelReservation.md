@@ -8,3 +8,25 @@
 |Extensions| [4]a. **Cancellation not allowed (within a specific time frame)**<br>&nbsp;&nbsp;&nbsp;&nbsp;    [4]a1 he system determines that the cancellation request is within x hours of the check-in time.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4]a2 The system displays a message explaining that cancellation is not permitted according to the policy.<br>[4]a3 The reservation remains unchanged.|
 |Special Reqs| ● The system must enforce the X-hour cancellation policy exactly.<br>● Time comparisons must use the hotel's local time zone. <br> ● All cancellation attempts must be logged for auditing and billing purposes.|
 
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant System
+    participant Database
+
+    Guest->>System: Select option to view reservations
+    System->>Database: Retrieve guest reservations
+    Database-->>System: Return reservations
+    System-->>Guest: Display reservations
+    Guest->>System: Select reservation to cancel
+    System->>Database: Check time remaining until check-in
+    Database-->>System: Return check-in date
+    System->>System: Determine cancellation is permitted
+    System-->>Guest: Display cancellation policy and penalty
+    Guest->>System: Confirm cancellation
+    System->>Database: Cancel reservation and record penalty
+    Database-->>System: Reservation canceled
+    System->>Database: Log cancellation attempt
+    System-->>Guest: Display cancellation confirmation
+```
+

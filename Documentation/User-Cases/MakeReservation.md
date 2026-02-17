@@ -8,3 +8,24 @@
 | Extensions | 3a. **Corporate guest selected**<br>&nbsp;&nbsp;&nbsp;&nbsp;3a1 The user selects their corporation from the list<br>&nbsp;&nbsp;&nbsp;&nbsp;3a2 The system records the corporation for billing purposes<br>&nbsp;&nbsp;&nbsp;&nbsp;3a3 Continue from step 4<br>6a. **Invalid input data**<br>&nbsp;&nbsp;&nbsp;&nbsp;6a1 The system displays an error message indicating the invalid fields<br>&nbsp;&nbsp;&nbsp;&nbsp;6a2 The user corrects the input<br>&nbsp;&nbsp;&nbsp;&nbsp;6a3 Continue from step 6<br>7a. **Room is no longer available**<br>&nbsp;&nbsp;&nbsp;&nbsp;7a1 The system notifies the user that the room has been booked<br>&nbsp;&nbsp;&nbsp;&nbsp;7a2 The system redirects the user to search for available rooms<br>&nbsp;&nbsp;&nbsp;&nbsp;7a3 Use case ends |
 | Special Reqs | ● Credit card information must be securely stored<br>● Reservation must be atomic (all or nothing) |
 
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant System
+    participant Database
+
+    Guest->>System: Select room from available list
+    Guest->>System: Enter check-in and check-out dates
+    Guest->>System: Select rate type
+    Guest->>System: Enter/confirm personal information
+    Guest->>System: Enter payment information
+    System->>System: Validate all input data
+    System->>Database: Verify room availability for selected dates
+    Database-->>System: Room is available
+    System->>System: Calculate total cost (quality level + rate type)
+    System->>Database: Create reservation record
+    Database-->>System: Reservation stored
+    System->>Database: Mark room as reserved for dates
+    System-->>Guest: Display reservation confirmation with details
+```
+

@@ -8,3 +8,20 @@
 | Extensions | [2]a. **Duplicate Room Number**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 System prevents saving and alerts the clerk that the room number already exists<br>[4]a. **Rate Overrides**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 Clerk can manually set a "Promotion Rate" for a specific room |
 | Special Reqs | ● Data Integrity: The system must enforce that "Suite" types only exist on the "Urban Elegance" floor as per the problem statement |
 
+```mermaid
+sequenceDiagram
+    actor Clerk
+    participant System
+    participant Database
+
+    Clerk->>System: Select "Manage Rooms" dashboard
+    System-->>Clerk: Display room management form
+    Clerk->>System: Enter Room Number and select Floor/Theme
+    Clerk->>System: Assign Bed Type and Quality Level
+    System->>System: Calculate Maximum Daily Rate from Quality Level
+    System-->>Clerk: Display calculated rate
+    System->>Database: Save room with status "Available"
+    Database-->>System: Room saved
+    System-->>Clerk: Confirm room added to inventory
+```
+

@@ -8,3 +8,29 @@
 | Extensions | 2a. **No Virtual Technician Available**<br>&nbsp;&nbsp;&nbsp;&nbsp;2a1. No staff member is available for technical support.<br>&nbsp;&nbsp;&nbsp;&nbsp;2a2. The system displays a message notifying the yuser of a delay and it and allows the guest to submit a request to get a call back later.<br>3b. **No Technician or House-keeper Available**<br>&nbsp;&nbsp;&nbsp;&nbsp;3b1. No technician or house-keeper is available at the requested time.<br>&nbsp;&nbsp;&nbsp;&nbsp;3b2. The system prompts the guest to select an alternate time for the service request. |
 | Special Reqs | ● The HelpDesk system must always be accessible through the hotel website.<br>● Live chat must occur quickly.<br>● All help requests and service schedules must be logged and associated with the guest's room number and account / phone number. |
 
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant System
+    participant Staff
+
+    Guest->>System: Navigate to HelpDesk menu
+    System-->>Guest: Display help options (Technical Help / Service Request)
+
+    alt Technical Help
+        Guest->>System: Select technical help option
+        System->>Staff: Connect guest to available staff member
+        Staff-->>Guest: Live chat session begins
+        Staff->>Guest: Provide technical assistance
+        Guest->>System: Issue resolved
+    else Service Request
+        Guest->>System: Select technician / house-keeper option
+        Guest->>System: Describe issue and request service
+        System->>System: Assign and schedule available staff
+        System-->>Guest: Confirm scheduled service time
+        Staff->>Guest: Arrive and fix the situation
+    end
+
+    System->>System: Log help request with room number
+```
+

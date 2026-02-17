@@ -8,3 +8,21 @@
 | Extensions | 4a. **Invalid username format**<br>&nbsp;&nbsp;&nbsp;&nbsp;4a1 System detects username doesn't meet format requirements<br>&nbsp;&nbsp;&nbsp;&nbsp;4a2 System displays error message "Invalid username or password"<br>&nbsp;&nbsp;&nbsp;&nbsp;4a3 System prompts user to re-enter credentials<br>6a. **Invalid credentials**<br>&nbsp;&nbsp;&nbsp;&nbsp;6a1 System detects username or password is incorrect<br>&nbsp;&nbsp;&nbsp;&nbsp;6a2 System increments failed login attempt counter<br>&nbsp;&nbsp;&nbsp;&nbsp;6a3 System displays error message "Invalid username or password"<br>&nbsp;&nbsp;&nbsp;&nbsp;6a4 Return to step 2<br>6b. **Account locked**<br>&nbsp;&nbsp;&nbsp;&nbsp;6b1 System detects account has been locked due to multiple failed attempts<br>&nbsp;&nbsp;&nbsp;&nbsp;6b2 System displays error message "Account locked. Contact system administrator"<br>&nbsp;&nbsp;&nbsp;&nbsp;6b3 Use case ends<br>6c. **Password expired**<br>&nbsp;&nbsp;&nbsp;&nbsp;6c1 System detects password has expired<br>&nbsp;&nbsp;&nbsp;&nbsp;6c2 System prompts admin to reset password<br>&nbsp;&nbsp;&nbsp;&nbsp;6c3 Redirect to password reset use case |
 | Special Reqs | • Password must be hashed in database<br>• Log all login attempts |
 
+```mermaid
+sequenceDiagram
+    actor Admin
+    participant System
+    participant Database
+
+    Admin->>System: Navigate to login page
+    System-->>Admin: Display login form
+    Admin->>System: Enter username and password
+    Admin->>System: Submit credentials
+    System->>System: Validate input format
+    System->>Database: Verify credentials
+    Database-->>System: Credentials valid
+    System->>Database: Log login attempt
+    System-->>Admin: Display success message
+    System-->>Admin: Redirect to admin dashboard
+```
+

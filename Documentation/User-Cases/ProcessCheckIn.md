@@ -8,3 +8,28 @@
 | Extensions | 1a. **Reservation not found**<br>&nbsp;&nbsp;&nbsp;&nbsp;1a1 The clerk verifies guest information<br>&nbsp;&nbsp;&nbsp;&nbsp;1a2 The clerk offers to create a new reservation (see Make Reservation use case)<br>&nbsp;&nbsp;&nbsp;&nbsp;1a3 Use case ends or continues with new reservation<br>4a. **Guest requests different room type**<br>&nbsp;&nbsp;&nbsp;&nbsp;4a1 The clerk searches for alternative available rooms<br>&nbsp;&nbsp;&nbsp;&nbsp;4a2 The system displays available alternatives with price differences<br>&nbsp;&nbsp;&nbsp;&nbsp;4a3 The guest selects a new room type<br>&nbsp;&nbsp;&nbsp;&nbsp;4a4 The system updates the reservation with new rate if applicable<br>&nbsp;&nbsp;&nbsp;&nbsp;4a5 Continue from step 5<br>6a. **No rooms available matching reservation**<br>&nbsp;&nbsp;&nbsp;&nbsp;6a1 The system notifies the clerk of the situation<br>&nbsp;&nbsp;&nbsp;&nbsp;6a2 The clerk offers an upgrade or alternative room<br>&nbsp;&nbsp;&nbsp;&nbsp;6a3 The guest accepts or declines the alternative<br>&nbsp;&nbsp;&nbsp;&nbsp;6a4 If declined, the clerk processes a cancellation with no penalty<br>&nbsp;&nbsp;&nbsp;&nbsp;6a5 Use case ends or continues with alternative room |
 | Special Reqs | ● Check-in must update room availability in real-time<br>● Guest must have an active reservation to access store purchasing |
 
+```mermaid
+sequenceDiagram
+    actor Clerk
+    participant System
+    participant Database
+    actor Guest
+
+    Clerk->>System: Search reservation by name or confirmation number
+    System->>Database: Look up reservation
+    Database-->>System: Return reservation details
+    System-->>Clerk: Display reservation details
+    Clerk->>Guest: Verify identity
+    Clerk->>Guest: Confirm reservation details
+    System->>Database: Query available rooms matching reservation
+    Database-->>System: Return matching rooms
+    System-->>Clerk: Display available rooms
+    Clerk->>System: Select room to assign
+    System->>Database: Allocate room to guest
+    System->>Database: Update room status to occupied
+    System->>Database: Record check-in timestamp
+    Database-->>System: Check-in recorded
+    Clerk->>Guest: Provide room key / access information
+    System-->>Clerk: Display check-in confirmation
+```
+

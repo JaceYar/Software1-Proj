@@ -8,3 +8,23 @@
 | Extensions | [4]a. **Invalid Data Format**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 The system highlights the specific field (e.g., "Invalid Credit Card Format")<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a2 The guest corrects the data<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a3 Continue from step 4<br>[5]a. **Email Already Exists**<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a1 The system notifies the guest that an account already exists with that email<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a2 The system offers a "Forgot Password" or "Login" link<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a3 Use case ends<br>[7]a. **Authentication Failure**<br>&nbsp;&nbsp;&nbsp;&nbsp;[7]a1 The system creates the account but fails the initial login<br>&nbsp;&nbsp;&nbsp;&nbsp;[7]a2 The system redirects the guest to the manual Login page |
 | Special Reqs | ● PCI Compliance: Credit card data must be handled according to security standards (e.g., masking numbers in the UI)<br>● Data Integrity: The "Welcome" message must dynamically pull the FirstName attribute from the database<br>● Persistence: Guest information must remain accessible for future "Store" purchases without re-entry |
 
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant System
+    participant Database
+
+    Guest->>System: Select "Register" / "Create Account"
+    System-->>Guest: Display registration form
+    Guest->>System: Enter personal details (Name, Address, Email, Password)
+    Guest->>System: Enter payment details (Credit Card, Expiration, CVV)
+    System->>System: Validate all field formats
+    System->>Database: Check if email is already registered
+    Database-->>System: Email not registered
+    System->>System: Encrypt password
+    System->>Database: Store guest profile and tokenized payment info
+    Database-->>System: Profile created
+    System->>System: Authenticate new session
+    System-->>Guest: Display "Welcome [Guest Name]" on dashboard
+```
+

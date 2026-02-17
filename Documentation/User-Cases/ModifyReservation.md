@@ -8,3 +8,29 @@
 |Extensions| [6]a. **Modification not allowed (within X hours of check-in)**<br>&nbsp;&nbsp;&nbsp;&nbsp;    [6]a1 The system determines that the modification request is within X hours of the check-in time.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 The system displays a message explaining that modifications are not permitted according to the policy.|
 |Special Reqs| ● The system must enforce the X-hour modification policy exactly.<br>● Availability checks must be consistent with current reservations.<br> ● Price recalculation must follow hotel pricing rules.|
 
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant System
+    participant Database
+
+    Guest->>System: Select option to view reservations
+    System->>Database: Retrieve guest reservations
+    Database-->>System: Return reservations
+    System-->>Guest: Display reservations
+    Guest->>System: Select reservation to modify
+    System->>Database: Retrieve reservation details
+    Database-->>System: Return reservation details
+    System-->>Guest: Display current reservation details
+    Guest->>System: Enter requested changes (dates/room type)
+    System->>System: Check modification is > X hours before check-in
+    System->>Database: Check room availability for changes
+    Database-->>System: Room available
+    System->>System: Recalculate reservation cost
+    System-->>Guest: Display updated reservation details and new cost
+    Guest->>System: Confirm modification
+    System->>Database: Update reservation
+    Database-->>System: Reservation updated
+    System-->>Guest: Display modification confirmation
+```
+

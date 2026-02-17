@@ -8,3 +8,23 @@
 | Extensions | [2]a. **No Products Available**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 The system displays a "Coming Soon" or "Store is currently empty" message<br>[3]a. **Search Not Found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[3]a1 The system suggests similar products or allows the user to clear filters |
 | Special Reqs | ● The UI must distinguish between "Standard" items and "Exclusive Artisanal" goods as per the establishment's unique theme |
 
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant System
+    participant Database
+
+    Guest->>System: Select "Store" / "Shop" tab
+    System->>Database: Retrieve product categories
+    Database-->>System: Return categories (Clothing, Accessories, Artisanal Goods)
+    System-->>Guest: Display product categories
+    Guest->>System: Filter by category or search by name
+    System->>Database: Query matching products
+    Database-->>System: Return product list
+    System-->>Guest: Display products (Name, Description, Price)
+    Guest->>System: Select a specific product
+    System->>Database: Retrieve product details
+    Database-->>System: Return detailed attributes
+    System-->>Guest: Display product details
+```
+

@@ -8,3 +8,21 @@
 |Extentions| 4a. **Username already in use**<br>&nbsp;&nbsp;&nbsp;&nbsp;    4a1 System detecuts username already in use(Ex: John_Smith)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4a2 System displays error message and potential username replacement (EX: John_Smith1)<br>5a **Failure to create account**<br>&nbsp;&nbsp;&nbsp;&nbsp; 5a1 Display error message of account creation failure<br>&nbsp;&nbsp;&nbsp;&nbsp; 5a2 Reprompt user to try creating account again.|
 |Special Reqs| ● Create account in timely manner<br>● Keep log of created accounts<br> ● Keep log of which admin created account|
 
+```mermaid
+sequenceDiagram
+    actor Admin
+    participant System
+    participant Database
+
+    Admin->>System: Select option to create clerk account
+    System-->>Admin: Prompt for username, show prefilled password
+    Admin->>System: Enter username and optional custom password
+    System->>System: Validate input
+    System->>Database: Check if username exists
+    Database-->>System: Username available
+    System->>Database: Create clerk account
+    Database-->>System: Account created
+    System->>Database: Log account creation with admin ID
+    System-->>Admin: Display success message
+```
+

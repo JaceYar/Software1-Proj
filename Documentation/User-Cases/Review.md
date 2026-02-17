@@ -8,3 +8,24 @@
 | Extensions | 3a. **User is not logged in**<br>&nbsp;&nbsp;&nbsp;&nbsp; 3a1. The System prompts the user to log in or sign up.<br> &nbsp;&nbsp;&nbsp;&nbsp; 3a2. Upon successful login, the system redirects the user back to the review form.<br>5b. **Incomplete Review Form**<br>&nbsp;&nbsp;&nbsp;&nbsp; 5b1. The System highlights the missing fields (for example, if the star rating is left blank).<br>&nbsp;&nbsp;&nbsp;&nbsp; 5b2. The System prevents submission until all required fields are filled.|
 | Special Reqs | ● The system must filter for profanity or restricted content before publishing.<br>● The user must be able to filter how many reviews they want to see ( For example, show 10 reviews ).<br> ● Users should be able to sort reviews by "Most Recent" or "Highest Rated."|
 
+```mermaid
+sequenceDiagram
+    actor User
+    participant System
+    participant Database
+
+    User->>System: Select "Reviews" tab on hotel detail page
+    System->>Database: Retrieve existing reviews and average rating
+    Database-->>System: Return reviews and rating
+    System-->>User: Display reviews and current average rating
+    User->>System: Click button to leave a review
+    System-->>User: Display review form
+    User->>System: Enter star rating (1-5) and review text
+    User->>System: Submit review
+    System->>System: Validate review (check required fields, filter content)
+    System->>Database: Save review
+    System->>Database: Recalculate average star rating
+    Database-->>System: Review saved, rating updated
+    System-->>User: Display success confirmation
+```
+
