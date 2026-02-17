@@ -2,24 +2,30 @@
 
 ```mermaid
 classDiagram
-    class Guest {
+    class Person {
         String fullName
         String address
         String email
         String password
     }
 
+    class Guest {
+        <<interface>>
+    }
+
     class Admin {
-        String username
-        String password
+        <<interface>>
         int failedLoginAttempts
         boolean isLocked
     }
 
     class HotelClerk {
-        String username
-        String password
+        <<interface>>
     }
+
+    Person ..|> Guest : implements
+    Person ..|> Admin : implements
+    Person ..|> HotelClerk : implements
 
     class PaymentInfo {
         String cardNumber
