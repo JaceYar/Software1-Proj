@@ -12,7 +12,6 @@
 sequenceDiagram
     actor Clerk
     participant System
-    participant Database
 
     Clerk->>System: Select "Manage Rooms" dashboard
     System-->>Clerk: Display room management form
@@ -20,8 +19,7 @@ sequenceDiagram
     Clerk->>System: Assign Bed Type and Quality Level
     System->>System: Calculate Maximum Daily Rate from Quality Level
     System-->>Clerk: Display calculated rate
-    System->>Database: Save room with status "Available"
-    Database-->>System: Room saved
+    System->>System: Save room with status "Available"
     System-->>Clerk: Confirm room added to inventory
 ```
 

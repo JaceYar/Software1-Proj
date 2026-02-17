@@ -12,14 +12,12 @@
 sequenceDiagram
     actor Guest
     participant System
-    participant Database
 
     Guest->>System: Select search option
     System-->>Guest: Display search form
     Guest->>System: Enter search criteria (dates, guests, beds, bed size)
     System->>System: Validate input
-    System->>Database: Search for rooms matching criteria
-    Database-->>System: Return matching available rooms
+    System->>System: Search for rooms matching criteria
     System-->>Guest: Display list of available rooms
 ```
 

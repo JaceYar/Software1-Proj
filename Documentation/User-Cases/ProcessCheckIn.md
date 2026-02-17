@@ -12,23 +12,16 @@
 sequenceDiagram
     actor Clerk
     participant System
-    participant Database
     actor Guest
 
     Clerk->>System: Search reservation by name or confirmation number
-    System->>Database: Look up reservation
-    Database-->>System: Return reservation details
     System-->>Clerk: Display reservation details
     Clerk->>Guest: Verify identity
     Clerk->>Guest: Confirm reservation details
-    System->>Database: Query available rooms matching reservation
-    Database-->>System: Return matching rooms
-    System-->>Clerk: Display available rooms
+    System-->>Clerk: Display available rooms matching reservation
     Clerk->>System: Select room to assign
-    System->>Database: Allocate room to guest
-    System->>Database: Update room status to occupied
-    System->>Database: Record check-in timestamp
-    Database-->>System: Check-in recorded
+    System->>System: Allocate room and update status to occupied
+    System->>System: Record check-in timestamp
     Clerk->>Guest: Provide room key / access information
     System-->>Clerk: Display check-in confirmation
 ```

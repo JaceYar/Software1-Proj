@@ -12,19 +12,12 @@
 sequenceDiagram
     actor Guest
     participant System
-    participant Database
 
     Guest->>System: Select "Store" / "Shop" tab
-    System->>Database: Retrieve product categories
-    Database-->>System: Return categories (Clothing, Accessories, Artisanal Goods)
-    System-->>Guest: Display product categories
+    System-->>Guest: Display product categories (Clothing, Accessories, Artisanal Goods)
     Guest->>System: Filter by category or search by name
-    System->>Database: Query matching products
-    Database-->>System: Return product list
     System-->>Guest: Display products (Name, Description, Price)
     Guest->>System: Select a specific product
-    System->>Database: Retrieve product details
-    Database-->>System: Return detailed attributes
     System-->>Guest: Display product details
 ```
 

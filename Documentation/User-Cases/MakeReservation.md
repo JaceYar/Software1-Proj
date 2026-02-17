@@ -12,7 +12,6 @@
 sequenceDiagram
     actor Guest
     participant System
-    participant Database
 
     Guest->>System: Select room from available list
     Guest->>System: Enter check-in and check-out dates
@@ -20,12 +19,9 @@ sequenceDiagram
     Guest->>System: Enter/confirm personal information
     Guest->>System: Enter payment information
     System->>System: Validate all input data
-    System->>Database: Verify room availability for selected dates
-    Database-->>System: Room is available
+    System->>System: Verify room availability for selected dates
     System->>System: Calculate total cost (quality level + rate type)
-    System->>Database: Create reservation record
-    Database-->>System: Reservation stored
-    System->>Database: Mark room as reserved for dates
+    System->>System: Create reservation and mark room as reserved
     System-->>Guest: Display reservation confirmation with details
 ```
 

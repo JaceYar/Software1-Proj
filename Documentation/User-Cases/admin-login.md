@@ -12,16 +12,13 @@
 sequenceDiagram
     actor Admin
     participant System
-    participant Database
 
     Admin->>System: Navigate to login page
     System-->>Admin: Display login form
     Admin->>System: Enter username and password
     Admin->>System: Submit credentials
     System->>System: Validate input format
-    System->>Database: Verify credentials
-    Database-->>System: Credentials valid
-    System->>Database: Log login attempt
+    System->>System: Verify credentials
     System-->>Admin: Display success message
     System-->>Admin: Redirect to admin dashboard
 ```

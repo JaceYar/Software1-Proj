@@ -12,20 +12,15 @@
 sequenceDiagram
     actor User
     participant System
-    participant Database
 
     User->>System: Select "Reviews" tab on hotel detail page
-    System->>Database: Retrieve existing reviews and average rating
-    Database-->>System: Return reviews and rating
     System-->>User: Display reviews and current average rating
     User->>System: Click button to leave a review
     System-->>User: Display review form
     User->>System: Enter star rating (1-5) and review text
     User->>System: Submit review
     System->>System: Validate review (check required fields, filter content)
-    System->>Database: Save review
-    System->>Database: Recalculate average star rating
-    Database-->>System: Review saved, rating updated
+    System->>System: Save review and recalculate average rating
     System-->>User: Display success confirmation
 ```
 

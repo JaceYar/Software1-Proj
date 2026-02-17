@@ -12,25 +12,18 @@
 sequenceDiagram
     actor Guest
     participant System
-    participant Database
 
     Guest->>System: Select option to view reservations
-    System->>Database: Retrieve guest reservations
-    Database-->>System: Return reservations
     System-->>Guest: Display reservations
     Guest->>System: Select reservation to modify
-    System->>Database: Retrieve reservation details
-    Database-->>System: Return reservation details
     System-->>Guest: Display current reservation details
     Guest->>System: Enter requested changes (dates/room type)
     System->>System: Check modification is > X hours before check-in
-    System->>Database: Check room availability for changes
-    Database-->>System: Room available
+    System->>System: Check room availability for changes
     System->>System: Recalculate reservation cost
     System-->>Guest: Display updated reservation details and new cost
     Guest->>System: Confirm modification
-    System->>Database: Update reservation
-    Database-->>System: Reservation updated
+    System->>System: Update reservation
     System-->>Guest: Display modification confirmation
 ```
 

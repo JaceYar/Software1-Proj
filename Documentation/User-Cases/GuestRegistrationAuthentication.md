@@ -12,18 +12,14 @@
 sequenceDiagram
     actor Guest
     participant System
-    participant Database
 
     Guest->>System: Select "Register" / "Create Account"
     System-->>Guest: Display registration form
     Guest->>System: Enter personal details (Name, Address, Email, Password)
     Guest->>System: Enter payment details (Credit Card, Expiration, CVV)
     System->>System: Validate all field formats
-    System->>Database: Check if email is already registered
-    Database-->>System: Email not registered
-    System->>System: Encrypt password
-    System->>Database: Store guest profile and tokenized payment info
-    Database-->>System: Profile created
+    System->>System: Check if email is already registered
+    System->>System: Encrypt password and store guest profile
     System->>System: Authenticate new session
     System-->>Guest: Display "Welcome [Guest Name]" on dashboard
 ```

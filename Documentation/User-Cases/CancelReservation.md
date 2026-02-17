@@ -12,21 +12,15 @@
 sequenceDiagram
     actor Guest
     participant System
-    participant Database
 
     Guest->>System: Select option to view reservations
-    System->>Database: Retrieve guest reservations
-    Database-->>System: Return reservations
     System-->>Guest: Display reservations
     Guest->>System: Select reservation to cancel
-    System->>Database: Check time remaining until check-in
-    Database-->>System: Return check-in date
+    System->>System: Check time remaining until check-in
     System->>System: Determine cancellation is permitted
     System-->>Guest: Display cancellation policy and penalty
     Guest->>System: Confirm cancellation
-    System->>Database: Cancel reservation and record penalty
-    Database-->>System: Reservation canceled
-    System->>Database: Log cancellation attempt
+    System->>System: Cancel reservation and record penalty
     System-->>Guest: Display cancellation confirmation
 ```
 

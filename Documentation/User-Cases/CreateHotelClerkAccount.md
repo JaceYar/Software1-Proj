@@ -12,17 +12,13 @@
 sequenceDiagram
     actor Admin
     participant System
-    participant Database
 
     Admin->>System: Select option to create clerk account
     System-->>Admin: Prompt for username, show prefilled password
     Admin->>System: Enter username and optional custom password
     System->>System: Validate input
-    System->>Database: Check if username exists
-    Database-->>System: Username available
-    System->>Database: Create clerk account
-    Database-->>System: Account created
-    System->>Database: Log account creation with admin ID
+    System->>System: Check if username exists
+    System->>System: Create clerk account
     System-->>Admin: Display success message
 ```
 
