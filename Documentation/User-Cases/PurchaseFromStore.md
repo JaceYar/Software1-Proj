@@ -1,7 +1,7 @@
 | Use Case Name | Purchase from Store |
 |---------------|-----------------|
 | Actor         | Guest          |
-| Author        | [Author]    |
+| Author        | [Aaron]    |
 | Preconditions | 1. The guest is logged into the hotel system <br>2. The guest has browsed the product catalog and identified items to purchase <br>3. The guest is checked in (or the system allows store purchases for registered guests as per policy) <br>4. Products are available in inventory |
 | Postconditions | 1. The selected products are recorded as purchased and associated with the guest (and room/stay if checked in) <br>2. Inventory for purchased items is updated <br>3. Payment is recorded and the guest receives confirmation <br>4. Charges are applied to the room bill (if checked in) or paid at time of purchase |
 | Main Success Scenario | 1. The guest navigates to the Store from the main dashboard <br>2. The guest adds one or more products to the cart (product, quantity, size/variant if applicable) <br>3. The guest views the cart and adjusts quantities or removes items if desired <br>4. The guest proceeds to checkout <br>5. The system displays order summary (items, quantities, prices, total) and confirms guest/room for billing <br>6. The guest confirms payment method (charge to room or enter card) <br>7. The system validates payment and inventory availability <br>8. The system records the sale and updates inventory <br>9. The system applies charges to the room bill or completes the payment transaction <br>10. The system displays order confirmation and, if applicable, delivery or pickup details <br>11. The guest acknowledges the confirmation |

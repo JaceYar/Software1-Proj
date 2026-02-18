@@ -1,7 +1,7 @@
 | Use Case Name | View or Request Bill |
 |---------------|-----------------|
 | Actor         | Hotel Guest or Hotel Clerk    |
-| Author        | [Author]    |
+| Author        | [Aaron]    |
 | Preconditions | 1. The hotel system is functional and online <br>2. The actor is logged in to the system <br>3. There exists a stay, reservation, or set of charges associated with the guest (current or past) |
 | Postconditions | 1. The actor has viewed the current bill or a historical bill for the specified stay <br>2. If requested, an invoice or receipt is generated and made available (e.g., download or email) <br>3. The request is logged for auditing where applicable |
 | Main Success Scenario | 1. The guest or clerk navigates to billing, "My Stay," or reservation details <br>2. The guest selects their stay (or the clerk selects the guest and stay) <br>3. The system retrieves all charges for that stay (room, rate, taxes, minibar, store purchases, incidentals) <br>4. The system displays an itemized bill with line items, dates, and totals <br>5. The actor reviews the bill <br>6. If the actor requests an invoice or receipt, they select "Request Invoice" or "Download Receipt" <br>7. The system generates the document (PDF or formatted print) with hotel branding and bill details <br>8. The system makes the document available for download or sends it to the guest's email <br>9. The system displays confirmation that the bill was viewed and, if applicable, that the invoice was sent |
