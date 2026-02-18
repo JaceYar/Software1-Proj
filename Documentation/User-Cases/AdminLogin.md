@@ -17,8 +17,6 @@ sequenceDiagram
     System-->>Admin: Display login form
     Admin->>System: Enter username and password
     Admin->>System: Submit credentials
-    System->>System: Validate input format
-    System->>System: Verify credentials
     System-->>Admin: Display success message
     System-->>Admin: Redirect to admin dashboard
 ```

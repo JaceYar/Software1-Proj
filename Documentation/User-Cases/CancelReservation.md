@@ -16,11 +16,8 @@ sequenceDiagram
     Guest->>System: Select option to view reservations
     System-->>Guest: Display reservations
     Guest->>System: Select reservation to cancel
-    System->>System: Check time remaining until check-in
-    System->>System: Determine cancellation is permitted
     System-->>Guest: Display cancellation policy and penalty
     Guest->>System: Confirm cancellation
-    System->>System: Cancel reservation and record penalty
     System-->>Guest: Display cancellation confirmation
 ```
 

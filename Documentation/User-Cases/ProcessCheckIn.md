@@ -20,8 +20,6 @@ sequenceDiagram
     Clerk->>Guest: Confirm reservation details
     System-->>Clerk: Display available rooms matching reservation
     Clerk->>System: Select room to assign
-    System->>System: Allocate room and update status to occupied
-    System->>System: Record check-in timestamp
     Clerk->>Guest: Provide room key / access information
     System-->>Clerk: Display check-in confirmation
 ```

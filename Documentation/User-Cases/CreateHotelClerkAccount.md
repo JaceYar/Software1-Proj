@@ -16,9 +16,6 @@ sequenceDiagram
     Admin->>System: Select option to create clerk account
     System-->>Admin: Prompt for username, show prefilled password
     Admin->>System: Enter username and optional custom password
-    System->>System: Validate input
-    System->>System: Check if username exists
-    System->>System: Create clerk account
     System-->>Admin: Display success message
 ```
 

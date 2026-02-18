@@ -19,9 +19,6 @@ sequenceDiagram
     Guest->>System: Proceed to checkout
     System-->>Guest: Display order summary and confirm guest/room for billing
     Guest->>System: Confirm payment method (charge to room or enter card)
-    System->>System: Validate payment and check inventory availability
-    System->>System: Record sale and update inventory
-    System->>System: Apply charges to room bill or complete payment
     System-->>Guest: Display order confirmation and delivery/pickup details
     Guest->>System: Acknowledge confirmation
 ```

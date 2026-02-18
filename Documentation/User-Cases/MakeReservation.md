@@ -18,10 +18,6 @@ sequenceDiagram
     Guest->>System: Select rate type
     Guest->>System: Enter/confirm personal information
     Guest->>System: Enter payment information
-    System->>System: Validate all input data
-    System->>System: Verify room availability for selected dates
-    System->>System: Calculate total cost (quality level + rate type)
-    System->>System: Create reservation and mark room as reserved
     System-->>Guest: Display reservation confirmation with details
 ```
 

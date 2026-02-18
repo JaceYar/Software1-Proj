@@ -10,17 +10,15 @@
 
 ```mermaid
 sequenceDiagram
-    actor Actor
+    actor GuestOrClerk
     participant System
 
-    Actor->>System: Navigate to billing or reservation details
-    Actor->>System: Select stay to view bill
-    System->>System: Retrieve all charges for stay
-    System-->>Actor: Display itemized bill with line items and totals
-    Actor->>System: Request invoice or receipt (optional)
-    System->>System: Generate invoice document (PDF/formatted print)
-    System-->>Actor: Make document available for download or send to email
-    System-->>Actor: Display confirmation of bill viewed / invoice sent
+    GuestOrClerk->>System: Navigate to billing or reservation details
+    GuestOrClerk->>System: Select stay to view bill
+    System-->>GuestOrClerk: Display itemized bill with line items and totals
+    GuestOrClerk->>System: Request invoice or receipt (optional)
+    System-->>GuestOrClerk: Make document available for download or send to email
+    System-->>GuestOrClerk: Display confirmation of bill viewed / invoice sent
 ```
 
 ---

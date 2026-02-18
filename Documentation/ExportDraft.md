@@ -83,8 +83,6 @@ sequenceDiagram
     System-->>Admin: Display login form
     Admin->>System: Enter username and password
     Admin->>System: Submit credentials
-    System->>System: Validate input format
-    System->>System: Verify credentials
     System-->>Admin: Display success message
     System-->>Admin: Redirect to admin dashboard
 ```
@@ -119,9 +117,6 @@ sequenceDiagram
     Admin->>System: Select option to create clerk account
     System-->>Admin: Prompt for username, show prefilled password
     Admin->>System: Enter username and optional custom password
-    System->>System: Validate input
-    System->>System: Check if username exists
-    System->>System: Create clerk account
     System-->>Admin: Display success message
 ```
 
@@ -143,7 +138,7 @@ sequenceDiagram
 | Author        | Erick Martinez  |
 | Preconditions | 1. The guest has access to the hotel system portal <br>2. The guest is not currently logged into an existing account |
 | Postconditions | 1. A new guest profile is created in the database <br>2. Payment information is securely tokenized/stored <br>3. The guest is automatically logged in and redirected to the dashboard <br>4. A "Welcome [Name]" message is displayed |
-| Main Success Scenario | 1. The guest selects the "Register" or "Create Account" option <br>2. The guest enters personal details: Full Name, Address, Email, and Password <br>3. The guest enters payment details: Credit Card Number, Expiration Date, and CVV <br>4. The system validates the format of all fields (e.g., email syntax, credit card Luhn algorithm) <br>5. The system checks if the email address is already registered <br>6. The system encrypts the password and stores the guest profile <br>7. The system authenticates the new session <br>8. The system displays a "Welcome [Guest Name]" message on the homepage/dashboard |
+| Main Success Scenario | 1. The guest selects the "Register" or "Create Account" option <br>2. The guest enters personal details: Full Name, Address, Email, and Password <br>3. The guest enters payment details: Credit Card Number, Expiration Date, and CVV <br>4. The system validates the format of all fields (e.g., email syntax, credit card number) <br>5. The system checks if the email address is already registered <br>6. The system encrypts the password and stores the guest profile <br>7. The system authenticates the new session <br>8. The system displays a "Welcome [Guest Name]" message on the homepage/dashboard |
 | Extensions | [4]a. **Invalid Data Format**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 The system highlights the specific field (e.g., "Invalid Credit Card Format")<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a2 The guest corrects the data<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a3 Continue from step 4<br>[5]a. **Email Already Exists**<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a1 The system notifies the guest that an account already exists with that email<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a2 The system offers a "Forgot Password" or "Login" link<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a3 Use case ends<br>[7]a. **Authentication Failure**<br>&nbsp;&nbsp;&nbsp;&nbsp;[7]a1 The system creates the account but fails the initial login<br>&nbsp;&nbsp;&nbsp;&nbsp;[7]a2 The system redirects the guest to the manual Login page |
 | Special Reqs | ● PCI Compliance: Credit card data must be handled according to security standards (e.g., masking numbers in the UI)<br>● Data Integrity: The "Welcome" message must dynamically pull the FirstName attribute from the database<br>● Persistence: Guest information must remain accessible for future "Store" purchases without re-entry |
 
@@ -156,10 +151,6 @@ sequenceDiagram
     System-->>Guest: Display registration form
     Guest->>System: Enter personal details (Name, Address, Email, Password)
     Guest->>System: Enter payment details (Credit Card, Expiration, CVV)
-    System->>System: Validate all field formats
-    System->>System: Check if email is already registered
-    System->>System: Encrypt password and store guest profile
-    System->>System: Authenticate new session
     System-->>Guest: Display "Welcome [Guest Name]" on dashboard
 ```
 
@@ -193,8 +184,6 @@ sequenceDiagram
     Guest->>System: Select search option
     System-->>Guest: Display search form
     Guest->>System: Enter search criteria (dates, guests, beds, bed size)
-    System->>System: Validate input
-    System->>System: Search for rooms matching criteria
     System-->>Guest: Display list of available rooms
 ```
 
@@ -230,10 +219,6 @@ sequenceDiagram
     Guest->>System: Select rate type
     Guest->>System: Enter/confirm personal information
     Guest->>System: Enter payment information
-    System->>System: Validate all input data
-    System->>System: Verify room availability for selected dates
-    System->>System: Calculate total cost (quality level + rate type)
-    System->>System: Create reservation and mark room as reserved
     System-->>Guest: Display reservation confirmation with details
 ```
 
@@ -267,11 +252,8 @@ sequenceDiagram
     Guest->>System: Select option to view reservations
     System-->>Guest: Display reservations
     Guest->>System: Select reservation to cancel
-    System->>System: Check time remaining until check-in
-    System->>System: Determine cancellation is permitted
     System-->>Guest: Display cancellation policy and penalty
     Guest->>System: Confirm cancellation
-    System->>System: Cancel reservation and record penalty
     System-->>Guest: Display cancellation confirmation
 ```
 
@@ -307,12 +289,8 @@ sequenceDiagram
     Guest->>System: Select reservation to modify
     System-->>Guest: Display current reservation details
     Guest->>System: Enter requested changes (dates/room type)
-    System->>System: Check modification is > X hours before check-in
-    System->>System: Check room availability for changes
-    System->>System: Recalculate reservation cost
     System-->>Guest: Display updated reservation details and new cost
     Guest->>System: Confirm modification
-    System->>System: Update reservation
     System-->>Guest: Display modification confirmation
 ```
 
@@ -350,8 +328,6 @@ sequenceDiagram
     Clerk->>Guest: Confirm reservation details
     System-->>Clerk: Display available rooms matching reservation
     Clerk->>System: Select room to assign
-    System->>System: Allocate room and update status to occupied
-    System->>System: Record check-in timestamp
     Clerk->>Guest: Provide room key / access information
     System-->>Clerk: Display check-in confirmation
 ```
@@ -424,9 +400,6 @@ sequenceDiagram
     Guest->>System: Proceed to checkout
     System-->>Guest: Display order summary and confirm guest/room for billing
     Guest->>System: Confirm payment method (charge to room or enter card)
-    System->>System: Validate payment and check inventory availability
-    System->>System: Record sale and update inventory
-    System->>System: Apply charges to room bill or complete payment
     System-->>Guest: Display order confirmation and delivery/pickup details
     Guest->>System: Acknowledge confirmation
 ```
@@ -455,17 +428,15 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    actor Actor
+    actor GuestOrClerk
     participant System
 
-    Actor->>System: Navigate to billing or reservation details
-    Actor->>System: Select stay to view bill
-    System->>System: Retrieve all charges for stay
-    System-->>Actor: Display itemized bill with line items and totals
-    Actor->>System: Request invoice or receipt (optional)
-    System->>System: Generate invoice document (PDF/formatted print)
-    System-->>Actor: Make document available for download or send to email
-    System-->>Actor: Display confirmation of bill viewed / invoice sent
+    GuestOrClerk->>System: Navigate to billing or reservation details
+    GuestOrClerk->>System: Select stay to view bill
+    System-->>GuestOrClerk: Display itemized bill with line items and totals
+    GuestOrClerk->>System: Request invoice or receipt (optional)
+    System-->>GuestOrClerk: Make document available for download or send to email
+    System-->>GuestOrClerk: Display confirmation of bill viewed / invoice sent
 ```
 
 ### Operation Contract
@@ -499,13 +470,10 @@ sequenceDiagram
     Clerk->>System: Search guest by name, room number, or reservation ID
     System-->>Clerk: Display guest's current stay and room assignment
     Clerk->>Guest: Confirm identity and intent to check out
-    System->>System: Calculate final bill (room, minibar, store, incidentals)
     System-->>Clerk: Display itemized bill
     System-->>Guest: Display itemized bill
     Guest->>System: Pay outstanding balance or confirm prior payment
     Clerk->>System: Confirm check-out
-    System->>System: Update room status to available
-    System->>System: Record check-out timestamp
     System-->>Clerk: Display check-out confirmation and receipt
     Clerk->>Guest: Provide receipt or invoice
 ```
@@ -538,15 +506,9 @@ sequenceDiagram
     participant System
 
     Clerk->>System: Select checked-out guest
-    System->>System: Retrieve guest's reservation details
-    System->>System: Retrieve all store purchases during stay
-    System->>System: Calculate total room charges
-    System->>System: Calculate total store charges
-    System->>System: Apply taxes and additional fees
-    System->>System: Combine all charges into single bill
     System-->>Clerk: Display bill summary
-    Clerk->>System: Review and confirm bill
-    System->>System: Finalize and store bill
+    Clerk->>System: Confirm bill
+    System-->>Clerk: Confirm bill finalized
 ```
 
 ### Operation Contract
@@ -580,9 +542,6 @@ sequenceDiagram
     Clerk->>System: Select "Add New Room"
     System-->>Clerk: Display room entry form
     Clerk->>System: Enter room details and submit form
-    System->>System: Validate all fields
-    System->>System: Verify room number is unique
-    System->>System: Save room to database
     System-->>Clerk: Display success message
     Clerk->>System: Return to room management page
 ```
@@ -618,10 +577,7 @@ sequenceDiagram
     System-->>Clerk: Display room management form
     Clerk->>System: Enter Room Number and select Floor/Theme
     Clerk->>System: Assign Bed Type and Quality Level
-    System->>System: Calculate Maximum Daily Rate from Quality Level
-    System-->>Clerk: Display calculated rate
-    System->>System: Save room with status "Available"
-    System-->>Clerk: Confirm room added to inventory
+    System-->>Clerk: Display calculated rate and confirm room added to inventory
 ```
 
 ### Operation Contract
@@ -657,8 +613,6 @@ sequenceDiagram
     System-->>User: Display review form
     User->>System: Enter star rating (1-5) and review text
     User->>System: Submit review
-    System->>System: Validate review (check required fields, filter content)
-    System->>System: Save review and recalculate average rating
     System-->>User: Display success confirmation
 ```
 
@@ -702,7 +656,6 @@ sequenceDiagram
     else Service Request
         Guest->>System: Select technician / house-keeper option
         Guest->>System: Describe issue and request service
-        System->>System: Assign and schedule available staff
         System-->>Guest: Confirm scheduled service time
         Staff->>Guest: Arrive and fix the situation
     end

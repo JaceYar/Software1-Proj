@@ -19,8 +19,6 @@ sequenceDiagram
     System-->>User: Display review form
     User->>System: Enter star rating (1-5) and review text
     User->>System: Submit review
-    System->>System: Validate review (check required fields, filter content)
-    System->>System: Save review and recalculate average rating
     System-->>User: Display success confirmation
 ```
 

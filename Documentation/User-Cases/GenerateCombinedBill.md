@@ -14,15 +14,9 @@ sequenceDiagram
     participant System
 
     Clerk->>System: Select checked-out guest
-    System->>System: Retrieve guest's reservation details
-    System->>System: Retrieve all store purchases during stay
-    System->>System: Calculate total room charges
-    System->>System: Calculate total store charges
-    System->>System: Apply taxes and additional fees
-    System->>System: Combine all charges into single bill
     System-->>Clerk: Display bill summary
-    Clerk->>System: Review and confirm bill
-    System->>System: Finalize and store bill
+    Clerk->>System: Confirm bill
+    System-->>Clerk: Confirm bill finalized
 ```
 
 ---

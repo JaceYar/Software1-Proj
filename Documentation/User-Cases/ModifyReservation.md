@@ -18,12 +18,8 @@ sequenceDiagram
     Guest->>System: Select reservation to modify
     System-->>Guest: Display current reservation details
     Guest->>System: Enter requested changes (dates/room type)
-    System->>System: Check modification is > X hours before check-in
-    System->>System: Check room availability for changes
-    System->>System: Recalculate reservation cost
     System-->>Guest: Display updated reservation details and new cost
     Guest->>System: Confirm modification
-    System->>System: Update reservation
     System-->>Guest: Display modification confirmation
 ```
 

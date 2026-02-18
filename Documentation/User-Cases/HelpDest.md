@@ -26,12 +26,10 @@ sequenceDiagram
     else Service Request
         Guest->>System: Select technician / house-keeper option
         Guest->>System: Describe issue and request service
-        System->>System: Assign and schedule available staff
         System-->>Guest: Confirm scheduled service time
         Staff->>Guest: Arrive and fix the situation
     end
 
-    System->>System: Log help request with room number
 ```
 
 ---

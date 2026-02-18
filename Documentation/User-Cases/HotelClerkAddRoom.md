@@ -17,9 +17,6 @@ sequenceDiagram
     Clerk->>System: Select "Add New Room"
     System-->>Clerk: Display room entry form
     Clerk->>System: Enter room details and submit form
-    System->>System: Validate all fields
-    System->>System: Verify room number is unique
-    System->>System: Save room to database
     System-->>Clerk: Display success message
     Clerk->>System: Return to room management page
 ```

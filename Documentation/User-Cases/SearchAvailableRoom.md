@@ -16,8 +16,6 @@ sequenceDiagram
     Guest->>System: Select search option
     System-->>Guest: Display search form
     Guest->>System: Enter search criteria (dates, guests, beds, bed size)
-    System->>System: Validate input
-    System->>System: Search for rooms matching criteria
     System-->>Guest: Display list of available rooms
 ```
 

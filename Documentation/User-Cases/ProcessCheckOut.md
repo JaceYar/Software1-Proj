@@ -17,13 +17,10 @@ sequenceDiagram
     Clerk->>System: Search guest by name, room number, or reservation ID
     System-->>Clerk: Display guest's current stay and room assignment
     Clerk->>Guest: Confirm identity and intent to check out
-    System->>System: Calculate final bill (room, minibar, store, incidentals)
     System-->>Clerk: Display itemized bill
     System-->>Guest: Display itemized bill
     Guest->>System: Pay outstanding balance or confirm prior payment
     Clerk->>System: Confirm check-out
-    System->>System: Update room status to available
-    System->>System: Record check-out timestamp
     System-->>Clerk: Display check-out confirmation and receipt
     Clerk->>Guest: Provide receipt or invoice
 ```
