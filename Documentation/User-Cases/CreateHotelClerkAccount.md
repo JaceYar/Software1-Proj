@@ -22,3 +22,13 @@ sequenceDiagram
     System-->>Admin: Display success message
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `createClerkAccount(username: String, password: String)` |
+|---|---|
+| Cross References | Use Case: Create Hotel Clerk Account |
+| Preconditions | 1. Admin is logged in<br>2. The given username does not already exist in the system |
+| Postconditions | 1. A new HotelClerk account was created<br>2. HotelClerk.username was set<br>3. HotelClerk.password was encrypted and stored<br>4. Account creation was logged with the creating admin's identity |
+

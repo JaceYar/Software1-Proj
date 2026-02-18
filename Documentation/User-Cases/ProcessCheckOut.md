@@ -28,3 +28,13 @@ sequenceDiagram
     Clerk->>Guest: Provide receipt or invoice
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `processCheckOut(guestId: String)` |
+|---|---|
+| Cross References | Use Case: Process Check-Out |
+| Preconditions | 1. Hotel clerk is logged in<br>2. Guest is currently checked in and occupying a room<br>3. Guest's stay details exist in the database |
+| Postconditions | 1. Room.status was changed to 'available'<br>2. Stay.checkOutTimestamp was recorded<br>3. Final bill was calculated and recorded (room charges, store purchases, and incidentals)<br>4. Guest.checkedIn was set to false<br>5. Payment status was documented and logged |
+

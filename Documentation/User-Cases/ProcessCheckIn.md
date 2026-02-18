@@ -26,3 +26,13 @@ sequenceDiagram
     System-->>Clerk: Display check-in confirmation
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `processCheckIn(reservationId: String, roomId: String)` |
+|---|---|
+| Cross References | Use Case: Process Check-In |
+| Preconditions | 1. Hotel clerk is logged in<br>2. Guest has a reservation for the current date<br>3. The specified room is available and matches the reservation criteria |
+| Postconditions | 1. Room.status was changed to 'occupied'<br>2. Reservation.checkInTimestamp was recorded<br>3. Reservation was associated with the specific assigned Room<br>4. Guest.checkedIn was set to true |
+

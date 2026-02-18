@@ -25,3 +25,13 @@ sequenceDiagram
     System-->>Guest: Display reservation confirmation with details
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `makeReservation(roomId: String, checkInDate: Date, checkOutDate: Date, rateType: String, guestInfo: GuestInfo, paymentInfo: PaymentInfo)` |
+|---|---|
+| Cross References | Use Case: Make Reservation |
+| Preconditions | 1. Guest is logged in<br>2. The selected room is available for the requested dates<br>3. Room and reservation data exist in the database |
+| Postconditions | 1. A new Reservation was created in the database<br>2. Selected Room was marked as reserved for the specified dates<br>3. Guest information (name, address, credit card number, expiration date) was recorded<br>4. Reservation.totalCost was calculated based on quality level and rate type |
+

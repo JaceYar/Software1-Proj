@@ -24,3 +24,13 @@ sequenceDiagram
     System-->>Guest: Display "Welcome [Guest Name]" on dashboard
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `registerGuest(fullName: String, address: String, email: String, password: String, paymentInfo: PaymentInfo)` |
+|---|---|
+| Cross References | Use Case: Guest Registration & Authentication |
+| Preconditions | 1. Guest has access to the hotel system portal<br>2. Guest is not currently logged in<br>3. The given email address is not already registered |
+| Postconditions | 1. A new Guest profile was created in the database<br>2. Guest.password was encrypted and stored<br>3. Payment information was securely tokenized and stored<br>4. A new authenticated session was created and associated with the guest |
+

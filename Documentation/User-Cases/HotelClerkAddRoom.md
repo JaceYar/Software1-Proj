@@ -23,3 +23,13 @@ sequenceDiagram
     System-->>Clerk: Display success message
     Clerk->>System: Return to room management page
 ```
+
+---
+
+## Operation Contract
+
+| Operation | `addRoom(roomNumber: String, theme: String, roomType: String, bedType: String, smokingStatus: Boolean, qualityLevel: String, maxDailyRate: Decimal)` |
+|---|---|
+| Cross References | Use Case: Add Room |
+| Preconditions | 1. Hotel clerk is logged in<br>2. System is operational |
+| Postconditions | 1. A new Room instance was created and saved to the database<br>2. Room was associated with the hotel inventory<br>3. Room.status was set to 'available'<br>4. The room addition was logged |

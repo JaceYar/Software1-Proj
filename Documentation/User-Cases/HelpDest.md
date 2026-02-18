@@ -34,3 +34,13 @@ sequenceDiagram
     System->>System: Log help request with room number
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `submitHelpRequest(requestType: String, description: String)` |
+|---|---|
+| Cross References | Use Case: HelpDesk |
+| Preconditions | 1. Guest is logged in<br>2. A staff member is on standby<br>3. Hotel system is accessible |
+| Postconditions | 1. A new HelpRequest was created and associated with the guest's account and room number<br>2. If technical help: a live chat session was initiated between the guest and an available staff member<br>3. If service request: a ServiceRequest was created, a staff member was assigned, and a service time was scheduled<br>4. Help request was logged with the guest's room number and account |
+

@@ -24,3 +24,13 @@ sequenceDiagram
     System-->>Guest: Display cancellation confirmation
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `cancelReservation(reservationId: String)` |
+|---|---|
+| Cross References | Use Case: Cancel Reservation |
+| Preconditions | 1. Guest is logged in<br>2. Reservation exists and is associated with the guest<br>3. The cancellation request is more than X hours before the check-in time |
+| Postconditions | 1. Reservation.status was set to 'cancelled'<br>2. Any applicable cancellation penalty was recorded and associated with the reservation<br>3. The cancellation attempt was logged for auditing |
+

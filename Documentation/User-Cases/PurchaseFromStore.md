@@ -26,3 +26,13 @@ sequenceDiagram
     Guest->>System: Acknowledge confirmation
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `purchaseFromStore(guestId: String, cartItems: List<CartItem>, paymentMethod: PaymentMethod)` |
+|---|---|
+| Cross References | Use Case: Purchase from Store |
+| Preconditions | 1. Guest is logged in<br>2. All items in the cart are available in inventory<br>3. Guest is checked in or has a valid payment method on file |
+| Postconditions | 1. A new Sale was created and associated with the guest and current stay<br>2. Inventory quantity was decremented for each purchased item<br>3. Charges were applied to the guest's room bill (if checked in) or a payment transaction was completed<br>4. Order confirmation was generated and associated with the sale |
+

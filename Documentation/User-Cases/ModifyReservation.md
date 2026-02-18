@@ -27,3 +27,13 @@ sequenceDiagram
     System-->>Guest: Display modification confirmation
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `modifyReservation(reservationId: String, newCheckInDate: Date, newCheckOutDate: Date, newRoomType: String)` |
+|---|---|
+| Cross References | Use Case: Modify Reservation |
+| Preconditions | 1. Guest is logged in<br>2. Reservation exists and is associated with the guest<br>3. The modification is requested more than X hours before check-in<br>4. The reservation has not yet started |
+| Postconditions | 1. Reservation.checkInDate and/or Reservation.checkOutDate were updated (if changed)<br>2. Reservation was associated with the new room type (if changed)<br>3. Reservation.totalCost was recalculated and updated<br>4. Reservation.lastModified timestamp was updated |
+

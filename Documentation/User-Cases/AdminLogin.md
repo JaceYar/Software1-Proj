@@ -23,3 +23,13 @@ sequenceDiagram
     System-->>Admin: Redirect to admin dashboard
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `loginAdmin(username: String, password: String)` |
+|---|---|
+| Cross References | Use Case: Admin Login |
+| Preconditions | 1. System is operational<br>2. An admin account with the given username exists in the system |
+| Postconditions | 1. An admin session was created<br>2. Admin.isLoggedIn was set to true<br>3. The login attempt was logged |
+

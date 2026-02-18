@@ -24,3 +24,13 @@ sequenceDiagram
     System-->>User: Display success confirmation
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `submitReview(hotelId: String, starRating: Integer, reviewText: String)` |
+|---|---|
+| Cross References | Use Case: Leaving and / or Viewing a Review |
+| Preconditions | 1. User is logged in<br>2. User has a prior completed stay (checked in) at the hotel |
+| Postconditions | 1. A new Review was created and associated with the hotel<br>2. Review was associated with the Guest account<br>3. Hotel.averageStarRating was recalculated and updated<br>4. Review was stored in the database and made visible on the hotel page |
+

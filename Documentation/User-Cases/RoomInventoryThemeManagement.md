@@ -23,3 +23,13 @@ sequenceDiagram
     System-->>Clerk: Confirm room added to inventory
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `configureRoom(roomNumber: String, theme: String, bedType: String, qualityLevel: String)` |
+|---|---|
+| Cross References | Use Case: Configure Room Inventory |
+| Preconditions | 1. Hotel clerk is logged in with an authorized clerk account<br>2. The room number does not already exist in the system |
+| Postconditions | 1. A new Room was created and saved to the inventory<br>2. Room.theme was set to the selected floor/theme<br>3. Room.bedType was set<br>4. Room.qualityLevel was set<br>5. Room.maxDailyRate was calculated based on quality level and saved<br>6. Room.status was set to 'available' |
+

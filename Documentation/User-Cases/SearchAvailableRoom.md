@@ -21,3 +21,13 @@ sequenceDiagram
     System-->>Guest: Display list of available rooms
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `searchAvailableRooms(checkInDate: Date, checkOutDate: Date, numGuests: Integer, numBeds: Integer, bedSize: String)` |
+|---|---|
+| Cross References | Use Case: Search Available Room |
+| Preconditions | 1. Hotel system is functional and online<br>2. Room and reservation data exist in the database |
+| Postconditions | 1. No domain model state was changed (read-only operation)<br>2. A list of rooms matching the search criteria was retrieved and displayed |
+

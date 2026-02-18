@@ -23,3 +23,13 @@ sequenceDiagram
     System-->>Actor: Display confirmation of bill viewed / invoice sent
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `viewBill(stayId: String)` / `requestInvoice(stayId: String)` |
+|---|---|
+| Cross References | Use Case: View or Request Bill |
+| Preconditions | 1. Actor is logged in<br>2. A stay, reservation, or set of charges exists for the guest in the system |
+| Postconditions | 1. Bill view event was logged for the stay<br>2. An invoice document was generated containing all line items, dates, and totals (if requested)<br>3. Invoice was made available for download or sent to the guest's email (if requested)<br>4. Invoice request was logged (if applicable) |
+

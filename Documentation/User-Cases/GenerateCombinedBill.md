@@ -25,3 +25,13 @@ sequenceDiagram
     System->>System: Finalize and store bill
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `generateCombinedBill(guestId: String)` |
+|---|---|
+| Cross References | Use Case: Generate Combined Bill |
+| Preconditions | 1. Hotel clerk is logged in<br>2. Guest has completed check-out<br>3. At least one reservation is recorded for the guest |
+| Postconditions | 1. A combined Bill was created and associated with the guest<br>2. Bill included all room charges from the guest's stay<br>3. Bill included all store purchase charges from the guest's stay<br>4. Applicable taxes and fees were applied to the total<br>5. Finalized bill was stored in the system for auditing |
+

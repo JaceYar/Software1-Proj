@@ -21,3 +21,13 @@ sequenceDiagram
     System-->>Guest: Display product details
 ```
 
+---
+
+## Operation Contract
+
+| Operation | `browseProductCatalog(category: String, searchTerm: String)` |
+|---|---|
+| Cross References | Use Case: Browse Product Catalog |
+| Preconditions | 1. Guest is logged in<br>2. Product data exists in the system |
+| Postconditions | 1. No domain model state was changed (read-only operation)<br>2. Product listing filtered by the given category or search term was retrieved and displayed |
+
