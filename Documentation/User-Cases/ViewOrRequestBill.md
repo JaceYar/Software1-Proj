@@ -5,5 +5,21 @@
 | Preconditions | 1. The hotel system is functional and online <br>2. The actor is logged in to the system <br>3. There exists a stay, reservation, or set of charges associated with the guest (current or past) |
 | Postconditions | 1. The actor has viewed the current bill or a historical bill for the specified stay <br>2. If requested, an invoice or receipt is generated and made available (e.g., download or email) <br>3. The request is logged for auditing where applicable |
 | Main Success Scenario | 1. The guest or clerk navigates to billing, "My Stay," or reservation details <br>2. The guest selects their stay (or the clerk selects the guest and stay) <br>3. The system retrieves all charges for that stay (room, rate, taxes, minibar, store purchases, incidentals) <br>4. The system displays an itemized bill with line items, dates, and totals <br>5. The actor reviews the bill <br>6. If the actor requests an invoice or receipt, they select "Request Invoice" or "Download Receipt" <br>7. The system generates the document (PDF or formatted print) with hotel branding and bill details <br>8. The system makes the document available for download or sends it to the guest's email <br>9. The system displays confirmation that the bill was viewed and, if applicable, that the invoice was sent |
-| Extensions | 2a. **No stay or reservation found**<br>&nbsp;&nbsp;&nbsp;&nbsp;2a1 The system displays a message that no billable stay was found for this guest<br>&nbsp;&nbsp;&nbsp;&nbsp;2a2 Use case ends<br>6a. **Invoice request for past stay**<br>&nbsp;&nbsp;&nbsp;&nbsp;6a1 The system allows invoice generation for completed stays within the retention period<br>&nbsp;&nbsp;&nbsp;&nbsp;6a2 Continue from step 7<br>6b. **Invoice request not allowed (e.g., stay in progress and policy requires check-out first)**<br>&nbsp;&nbsp;&nbsp;&nbsp;6b1 The system displays "Final invoice available at check-out" or similar<br>&nbsp;&nbsp;&nbsp;&nbsp;6b2 Use case ends with bill view only |
+| Extensions | [2]a. **No stay or reservation found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 The system displays a message that no billable stay was found for this guest<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a2 Use case ends<br>[6]a. **Invoice request for past stay**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a1 The system allows invoice generation for completed stays within the retention period<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 Continue from step 7<br>[6]b. **Invoice request not allowed (e.g., stay in progress and policy requires check-out first)**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b1 The system displays "Final invoice available at check-out" or similar<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b2 Use case ends with bill view only |
 | Special Reqs | ● Bill must reflect all charges from room, store (Purchase from Store), and incidentals in real time<br>● Invoice/receipt must include all legally required information (hotel name, stay dates, tax breakdown, etc.)<br>● Guest may only view or request bills for their own stays; clerks may view bills for any guest as authorized |
+
+```mermaid
+sequenceDiagram
+    actor Actor
+    participant System
+
+    Actor->>System: Navigate to billing or reservation details
+    Actor->>System: Select stay to view bill
+    System->>System: Retrieve all charges for stay
+    System-->>Actor: Display itemized bill with line items and totals
+    Actor->>System: Request invoice or receipt (optional)
+    System->>System: Generate invoice document (PDF/formatted print)
+    System-->>Actor: Make document available for download or send to email
+    System-->>Actor: Display confirmation of bill viewed / invoice sent
+```
+
