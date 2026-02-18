@@ -1,0 +1,11 @@
+{
+  "name": "hotel-scripts",
+  "private": true,
+  "scripts": {
+    "generate-diagrams": "bun run generate-diagrams.ts"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.4.2",
+    "@types/bun": "^1.3.9"
+  }
+}
