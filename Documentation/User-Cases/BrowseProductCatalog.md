@@ -1,33 +1,33 @@
-| Use Case Name | Browse Product Catalog |
+| Use Case Name | Hotel Clerk Login |
 |---------------|-----------------|
-| Actor         | Guest          |
+| Actor         | Hotel Clerk    |
 | Author        | Jonathan Deiss |
-| Preconditions | 1. The guest is logged into the hotel system |
-| Postconditions | 1. The guest has viewed available products and their specific details |
-| Main Success Scenario | 1. The guest selects the "Store" or "Shop" tab from the main dashboard <br>2. The system retrieves all product categories: Clothing, Accessories, and Local Artisanal Goods <br>3. The guest filters products by category or searches by name <br>4. The system displays a list of products including Name, Description, and Price <br>5. The guest selects a specific product to view detailed attributes (e.g., size for clothing, origin for artisanal goods) |
-| Extensions | [2]a. **No Products Available**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 The system displays a "Coming Soon" or "Store is currently empty" message<br>[3]a. **Search Not Found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[3]a1 The system suggests similar products or allows the user to clear filters |
-| Special Reqs | ● The UI must distinguish between "Standard" items and "Exclusive Artisanal" goods as per the establishment's unique theme |
+| Preconditions | 1. System is operational<br>2. User has a valid hotel clerk account with a username and password |
+| Postconditions | 1. Hotel clerk is successfully logged in<br>2. Clerk is redirected to the clerk dashboard |
+| Main Success Scenario | 1. The clerk navigates to the login page<br>2. The clerk enters their username<br>3. The clerk enters their password<br>4. The clerk submits the credentials<br>5. The system validates the input format<br>6. The system verifies the credentials against the database<br>7. The system creates a clerk session<br>8. The system redirects the clerk to the clerk dashboard |
+| Extensions | [6]a. **Invalid credentials**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a1 The system displays "Invalid username or password"<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 Return to step 2<br>[6]b. **Account not found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b1 The system displays "Invalid username or password" (generic, for security)<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b2 Use case ends |
+| Special Reqs | ● Passwords must be stored hashed in the database<br>● All login attempts (successful and failed) must be logged |
 
 ```mermaid
 sequenceDiagram
-    actor Guest
+    actor Clerk
     participant System
 
-    Guest->>System: Select "Store" / "Shop" tab
-    System-->>Guest: Display product categories (Clothing, Accessories, Artisanal Goods)
-    Guest->>System: Filter by category or search by name
-    System-->>Guest: Display products (Name, Description, Price)
-    Guest->>System: Select a specific product
-    System-->>Guest: Display product details
+    Clerk->>System: Navigate to login page
+    System-->>Clerk: Display login form
+    Clerk->>System: Enter username and password
+    Clerk->>System: Submit credentials
+    System-->>Clerk: Display success message
+    System-->>Clerk: Redirect to clerk dashboard
 ```
 
 ---
 
 ## Operation Contract
 
-| Operation | `browseProductCatalog(category: String, searchTerm: String)` |
+| Operation | `loginClerk(username: String, password: String)` |
 |---|---|
-| Cross References | Use Case: Browse Product Catalog |
-| Preconditions | 1. Guest is logged in<br>2. Product data exists in the system |
-| Postconditions | 1. No domain model state was changed (read-only operation)<br>2. Product listing filtered by the given category or search term was retrieved and displayed |
+| Cross References | Use Case: Hotel Clerk Login |
+| Preconditions | 1. System is operational<br>2. A hotel clerk account with the given username exists in the system |
+| Postconditions | 1. A clerk session was created<br>2. HotelClerk.isLoggedIn was set to true<br>3. The login attempt was logged |
 

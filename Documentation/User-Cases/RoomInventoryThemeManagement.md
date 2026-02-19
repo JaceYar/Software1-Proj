@@ -1,32 +1,31 @@
-| Use Case Name | Configure Room Inventory |
+| Use Case Name | View Room Status |
 |---------------|-----------------|
 | Actor         | Hotel Clerk    |
 | Author        | Jonathan Deiss |
-| Preconditions | 1. The clerk is logged into an authorized Clerk account |
-| Postconditions | 1. A new room is added to the hotel inventory with a specific theme and daily rate |
-| Main Success Scenario | 1. The clerk selects the "Manage Rooms" dashboard <br>2. The clerk enters a Room Number and selects a Floor/Theme (e.g., Nature Retreat) <br>3. The clerk assigns a Bed Type (Twin, Full, Queen, King) and Quality Level <br>4. The system calculates the "Maximum Daily Rate" based on the Quality Level <br>5. The system saves the room status as "Available" for future searches |
-| Extensions | [2]a. **Duplicate Room Number**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 System prevents saving and alerts the clerk that the room number already exists<br>[4]a. **Rate Overrides**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 Clerk can manually set a "Promotion Rate" for a specific room |
-| Special Reqs | ● Data Integrity: The system must enforce that "Suite" types only exist on the "Urban Elegance" floor as per the problem statement |
+| Preconditions | 1. Hotel clerk is logged into the system<br>2. Room data exists in the database |
+| Postconditions | 1. The clerk has viewed the current status of all rooms<br>2. No data is modified |
+| Main Success Scenario | 1. The clerk navigates to the room status dashboard<br>2. The system retrieves all rooms from the database<br>3. The system displays each room with its room number, floor/theme, and current status (available, reserved, or occupied)<br>4. The clerk optionally filters rooms by floor or status<br>5. The system updates the displayed list based on the applied filter<br>6. The system displays a summary count of rooms by status |
+| Extensions | [2]a. **No rooms in system**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 The system displays a message indicating no rooms have been added yet<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a2 Use case ends<br>[5]a. **No rooms match filter**<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a1 The system displays a message indicating no rooms match the selected criteria |
+| Special Reqs | ● Room statuses must reflect real-time reservation and check-in data<br>● The dashboard must display a summary count of rooms by status |
 
 ```mermaid
 sequenceDiagram
     actor Clerk
     participant System
 
-    Clerk->>System: Select "Manage Rooms" dashboard
-    System-->>Clerk: Display room management form
-    Clerk->>System: Enter Room Number and select Floor/Theme
-    Clerk->>System: Assign Bed Type and Quality Level
-    System-->>Clerk: Display calculated rate and confirm room added to inventory
+    Clerk->>System: Navigate to room status dashboard
+    System-->>Clerk: Display all rooms with room number, floor, and status
+    Clerk->>System: Apply filter by floor or status (optional)
+    System-->>Clerk: Display filtered room list and summary counts
 ```
 
 ---
 
 ## Operation Contract
 
-| Operation | `configureRoom(roomNumber: String, theme: String, bedType: String, qualityLevel: String)` |
+| Operation | `viewRoomStatus(floorFilter: String, statusFilter: String)` |
 |---|---|
-| Cross References | Use Case: Configure Room Inventory |
-| Preconditions | 1. Hotel clerk is logged in with an authorized clerk account<br>2. The room number does not already exist in the system |
-| Postconditions | 1. A new Room was created and saved to the inventory<br>2. Room.theme was set to the selected floor/theme<br>3. Room.bedType was set<br>4. Room.qualityLevel was set<br>5. Room.maxDailyRate was calculated based on quality level and saved<br>6. Room.status was set to 'available' |
+| Cross References | Use Case: View Room Status |
+| Preconditions | 1. Hotel clerk is logged in<br>2. Room data exists in the database |
+| Postconditions | 1. No domain model state was changed (read-only operation)<br>2. A list of rooms with their current status was retrieved and displayed, filtered by the given criteria if provided |
 
