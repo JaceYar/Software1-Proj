@@ -16,7 +16,9 @@ graph LR
         CreateClerkAccount([Create Hotel Clerk Account])
 
         AddRoom([Add Room])
-        RoomThemeManagement([Room Inventory & Theme Management])
+        ClerkLogin([Hotel Clerk Login])
+        ViewRoomStatus([View Room Status])
+        ClerkMakesReservation([Clerk Makes Reservation])
         ProcessCheckIn([Process Check-In])
         ProcessCheckOut([Process Check-Out])
         GenerateCombinedBill([Generate Combined Bill])
@@ -26,7 +28,6 @@ graph LR
         MakeReservation([Make Reservation])
         CancelReservation([Cancel Reservation])
         ModifyReservation([Modify Reservation])
-        BrowseCatalog([Browse Product Catalog])
         PurchaseFromStore([Purchase from Store])
         HelpDestinations([Help & Destinations])
 
@@ -38,7 +39,9 @@ graph LR
     Admin --> CreateClerkAccount
 
     Clerk --> AddRoom
-    Clerk --> RoomThemeManagement
+    Clerk --> ClerkLogin
+    Clerk --> ViewRoomStatus
+    Clerk --> ClerkMakesReservation
     Clerk --> ProcessCheckIn
     Clerk --> ProcessCheckOut
     Clerk --> GenerateCombinedBill
@@ -49,7 +52,6 @@ graph LR
     Guest --> MakeReservation
     Guest --> CancelReservation
     Guest --> ModifyReservation
-    Guest --> BrowseCatalog
     Guest --> PurchaseFromStore
     Guest --> HelpDestinations
     Guest --> ViewBill
@@ -342,38 +344,38 @@ sequenceDiagram
 
 ---
 
-## UC-09: Browse Product Catalog
+## UC-09: Hotel Clerk Login
 
-| Use Case Name | Browse Product Catalog |
+| Use Case Name | Hotel Clerk Login |
 |---------------|-----------------|
-| Actor         | Guest          |
+| Actor         | Hotel Clerk    |
 | Author        | Jonathan Deiss |
-| Preconditions | 1. The guest is logged into the hotel system |
-| Postconditions | 1. The guest has viewed available products and their specific details |
-| Main Success Scenario | 1. The guest selects the "Store" or "Shop" tab from the main dashboard <br>2. The system retrieves all product categories: Clothing, Accessories, and Local Artisanal Goods <br>3. The guest filters products by category or searches by name <br>4. The system displays a list of products including Name, Description, and Price <br>5. The guest selects a specific product to view detailed attributes (e.g., size for clothing, origin for artisanal goods) |
-| Extensions | [2]a. **No Products Available**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 The system displays a "Coming Soon" or "Store is currently empty" message<br>[3]a. **Search Not Found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[3]a1 The system suggests similar products or allows the user to clear filters |
-| Special Reqs | ● The UI must distinguish between "Standard" items and "Exclusive Artisanal" goods as per the establishment's unique theme |
+| Preconditions | 1. System is operational<br>2. User has a valid hotel clerk account with a username and password |
+| Postconditions | 1. Hotel clerk is successfully logged in<br>2. Clerk is redirected to the clerk dashboard |
+| Main Success Scenario | 1. The clerk navigates to the login page<br>2. The clerk enters their username<br>3. The clerk enters their password<br>4. The clerk submits the credentials<br>5. The system validates the input format<br>6. The system verifies the credentials against the database<br>7. The system creates a clerk session<br>8. The system redirects the clerk to the clerk dashboard |
+| Extensions | [6]a. **Invalid credentials**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a1 The system displays "Invalid username or password"<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 Return to step 2<br>[6]b. **Account not found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b1 The system displays "Invalid username or password" (generic, for security)<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b2 Use case ends |
+| Special Reqs | ● Passwords must be stored hashed in the database<br>● All login attempts (successful and failed) must be logged |
 
 ```mermaid
 sequenceDiagram
-    actor Guest
+    actor Clerk
     participant System
 
-    Guest->>System: Select "Store" / "Shop" tab
-    System-->>Guest: Display product categories (Clothing, Accessories, Artisanal Goods)
-    Guest->>System: Filter by category or search by name
-    System-->>Guest: Display products (Name, Description, Price)
-    Guest->>System: Select a specific product
-    System-->>Guest: Display product details
+    Clerk->>System: Navigate to login page
+    System-->>Clerk: Display login form
+    Clerk->>System: Enter username and password
+    Clerk->>System: Submit credentials
+    System-->>Clerk: Display success message
+    System-->>Clerk: Redirect to clerk dashboard
 ```
 
 ### Operation Contract
 
-| Operation | `browseProductCatalog(category: String, searchTerm: String)` |
+| Operation | `loginClerk(username: String, password: String)` |
 |---|---|
-| Cross References | Use Case: Browse Product Catalog |
-| Preconditions | 1. Guest is logged in<br>2. Product data exists in the system |
-| Postconditions | 1. No domain model state was changed (read-only operation)<br>2. Product listing filtered by the given category or search term was retrieved and displayed |
+| Cross References | Use Case: Hotel Clerk Login |
+| Preconditions | 1. System is operational<br>2. A hotel clerk account with the given username exists in the system |
+| Postconditions | 1. A clerk session was created<br>2. HotelClerk.isLoggedIn was set to true<br>3. The login attempt was logged |
 
 ---
 
@@ -556,37 +558,36 @@ sequenceDiagram
 
 ---
 
-## UC-15: Configure Room Inventory
+## UC-15: View Room Status
 
-| Use Case Name | Configure Room Inventory |
+| Use Case Name | View Room Status |
 |---------------|-----------------|
 | Actor         | Hotel Clerk    |
 | Author        | Jonathan Deiss |
-| Preconditions | 1. The clerk is logged into an authorized Clerk account |
-| Postconditions | 1. A new room is added to the hotel inventory with a specific theme and daily rate |
-| Main Success Scenario | 1. The clerk selects the "Manage Rooms" dashboard <br>2. The clerk enters a Room Number and selects a Floor/Theme (e.g., Nature Retreat) <br>3. The clerk assigns a Bed Type (Twin, Full, Queen, King) and Quality Level <br>4. The system calculates the "Maximum Daily Rate" based on the Quality Level <br>5. The system saves the room status as "Available" for future searches |
-| Extensions | [2]a. **Duplicate Room Number**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 System prevents saving and alerts the clerk that the room number already exists<br>[4]a. **Rate Overrides**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 Clerk can manually set a "Promotion Rate" for a specific room |
-| Special Reqs | ● Data Integrity: The system must enforce that "Suite" types only exist on the "Urban Elegance" floor as per the problem statement |
+| Preconditions | 1. Hotel clerk is logged into the system<br>2. Room data exists in the database |
+| Postconditions | 1. The clerk has viewed the current status of all rooms<br>2. No data is modified |
+| Main Success Scenario | 1. The clerk navigates to the room status dashboard<br>2. The system retrieves all rooms from the database<br>3. The system displays each room with its room number, floor/theme, and current status (available, reserved, or occupied)<br>4. The clerk optionally filters rooms by floor or status<br>5. The system updates the displayed list based on the applied filter<br>6. The system displays a summary count of rooms by status |
+| Extensions | [2]a. **No rooms in system**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 The system displays a message indicating no rooms have been added yet<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a2 Use case ends<br>[5]a. **No rooms match filter**<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a1 The system displays a message indicating no rooms match the selected criteria |
+| Special Reqs | ● Room statuses must reflect real-time reservation and check-in data<br>● The dashboard must display a summary count of rooms by status |
 
 ```mermaid
 sequenceDiagram
     actor Clerk
     participant System
 
-    Clerk->>System: Select "Manage Rooms" dashboard
-    System-->>Clerk: Display room management form
-    Clerk->>System: Enter Room Number and select Floor/Theme
-    Clerk->>System: Assign Bed Type and Quality Level
-    System-->>Clerk: Display calculated rate and confirm room added to inventory
+    Clerk->>System: Navigate to room status dashboard
+    System-->>Clerk: Display all rooms with room number, floor, and status
+    Clerk->>System: Apply filter by floor or status (optional)
+    System-->>Clerk: Display filtered room list and summary counts
 ```
 
 ### Operation Contract
 
-| Operation | `configureRoom(roomNumber: String, theme: String, bedType: String, qualityLevel: String)` |
+| Operation | `viewRoomStatus(floorFilter: String, statusFilter: String)` |
 |---|---|
-| Cross References | Use Case: Configure Room Inventory |
-| Preconditions | 1. Hotel clerk is logged in with an authorized clerk account<br>2. The room number does not already exist in the system |
-| Postconditions | 1. A new Room was created and saved to the inventory<br>2. Room.theme was set to the selected floor/theme<br>3. Room.bedType was set<br>4. Room.qualityLevel was set<br>5. Room.maxDailyRate was calculated based on quality level and saved<br>6. Room.status was set to 'available' |
+| Cross References | Use Case: View Room Status |
+| Preconditions | 1. Hotel clerk is logged in<br>2. Room data exists in the database |
+| Postconditions | 1. No domain model state was changed (read-only operation)<br>2. A list of rooms with their current status was retrieved and displayed, filtered by the given criteria if provided |
 
 ---
 
@@ -670,6 +671,43 @@ sequenceDiagram
 | Cross References | Use Case: HelpDesk |
 | Preconditions | 1. Guest is logged in<br>2. A staff member is on standby<br>3. Hotel system is accessible |
 | Postconditions | 1. A new HelpRequest was created and associated with the guest's account and room number<br>2. If technical help: a live chat session was initiated between the guest and an available staff member<br>3. If service request: a ServiceRequest was created, a staff member was assigned, and a service time was scheduled<br>4. Help request was logged with the guest's room number and account |
+
+---
+
+## UC-18: Clerk Makes Reservation for Guest
+
+| Use Case Name | Clerk Makes Reservation for Guest |
+|---------------|-----------------|
+| Actor         | Hotel Clerk    |
+| Author        | Jonathan Deiss |
+| Preconditions | 1. Hotel clerk is logged into the system<br>2. Room and reservation data exists in the database<br>3. The guest has an existing account or the clerk can look one up |
+| Postconditions | 1. A new reservation is created in the system and associated with the guest<br>2. The selected room is marked as reserved for the specified dates<br>3. Guest information is recorded and linked to the reservation |
+| Main Success Scenario | 1. The clerk selects "Make Reservation" from the clerk dashboard<br>2. The clerk searches for the guest by name or email<br>3. The system displays matching guest records<br>4. The clerk selects the guest<br>5. The clerk enters the check-in date, check-out date, and desired room type<br>6. The system displays available rooms matching the criteria<br>7. The clerk selects a room<br>8. The clerk selects a rate type (standard, promotion, group, or non-refundable)<br>9. The system calculates the total cost based on the room's quality level and rate type<br>10. The system creates the reservation and associates it with the guest<br>11. The system displays the reservation confirmation details |
+| Extensions | [3]a. **Guest not found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[3]a1 The clerk creates a new guest record<br>&nbsp;&nbsp;&nbsp;&nbsp;[3]a2 Continue from step 5<br>[6]a. **No rooms available for requested criteria**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a1 The system notifies the clerk that no rooms match the criteria<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 The clerk adjusts dates or room type and returns to step 5<br>[8]a. **Corporate guest**<br>&nbsp;&nbsp;&nbsp;&nbsp;[8]a1 The clerk selects the guest's corporation<br>&nbsp;&nbsp;&nbsp;&nbsp;[8]a2 The system marks the reservation for deferred corporate billing<br>&nbsp;&nbsp;&nbsp;&nbsp;[8]a3 Continue from step 9 |
+| Special Reqs | ● Reservations created by a clerk must be flagged as clerk-initiated for auditing purposes<br>● Corporate guest reservations must be marked for deferred billing and not charged at time of booking |
+
+```mermaid
+sequenceDiagram
+    actor Clerk
+    participant System
+
+    Clerk->>System: Select "Make Reservation" from clerk dashboard
+    Clerk->>System: Search for guest by name or email
+    System-->>Clerk: Display matching guest records
+    Clerk->>System: Select guest
+    Clerk->>System: Enter check-in/check-out dates and room type
+    System-->>Clerk: Display available rooms matching criteria
+    Clerk->>System: Select room and rate type
+    System-->>Clerk: Display reservation confirmation
+```
+
+### Operation Contract
+
+| Operation | `clerkMakeReservation(clerkId: String, guestId: String, roomId: String, checkInDate: Date, checkOutDate: Date, rateType: String)` |
+|---|---|
+| Cross References | Use Case: Clerk Makes Reservation for Guest |
+| Preconditions | 1. Hotel clerk is logged in<br>2. The specified guest account exists in the system<br>3. The selected room is available for the requested dates |
+| Postconditions | 1. A new Reservation was created and associated with the guest<br>2. Selected Room was marked as reserved for the specified dates<br>3. Reservation.totalCost was calculated based on quality level and rate type<br>4. Reservation was flagged as clerk-initiated and linked to the creating clerk's account |
 
 ---
 
