@@ -13,12 +13,10 @@ sequenceDiagram
     actor Guest
     participant System
 
-    Guest->>System: Select room from available list
-    Guest->>System: Enter check-in and check-out dates
-    Guest->>System: Select rate type
-    Guest->>System: Enter/confirm personal information
-    Guest->>System: Enter payment information
-    System-->>Guest: Display reservation confirmation with details
+    Guest->>System: searchAvailableRooms(checkInDate, checkOutDate, numGuests, numBeds, bedSize)
+    System-->>Guest: availableRooms
+    Guest->>System: makeReservation(roomId, checkInDate, checkOutDate, rateType, guestInfo, paymentInfo)
+    System-->>Guest: reservationConfirmation
 ```
 
 ---

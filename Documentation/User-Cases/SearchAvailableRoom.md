@@ -13,10 +13,8 @@ sequenceDiagram
     actor Guest
     participant System
 
-    Guest->>System: Select search option
-    System-->>Guest: Display search form
-    Guest->>System: Enter search criteria (dates, guests, beds, bed size)
-    System-->>Guest: Display list of available rooms
+    Guest->>System: searchAvailableRooms(checkInDate, checkOutDate, numGuests, numBeds, bedSize)
+    System-->>Guest: availableRoomList
 ```
 
 ---

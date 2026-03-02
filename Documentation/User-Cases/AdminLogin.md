@@ -13,12 +13,8 @@ sequenceDiagram
     actor Admin
     participant System
 
-    Admin->>System: Navigate to login page
-    System-->>Admin: Display login form
-    Admin->>System: Enter username and password
-    Admin->>System: Submit credentials
-    System-->>Admin: Display success message
-    System-->>Admin: Redirect to admin dashboard
+    Admin->>System: loginAdmin(username, password)
+    System-->>Admin: sessionConfirmation
 ```
 
 ---

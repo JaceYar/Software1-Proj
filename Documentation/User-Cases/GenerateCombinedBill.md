@@ -13,10 +13,8 @@ sequenceDiagram
     actor Clerk
     participant System
 
-    Clerk->>System: Select checked-out guest
-    System-->>Clerk: Display bill summary
-    Clerk->>System: Confirm bill
-    System-->>Clerk: Confirm bill finalized
+    Clerk->>System: generateCombinedBill(guestId)
+    System-->>Clerk: combinedBill
 ```
 
 ---

@@ -13,10 +13,8 @@ sequenceDiagram
     actor Clerk
     participant System
 
-    Clerk->>System: Navigate to room status dashboard
-    System-->>Clerk: Display all rooms with room number, floor, and status
-    Clerk->>System: Apply filter by floor or status (optional)
-    System-->>Clerk: Display filtered room list and summary counts
+    Clerk->>System: viewRoomStatus(floorFilter, statusFilter)
+    System-->>Clerk: roomStatusList
 ```
 
 ---

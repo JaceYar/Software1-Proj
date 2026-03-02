@@ -13,12 +13,10 @@ sequenceDiagram
     actor Guest
     participant System
 
-    Guest->>System: Select option to view reservations
-    System-->>Guest: Display reservations
-    Guest->>System: Select reservation to cancel
-    System-->>Guest: Display cancellation policy and penalty
-    Guest->>System: Confirm cancellation
-    System-->>Guest: Display cancellation confirmation
+    Guest->>System: getReservations()
+    System-->>Guest: reservationList
+    Guest->>System: cancelReservation(reservationId)
+    System-->>Guest: cancellationConfirmation
 ```
 
 ---

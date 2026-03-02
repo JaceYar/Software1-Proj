@@ -12,24 +12,9 @@
 sequenceDiagram
     actor Guest
     participant System
-    participant Staff
 
-    Guest->>System: Navigate to HelpDesk menu
-    System-->>Guest: Display help options (Technical Help / Service Request)
-
-    alt Technical Help
-        Guest->>System: Select technical help option
-        System->>Staff: Connect guest to available staff member
-        Staff-->>Guest: Live chat session begins
-        Staff->>Guest: Provide technical assistance
-        Guest->>System: Issue resolved
-    else Service Request
-        Guest->>System: Select technician / house-keeper option
-        Guest->>System: Describe issue and request service
-        System-->>Guest: Confirm scheduled service time
-        Staff->>Guest: Arrive and fix the situation
-    end
-
+    Guest->>System: submitHelpRequest(requestType, description)
+    System-->>Guest: helpRequestConfirmation
 ```
 
 ---

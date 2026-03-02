@@ -13,14 +13,10 @@ sequenceDiagram
     actor Guest
     participant System
 
-    Guest->>System: Select option to view reservations
-    System-->>Guest: Display reservations
-    Guest->>System: Select reservation to modify
-    System-->>Guest: Display current reservation details
-    Guest->>System: Enter requested changes (dates/room type)
-    System-->>Guest: Display updated reservation details and new cost
-    Guest->>System: Confirm modification
-    System-->>Guest: Display modification confirmation
+    Guest->>System: getReservations()
+    System-->>Guest: reservationList
+    Guest->>System: modifyReservation(reservationId, newCheckInDate, newCheckOutDate, newRoomType)
+    System-->>Guest: modificationConfirmation
 ```
 
 ---

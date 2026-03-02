@@ -13,12 +13,8 @@ sequenceDiagram
     actor Clerk
     participant System
 
-    Clerk->>System: Navigate to login page
-    System-->>Clerk: Display login form
-    Clerk->>System: Enter username and password
-    Clerk->>System: Submit credentials
-    System-->>Clerk: Display success message
-    System-->>Clerk: Redirect to clerk dashboard
+    Clerk->>System: loginClerk(username, password)
+    System-->>Clerk: sessionConfirmation
 ```
 
 ---

@@ -13,14 +13,8 @@ sequenceDiagram
     actor Guest
     participant System
 
-    Guest->>System: Navigate to Store from main dashboard
-    Guest->>System: Add products to cart
-    Guest->>System: View and adjust cart
-    Guest->>System: Proceed to checkout
-    System-->>Guest: Display order summary and confirm guest/room for billing
-    Guest->>System: Confirm payment method (charge to room or enter card)
-    System-->>Guest: Display order confirmation and delivery/pickup details
-    Guest->>System: Acknowledge confirmation
+    Guest->>System: purchaseFromStore(guestId, cartItems, paymentMethod)
+    System-->>Guest: orderConfirmation
 ```
 
 ---

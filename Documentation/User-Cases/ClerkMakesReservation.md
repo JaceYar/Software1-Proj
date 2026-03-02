@@ -13,14 +13,12 @@ sequenceDiagram
     actor Clerk
     participant System
 
-    Clerk->>System: Select "Make Reservation" from clerk dashboard
-    Clerk->>System: Search for guest by name or email
-    System-->>Clerk: Display matching guest records
-    Clerk->>System: Select guest
-    Clerk->>System: Enter check-in/check-out dates and room type
-    System-->>Clerk: Display available rooms matching criteria
-    Clerk->>System: Select room and rate type
-    System-->>Clerk: Display reservation confirmation
+    Clerk->>System: searchGuest(nameOrEmail)
+    System-->>Clerk: matchingGuestRecords
+    Clerk->>System: searchAvailableRooms(checkInDate, checkOutDate, roomType)
+    System-->>Clerk: availableRooms
+    Clerk->>System: clerkMakeReservation(clerkId, guestId, roomId, checkInDate, checkOutDate, rateType)
+    System-->>Clerk: reservationConfirmation
 ```
 
 ---

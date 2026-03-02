@@ -13,12 +13,10 @@ sequenceDiagram
     actor GuestOrClerk
     participant System
 
-    GuestOrClerk->>System: Navigate to billing or reservation details
-    GuestOrClerk->>System: Select stay to view bill
-    System-->>GuestOrClerk: Display itemized bill with line items and totals
-    GuestOrClerk->>System: Request invoice or receipt (optional)
-    System-->>GuestOrClerk: Make document available for download or send to email
-    System-->>GuestOrClerk: Display confirmation of bill viewed / invoice sent
+    GuestOrClerk->>System: viewBill(stayId)
+    System-->>GuestOrClerk: itemizedBill
+    GuestOrClerk->>System: requestInvoice(stayId)
+    System-->>GuestOrClerk: invoiceDocument
 ```
 
 ---

@@ -13,12 +13,8 @@ sequenceDiagram
     actor Clerk
     participant System
 
-    Clerk->>System: Navigate to room management page
-    Clerk->>System: Select "Add New Room"
-    System-->>Clerk: Display room entry form
-    Clerk->>System: Enter room details and submit form
-    System-->>Clerk: Display success message
-    Clerk->>System: Return to room management page
+    Clerk->>System: addRoom(roomNumber, theme, roomType, bedType, smokingStatus, qualityLevel, maxDailyRate)
+    System-->>Clerk: roomAdditionConfirmation
 ```
 
 ---

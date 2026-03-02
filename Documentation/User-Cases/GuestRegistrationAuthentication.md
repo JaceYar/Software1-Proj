@@ -13,11 +13,8 @@ sequenceDiagram
     actor Guest
     participant System
 
-    Guest->>System: Select "Register" / "Create Account"
-    System-->>Guest: Display registration form
-    Guest->>System: Enter personal details (Name, Address, Email, Password)
-    Guest->>System: Enter payment details (Credit Card, Expiration, CVV)
-    System-->>Guest: Display "Welcome [Guest Name]" on dashboard
+    Guest->>System: registerGuest(fullName, address, email, password, paymentInfo)
+    System-->>Guest: sessionConfirmation
 ```
 
 ---

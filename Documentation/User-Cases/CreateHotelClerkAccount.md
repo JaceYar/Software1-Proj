@@ -13,10 +13,8 @@ sequenceDiagram
     actor Admin
     participant System
 
-    Admin->>System: Select option to create clerk account
-    System-->>Admin: Prompt for username, show prefilled password
-    Admin->>System: Enter username and optional custom password
-    System-->>Admin: Display success message
+    Admin->>System: createClerkAccount(username, password)
+    System-->>Admin: accountCreationConfirmation
 ```
 
 ---

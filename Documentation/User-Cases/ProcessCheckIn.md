@@ -12,16 +12,11 @@
 sequenceDiagram
     actor Clerk
     participant System
-    actor Guest
 
-    Clerk->>System: Search reservation by name or confirmation number
-    System-->>Clerk: Display reservation details
-    Clerk->>Guest: Verify identity
-    Clerk->>Guest: Confirm reservation details
-    System-->>Clerk: Display available rooms matching reservation
-    Clerk->>System: Select room to assign
-    Clerk->>Guest: Provide room key / access information
-    System-->>Clerk: Display check-in confirmation
+    Clerk->>System: findReservation(nameOrConfirmationNumber)
+    System-->>Clerk: reservationDetails
+    Clerk->>System: processCheckIn(reservationId, roomId)
+    System-->>Clerk: checkInConfirmation
 ```
 
 ---

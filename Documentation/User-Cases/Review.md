@@ -13,13 +13,10 @@ sequenceDiagram
     actor User
     participant System
 
-    User->>System: Select "Reviews" tab on hotel detail page
-    System-->>User: Display reviews and current average rating
-    User->>System: Click button to leave a review
-    System-->>User: Display review form
-    User->>System: Enter star rating (1-5) and review text
-    User->>System: Submit review
-    System-->>User: Display success confirmation
+    User->>System: getReviews(hotelId)
+    System-->>User: reviewList
+    User->>System: submitReview(hotelId, starRating, reviewText)
+    System-->>User: submissionConfirmation
 ```
 
 ---

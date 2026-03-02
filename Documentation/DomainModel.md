@@ -6,26 +6,20 @@ classDiagram
         String fullName
         String address
         String email
-        String password
     }
 
     class Guest {
-        <<interface>>
     }
 
     class Admin {
-        <<interface>>
-        int failedLoginAttempts
-        boolean isLocked
     }
 
     class HotelClerk {
-        <<interface>>
     }
 
-    Person ..|> Guest : implements
-    Person ..|> Admin : implements
-    Person ..|> HotelClerk : implements
+    Person --|> Guest
+    Person --|> Admin
+    Person --|> HotelClerk
 
     class PaymentInfo {
         String cardNumber
