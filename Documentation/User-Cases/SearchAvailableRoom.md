@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Guest: availableRoomList
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `searchAvailableRooms(checkInDate: Date, checkOutDate: Date, numGuests: Integer, numBeds: Integer, bedSize: String)` |
 |---|---|

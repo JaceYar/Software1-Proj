@@ -19,9 +19,7 @@ sequenceDiagram
     System-->>User: submissionConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `submitReview(hotelId: String, starRating: Integer, reviewText: String)` |
 |---|---|

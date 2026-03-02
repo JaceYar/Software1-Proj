@@ -19,9 +19,7 @@ sequenceDiagram
     System-->>Guest: modificationConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `modifyReservation(reservationId: String, newCheckInDate: Date, newCheckOutDate: Date, newRoomType: String)` |
 |---|---|

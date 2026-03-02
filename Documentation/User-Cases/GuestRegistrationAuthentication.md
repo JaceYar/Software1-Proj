@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Guest: sessionConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `registerGuest(fullName: String, address: String, email: String, password: String, paymentInfo: PaymentInfo)` |
 |---|---|

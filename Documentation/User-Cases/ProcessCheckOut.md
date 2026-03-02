@@ -19,9 +19,7 @@ sequenceDiagram
     System-->>Clerk: checkOutConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `processCheckOut(guestId: String)` |
 |---|---|

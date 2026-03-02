@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Clerk: combinedBill
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `generateCombinedBill(guestId: String)` |
 |---|---|

@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Clerk: roomStatusList
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `viewRoomStatus(floorFilter: String, statusFilter: String)` |
 |---|---|

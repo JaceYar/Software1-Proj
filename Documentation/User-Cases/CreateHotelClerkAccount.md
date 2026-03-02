@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Admin: accountCreationConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `createClerkAccount(username: String, password: String)` |
 |---|---|

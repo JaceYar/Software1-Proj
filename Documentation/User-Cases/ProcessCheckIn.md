@@ -19,9 +19,7 @@ sequenceDiagram
     System-->>Clerk: checkInConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `processCheckIn(reservationId: String, roomId: String)` |
 |---|---|

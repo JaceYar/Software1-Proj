@@ -19,9 +19,7 @@ sequenceDiagram
     System-->>GuestOrClerk: invoiceDocument
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `viewBill(stayId: String)` / `requestInvoice(stayId: String)` |
 |---|---|

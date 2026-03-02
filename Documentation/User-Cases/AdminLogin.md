@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Admin: sessionConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `loginAdmin(username: String, password: String)` |
 |---|---|

@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Clerk: roomAdditionConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `addRoom(roomNumber: String, theme: String, roomType: String, bedType: String, smokingStatus: Boolean, qualityLevel: String, maxDailyRate: Decimal)` |
 |---|---|

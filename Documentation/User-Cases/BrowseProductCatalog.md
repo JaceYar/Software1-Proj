@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Clerk: sessionConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `loginClerk(username: String, password: String)` |
 |---|---|

@@ -21,9 +21,7 @@ sequenceDiagram
     System-->>Clerk: reservationConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `clerkMakeReservation(clerkId: String, guestId: String, roomId: String, checkInDate: Date, checkOutDate: Date, rateType: String)` |
 |---|---|

@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Guest: orderConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `purchaseFromStore(guestId: String, cartItems: List<CartItem>, paymentMethod: PaymentMethod)` |
 |---|---|

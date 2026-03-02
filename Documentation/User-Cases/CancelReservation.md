@@ -19,9 +19,7 @@ sequenceDiagram
     System-->>Guest: cancellationConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `cancelReservation(reservationId: String)` |
 |---|---|

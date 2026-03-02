@@ -17,9 +17,7 @@ sequenceDiagram
     System-->>Guest: helpRequestConfirmation
 ```
 
----
-
-## Operation Contract
+### Operation Contract
 
 | Operation | `submitHelpRequest(requestType: String, description: String)` |
 |---|---|
