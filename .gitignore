@@ -27,6 +27,9 @@ poms/
 .DS_Store      # macOS
 Thumbs.db      # Windows
 
+# Export drafts
+ExportDrafts/
+
 # Maven Wrapper
 # The .mvn folder can be committed to ensure a fully encapsulated build setup for all users.
 # If you choose to ignore it, uncomment the following line:
