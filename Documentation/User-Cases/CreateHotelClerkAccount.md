@@ -25,3 +25,52 @@ sequenceDiagram
 | Preconditions | 1. Admin is logged in<br>2. The given username does not already exist in the system |
 | Postconditions | 1. A new HotelClerk account was created<br>2. HotelClerk.username was set<br>3. HotelClerk.password was encrypted and stored<br>4. Account creation was logged with the creating admin's identity |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:CreateClerkAccountHandler` | Use-case controller; receives the `createClerkAccount` system operation |
+| **Information Expert + Pure Fabrication** | `:ClerkCatalog` | Knows all existing usernames; checks uniqueness before creation |
+| **Creator** | `:ClerkCatalog` | Records HotelClerk instances (GRASP Creator: B records A → B creates A) |
+| **Information Expert** | `clerk:HotelClerk` | Manages its own password encryption |
+| **Pure Fabrication** | `:AuditLog` | Logs account creation with the admin's identity |
+
+```mermaid
+sequenceDiagram
+    actor Admin
+    participant ctrl as :CreateClerkAccountHandler
+    participant cc as :ClerkCatalog
+    participant c as clerk:HotelClerk
+    participant al as :AuditLog
+
+    Admin->>ctrl: createClerkAccount(username, password)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>cc: isUsernameAvailable(username)
+    activate cc
+    Note right of cc: GRASP: Information Expert<br>(ClerkCatalog knows all usernames)
+    cc-->>ctrl: true
+    deactivate cc
+
+    ctrl->>cc: createClerk(username, password)
+    activate cc
+    Note right of cc: GRASP: Creator<br>(ClerkCatalog records HotelClerk instances)
+    cc->>c: <<create>>(username, password)
+    activate c
+    c->>c: encryptPassword(password)
+    Note right of c: GRASP: Information Expert<br>(HotelClerk manages its own credentials)
+    cc-->>ctrl: clerk
+    deactivate c
+    deactivate cc
+
+    ctrl->>al: logAccountCreation(clerk, adminId)
+    activate al
+    Note right of al: GRASP: Pure Fabrication
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>Admin: accountCreationConfirmation
+    deactivate ctrl
+```
+

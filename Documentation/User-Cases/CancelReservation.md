@@ -27,3 +27,70 @@ sequenceDiagram
 | Preconditions | 1. Guest is logged in<br>2. Reservation exists and is associated with the guest<br>3. The cancellation request is more than X hours before the check-in time |
 | Postconditions | 1. Reservation.status was set to 'cancelled'<br>2. Any applicable cancellation penalty was recorded and associated with the reservation<br>3. The cancellation attempt was logged for auditing |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:CancelReservationHandler` | Use-case controller; handles both system operations for this use case session |
+| **Information Expert + Pure Fabrication** | `:ReservationCatalog` | Holds all Reservation data; retrieves reservations by guest and by ID |
+| **Information Expert** | `reservation:Reservation` | Has `checkInDate` — enforces the X-hour cancellation policy; sets its own status and records the penalty |
+| **Pure Fabrication** | `:AuditLog` | Logs all cancellation attempts for auditing |
+
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant ctrl as :CancelReservationHandler
+    participant rcat as :ReservationCatalog
+    participant res as reservation:Reservation
+    participant al as :AuditLog
+
+    Note over Guest,rcat: [1] getReservations()
+    Guest->>ctrl: getReservations()
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+    ctrl->>rcat: getByGuest(guestId)
+    activate rcat
+    Note right of rcat: GRASP: Information Expert<br>+ Pure Fabrication
+    rcat-->>ctrl: reservationList
+    deactivate rcat
+    ctrl-->>Guest: reservationList
+    deactivate ctrl
+
+    Note over Guest,al: [2] cancelReservation(reservationId)
+    Guest->>ctrl: cancelReservation(reservationId)
+    activate ctrl
+
+    ctrl->>rcat: getReservation(reservationId)
+    activate rcat
+    rcat-->>ctrl: reservation
+    deactivate rcat
+
+    ctrl->>res: isCancellable()
+    activate res
+    Note right of res: GRASP: Information Expert<br>(Reservation knows its checkInDate;<br>enforces X-hour cancellation policy)
+    res-->>ctrl: canCancel
+    deactivate res
+
+    alt canCancel == true
+        ctrl->>res: cancel()
+        activate res
+        Note right of res: GRASP: Information Expert<br>(Reservation sets its own status<br>and records any penalty)
+        res->>res: setStatus("cancelled")
+        res->>res: recordPenalty()
+        res-->>ctrl: ok
+        deactivate res
+
+        ctrl->>al: logCancellation(reservationId, success)
+        activate al
+        Note right of al: GRASP: Pure Fabrication
+        al-->>ctrl: ok
+        deactivate al
+
+        ctrl-->>Guest: cancellationConfirmation
+    else canCancel == false
+        ctrl-->>Guest: cancellationDenied
+    end
+
+    deactivate ctrl
+```
+

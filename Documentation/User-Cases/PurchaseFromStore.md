@@ -25,3 +25,59 @@ sequenceDiagram
 | Preconditions | 1. Guest is logged in<br>2. All items in the cart are available in inventory<br>3. Guest is checked in or has a valid payment method on file |
 | Postconditions | 1. A new Sale was created and associated with the guest and current stay<br>2. Inventory quantity was decremented for each purchased item<br>3. Charges were applied to the guest's room bill (if checked in) or a payment transaction was completed<br>4. Order confirmation was generated and associated with the sale |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:PurchaseHandler` | Use-case controller; receives the `purchaseFromStore` system operation |
+| **Information Expert + Pure Fabrication** | `:ProductCatalog` | Holds all Product and inventory data; validates stock and decrements quantities |
+| **Creator + Pure Fabrication** | `:PurchaseCatalog` | Records Sale instances (GRASP Creator: B records A → B creates A) |
+| **Information Expert** | `sale:Sale` | Calculates its own total from the cart items |
+| **Pure Fabrication** | `:BillingService` | Routes charges to the room bill or processes a card payment; no domain counterpart |
+
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant ctrl as :PurchaseHandler
+    participant pcat as :ProductCatalog
+    participant pucat as :PurchaseCatalog
+    participant s as sale:Sale
+    participant bs as :BillingService
+
+    Guest->>ctrl: purchaseFromStore(guestId, cartItems, paymentMethod)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>pcat: validateInventory(cartItems)
+    activate pcat
+    Note right of pcat: GRASP: Information Expert<br>+ Pure Fabrication
+    pcat-->>ctrl: available
+    deactivate pcat
+
+    ctrl->>pucat: createSale(guestId, cartItems)
+    activate pucat
+    Note right of pucat: GRASP: Creator<br>(PurchaseCatalog records Sale instances)
+    pucat->>s: <<create>>(guestId, cartItems)
+    activate s
+    s->>s: calculateTotal(cartItems)
+    Note right of s: GRASP: Information Expert<br>(Sale calculates its own total)
+    pucat-->>ctrl: sale
+    deactivate s
+    deactivate pucat
+
+    ctrl->>pcat: decrementInventory(cartItems)
+    activate pcat
+    Note right of pcat: GRASP: Information Expert<br>(ProductCatalog manages inventory)
+    pcat-->>ctrl: ok
+    deactivate pcat
+
+    ctrl->>bs: applyCharges(sale, paymentMethod)
+    activate bs
+    Note right of bs: GRASP: Pure Fabrication<br>(routes to room bill or card payment)
+    bs-->>ctrl: paymentConfirmation
+    deactivate bs
+
+    ctrl-->>Guest: orderConfirmation
+    deactivate ctrl
+```
+

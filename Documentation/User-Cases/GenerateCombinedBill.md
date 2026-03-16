@@ -25,3 +25,71 @@ sequenceDiagram
 | Preconditions | 1. Hotel clerk is logged in<br>2. Guest has completed check-out<br>3. At least one reservation is recorded for the guest |
 | Postconditions | 1. A combined Bill was created and associated with the guest<br>2. Bill included all room charges from the guest's stay<br>3. Bill included all store purchase charges from the guest's stay<br>4. Applicable taxes and fees were applied to the total<br>5. Finalized bill was stored in the system for auditing |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:GenerateBillHandler` | Use-case controller; receives the `generateCombinedBill` system operation |
+| **Information Expert + Pure Fabrication** | `:ReservationCatalog` | Holds all Reservation data; retrieves the guest's reservation |
+| **Information Expert + Pure Fabrication** | `:PurchaseCatalog` | Holds all store purchase records for a guest's stay |
+| **Information Expert** | `reservation:Reservation` | Knows its own room charges (rate, dates, totalCost) |
+| **Creator + Pure Fabrication** | `:BillCatalog` | Records Bill instances → creates Bill; stores finalized bill |
+| **Information Expert** | `bill:Bill` | Aggregates all charges and applies taxes to its own total |
+
+```mermaid
+sequenceDiagram
+    actor Clerk
+    participant ctrl as :GenerateBillHandler
+    participant rcat as :ReservationCatalog
+    participant res as reservation:Reservation
+    participant pc as :PurchaseCatalog
+    participant bcat as :BillCatalog
+    participant b as bill:Bill
+
+    Clerk->>ctrl: generateCombinedBill(guestId)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>rcat: getByGuest(guestId)
+    activate rcat
+    Note right of rcat: GRASP: Information Expert<br>+ Pure Fabrication
+    rcat-->>ctrl: reservation
+    deactivate rcat
+
+    ctrl->>pc: getByGuest(guestId)
+    activate pc
+    Note right of pc: GRASP: Information Expert<br>+ Pure Fabrication
+    pc-->>ctrl: purchases
+    deactivate pc
+
+    ctrl->>bcat: createBill(reservation, purchases)
+    activate bcat
+    Note right of bcat: GRASP: Creator<br>(BillCatalog records Bill instances)
+    bcat->>b: <<create>>(reservation, purchases)
+    activate b
+
+    b->>res: getRoomCharges()
+    activate res
+    Note right of res: GRASP: Information Expert<br>(Reservation knows its own room charges)
+    res-->>b: roomCharges
+    deactivate res
+
+    b->>b: aggregatePurchases(purchases)
+    Note right of b: GRASP: Information Expert
+
+    b->>b: applyTaxes()
+    Note right of b: GRASP: Information Expert
+
+    bcat-->>ctrl: bill
+    deactivate b
+    deactivate bcat
+
+    ctrl->>bcat: save(bill)
+    activate bcat
+    bcat-->>ctrl: ok
+    deactivate bcat
+
+    ctrl-->>Clerk: combinedBill
+    deactivate ctrl
+```
+

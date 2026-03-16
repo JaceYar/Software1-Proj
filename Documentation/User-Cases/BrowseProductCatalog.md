@@ -25,3 +25,59 @@ sequenceDiagram
 | Preconditions | 1. System is operational<br>2. A hotel clerk account with the given username exists in the system |
 | Postconditions | 1. A clerk session was created<br>2. HotelClerk.isLoggedIn was set to true<br>3. The login attempt was logged |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:LoginHandler` | Use-case controller; receives the `loginClerk` system operation |
+| **Information Expert + Pure Fabrication** | `:ClerkCatalog` | Holds all HotelClerk accounts; finds by username and verifies credentials |
+| **Information Expert** | `clerk:HotelClerk` | Manages its own `isLoggedIn` flag and verifies its own password |
+| **Pure Fabrication** | `:SessionStore` | Creates and stores the authenticated clerk session |
+| **Pure Fabrication** | `:AuditLog` | Logs all login attempts for auditing |
+
+```mermaid
+sequenceDiagram
+    actor Clerk
+    participant ctrl as :LoginHandler
+    participant cc as :ClerkCatalog
+    participant c as clerk:HotelClerk
+    participant ss as :SessionStore
+    participant al as :AuditLog
+
+    Clerk->>ctrl: loginClerk(username, password)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>cc: findByUsername(username)
+    activate cc
+    Note right of cc: GRASP: Information Expert<br>+ Pure Fabrication
+    cc-->>ctrl: clerk
+    deactivate cc
+
+    ctrl->>c: verifyPassword(password)
+    activate c
+    Note right of c: GRASP: Information Expert<br>(HotelClerk verifies its own credentials)
+    c-->>ctrl: true
+    deactivate c
+
+    ctrl->>c: setLoggedIn(true)
+    activate c
+    c-->>ctrl: ok
+    deactivate c
+
+    ctrl->>ss: createSession(clerk)
+    activate ss
+    Note right of ss: GRASP: Pure Fabrication
+    ss-->>ctrl: session
+    deactivate ss
+
+    ctrl->>al: logLoginAttempt(username, success)
+    activate al
+    Note right of al: GRASP: Pure Fabrication
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>Clerk: sessionConfirmation
+    deactivate ctrl
+```
+

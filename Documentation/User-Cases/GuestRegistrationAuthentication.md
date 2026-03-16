@@ -25,3 +25,60 @@ sequenceDiagram
 | Preconditions | 1. Guest has access to the hotel system portal<br>2. Guest is not currently logged in<br>3. The given email address is not already registered |
 | Postconditions | 1. A new Guest profile was created in the database<br>2. Guest.password was encrypted and stored<br>3. Payment information was securely tokenized and stored<br>4. A new authenticated session was created and associated with the guest |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:RegistrationHandler` | Use-case controller; receives the `registerGuest` system operation |
+| **Information Expert + Pure Fabrication** | `:GuestCatalog` | Knows all registered emails; checks uniqueness before creation |
+| **Creator** | `:GuestCatalog` | Records Guest instances (GRASP Creator: B records A → B creates A) |
+| **Information Expert** | `guest:Guest` | Manages its own password encryption |
+| **Pure Fabrication** | `:PaymentTokenizer` | Tokenizes payment info for PCI compliance; no domain counterpart |
+| **Pure Fabrication** | `:SessionStore` | Creates and stores the authenticated session |
+
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant ctrl as :RegistrationHandler
+    participant gc as :GuestCatalog
+    participant g as guest:Guest
+    participant pt as :PaymentTokenizer
+    participant ss as :SessionStore
+
+    Guest->>ctrl: registerGuest(fullName, address, email, password, paymentInfo)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>gc: isEmailAvailable(email)
+    activate gc
+    Note right of gc: GRASP: Information Expert<br>(GuestCatalog knows all emails)
+    gc-->>ctrl: true
+    deactivate gc
+
+    ctrl->>pt: tokenize(paymentInfo)
+    activate pt
+    Note right of pt: GRASP: Pure Fabrication<br>(PCI-compliant payment tokenization)
+    pt-->>ctrl: paymentToken
+    deactivate pt
+
+    ctrl->>gc: createGuest(fullName, address, email, password, paymentToken)
+    activate gc
+    Note right of gc: GRASP: Creator<br>(GuestCatalog records Guest instances)
+    gc->>g: <<create>>(fullName, address, email, password, paymentToken)
+    activate g
+    g->>g: encryptPassword(password)
+    Note right of g: GRASP: Information Expert<br>(Guest manages its own credentials)
+    gc-->>ctrl: guest
+    deactivate g
+    deactivate gc
+
+    ctrl->>ss: createSession(guest)
+    activate ss
+    Note right of ss: GRASP: Pure Fabrication
+    ss-->>ctrl: session
+    deactivate ss
+
+    ctrl-->>Guest: sessionConfirmation
+    deactivate ctrl
+```
+

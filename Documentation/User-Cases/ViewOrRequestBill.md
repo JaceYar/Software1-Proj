@@ -27,3 +27,85 @@ sequenceDiagram
 | Preconditions | 1. Actor is logged in<br>2. A stay, reservation, or set of charges exists for the guest in the system |
 | Postconditions | 1. Bill view event was logged for the stay<br>2. An invoice document was generated containing all line items, dates, and totals (if requested)<br>3. Invoice was made available for download or sent to the guest's email (if requested)<br>4. Invoice request was logged (if applicable) |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:BillHandler` | Use-case controller; handles both system operations for this use case session |
+| **Information Expert + Pure Fabrication** | `:ReservationCatalog` | Holds all Reservation data; retrieves the stay by ID |
+| **Information Expert** | `reservation:Reservation` | Knows its own charges (room rate, dates, totalCost) |
+| **Information Expert + Pure Fabrication** | `:PurchaseCatalog` | Holds all store purchase records linked to a stay |
+| **Pure Fabrication** | `:InvoiceGenerator` | Generates the formatted invoice document; no domain counterpart |
+| **Pure Fabrication** | `:AuditLog` | Logs bill views and invoice requests |
+
+```mermaid
+sequenceDiagram
+    actor Actor as Guest or Clerk
+    participant ctrl as :BillHandler
+    participant rcat as :ReservationCatalog
+    participant res as reservation:Reservation
+    participant pc as :PurchaseCatalog
+    participant ig as :InvoiceGenerator
+    participant al as :AuditLog
+
+    Note over Actor,al: [1] viewBill(stayId)
+    Actor->>ctrl: viewBill(stayId)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>rcat: getReservation(stayId)
+    activate rcat
+    Note right of rcat: GRASP: Information Expert<br>+ Pure Fabrication
+    rcat-->>ctrl: reservation
+    deactivate rcat
+
+    ctrl->>pc: getByReservation(stayId)
+    activate pc
+    Note right of pc: GRASP: Information Expert<br>+ Pure Fabrication
+    pc-->>ctrl: purchases
+    deactivate pc
+
+    ctrl->>res: getChargesSummary()
+    activate res
+    Note right of res: GRASP: Information Expert<br>(Reservation knows its own charges)
+    res-->>ctrl: chargesSummary
+    deactivate res
+
+    ctrl->>al: logBillView(stayId, actorId)
+    activate al
+    Note right of al: GRASP: Pure Fabrication
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>Actor: itemizedBill
+    deactivate ctrl
+
+    Note over Actor,al: [2] requestInvoice(stayId)
+    Actor->>ctrl: requestInvoice(stayId)
+    activate ctrl
+
+    ctrl->>rcat: getReservation(stayId)
+    activate rcat
+    rcat-->>ctrl: reservation
+    deactivate rcat
+
+    ctrl->>pc: getByReservation(stayId)
+    activate pc
+    pc-->>ctrl: purchases
+    deactivate pc
+
+    ctrl->>ig: generate(reservation, purchases)
+    activate ig
+    Note right of ig: GRASP: Pure Fabrication<br>(generates formatted invoice document)
+    ig-->>ctrl: invoiceDocument
+    deactivate ig
+
+    ctrl->>al: logInvoiceRequest(stayId, actorId)
+    activate al
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>Actor: invoiceDocument
+    deactivate ctrl
+```
+

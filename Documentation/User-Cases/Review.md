@@ -27,3 +27,67 @@ sequenceDiagram
 | Preconditions | 1. User is logged in<br>2. User has a prior completed stay (checked in) at the hotel |
 | Postconditions | 1. A new Review was created and associated with the hotel<br>2. Review was associated with the Guest account<br>3. Hotel.averageStarRating was recalculated and updated<br>4. Review was stored in the database and made visible on the hotel page |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:ReviewHandler` | Use-case controller; handles both system operations for this use case session |
+| **Information Expert + Pure Fabrication** | `:ReviewCatalog` | Holds all Review data; retrieves reviews by hotel and recalculates average rating |
+| **Information Expert + Pure Fabrication** | `:GuestCatalog` | Retrieves the current guest from the active session |
+| **Creator** | `guest:Guest` | Domain model shows `Guest "1"--"*" Review : writes`; Guest aggregates Reviews |
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant ctrl as :ReviewHandler
+    participant rcat as :ReviewCatalog
+    participant gc as :GuestCatalog
+    participant g as guest:Guest
+    participant rev as review:Review
+
+    Note over User,rcat: [1] getReviews(hotelId)
+    User->>ctrl: getReviews(hotelId)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+    ctrl->>rcat: getByHotel(hotelId)
+    activate rcat
+    Note right of rcat: GRASP: Information Expert<br>+ Pure Fabrication
+    rcat-->>ctrl: reviewList
+    deactivate rcat
+    ctrl-->>User: reviewList
+    deactivate ctrl
+
+    Note over User,rev: [2] submitReview(hotelId, starRating, reviewText)
+    User->>ctrl: submitReview(hotelId, starRating, reviewText)
+    activate ctrl
+
+    ctrl->>gc: getCurrentGuest(guestId)
+    activate gc
+    Note right of gc: GRASP: Information Expert<br>+ Pure Fabrication
+    gc-->>ctrl: guest
+    deactivate gc
+
+    ctrl->>g: writeReview(hotelId, starRating, reviewText)
+    activate g
+    Note right of g: GRASP: Creator<br>(Guest "1"--"*" Review : writes)
+    g->>rev: <<create>>(hotelId, starRating, reviewText)
+    activate rev
+    g-->>ctrl: review
+    deactivate g
+
+    ctrl->>rcat: add(review)
+    activate rcat
+    rcat-->>ctrl: ok
+    deactivate rcat
+
+    ctrl->>rcat: updateAverageRating(hotelId)
+    activate rcat
+    Note right of rcat: GRASP: Information Expert<br>(ReviewCatalog knows all ratings<br>for a hotel)
+    rcat-->>ctrl: ok
+    deactivate rcat
+
+    deactivate rev
+    ctrl-->>User: submissionConfirmation
+    deactivate ctrl
+```
+

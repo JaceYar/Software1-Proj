@@ -25,3 +25,59 @@ sequenceDiagram
 | Preconditions | 1. System is operational<br>2. An admin account with the given username exists in the system |
 | Postconditions | 1. An admin session was created<br>2. Admin.isLoggedIn was set to true<br>3. The login attempt was logged |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:LoginHandler` | Use-case controller; receives the `loginAdmin` system operation |
+| **Information Expert + Pure Fabrication** | `:AdminCatalog` | Holds all Admin accounts; finds by username and verifies credentials |
+| **Information Expert** | `admin:Admin` | Manages its own `isLoggedIn` flag |
+| **Pure Fabrication** | `:SessionStore` | Creates and stores the authenticated session |
+| **Pure Fabrication** | `:AuditLog` | Logs all login attempts for auditing |
+
+```mermaid
+sequenceDiagram
+    actor Admin
+    participant ctrl as :LoginHandler
+    participant ac as :AdminCatalog
+    participant a as admin:Admin
+    participant ss as :SessionStore
+    participant al as :AuditLog
+
+    Admin->>ctrl: loginAdmin(username, password)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>ac: findByUsername(username)
+    activate ac
+    Note right of ac: GRASP: Information Expert<br>+ Pure Fabrication
+    ac-->>ctrl: admin
+    deactivate ac
+
+    ctrl->>a: verifyPassword(password)
+    activate a
+    Note right of a: GRASP: Information Expert<br>(Admin verifies its own credentials)
+    a-->>ctrl: true
+    deactivate a
+
+    ctrl->>a: setLoggedIn(true)
+    activate a
+    a-->>ctrl: ok
+    deactivate a
+
+    ctrl->>ss: createSession(admin)
+    activate ss
+    Note right of ss: GRASP: Pure Fabrication
+    ss-->>ctrl: session
+    deactivate ss
+
+    ctrl->>al: logLoginAttempt(username, success)
+    activate al
+    Note right of al: GRASP: Pure Fabrication
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>Admin: sessionConfirmation
+    deactivate ctrl
+```
+

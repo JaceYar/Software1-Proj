@@ -25,3 +25,28 @@ sequenceDiagram
 | Preconditions | 1. Hotel system is functional and online<br>2. Room and reservation data exist in the database |
 | Postconditions | 1. No domain model state was changed (read-only operation)<br>2. A list of rooms matching the search criteria was retrieved and displayed |
 
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:SearchRoomHandler` | Use-case controller; receives the `searchAvailableRooms` system operation |
+| **Information Expert + Pure Fabrication** | `:RoomCatalog` | Holds all Room and Reservation data; filters rooms by availability and all search criteria |
+
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant ctrl as :SearchRoomHandler
+    participant rc as :RoomCatalog
+
+    Guest->>ctrl: searchAvailableRooms(checkInDate, checkOutDate, numGuests, numBeds, bedSize)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+    ctrl->>rc: getAvailableRooms(checkInDate, checkOutDate, numGuests, numBeds, bedSize)
+    activate rc
+    Note right of rc: GRASP: Information Expert<br>+ Pure Fabrication
+    rc-->>ctrl: availableRooms
+    deactivate rc
+    ctrl-->>Guest: availableRoomList
+    deactivate ctrl
+```
+
