@@ -100,7 +100,7 @@ sequenceDiagram
 
         ctrl-->>Guest: modificationConfirmation
     else canModify == false
-        ctrl-->>Guest: modificationDenied("Policy: cannot modify within X hours of check-in")
+        ctrl-->>Guest: modificationDenied
     end
 
     deactivate ctrl

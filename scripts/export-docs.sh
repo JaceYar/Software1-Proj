@@ -6,7 +6,9 @@
 #   -d, --domain-model      Include Domain Model
 #   -g, --diagram           Include Use Case Diagram
 #   -s, --user-stories      Include User Stories
-#   -u, --use-cases         Include Use Cases
+#   -u, --use-cases         Include all Use Cases
+#       --case <name>       Include a specific use case by filename (without .md);
+#                           may be repeated. Implies -u. E.g.: --case ProcessCheckIn
 #
 # If no flags are given, all sections are included.
 
@@ -21,13 +23,16 @@ inc_domain=false
 inc_diagram=false
 inc_stories=false
 inc_cases=false
+case_filter=()
 
 usage() {
     echo "Usage: export-docs.sh [flags]"
     echo "  -d, --domain-model      Include Domain Model"
     echo "  -g, --diagram           Include Use Case Diagram"
     echo "  -s, --user-stories      Include User Stories"
-    echo "  -u, --use-cases         Include Use Cases"
+    echo "  -u, --use-cases         Include all Use Cases"
+    echo "      --case <name>       Include a specific use case by filename (without .md);"
+    echo "                          may be repeated. Implies -u."
     echo ""
     echo "If no flags are given, all sections are included."
     exit 1
@@ -43,6 +48,12 @@ else
             -g|--diagram)        inc_diagram=true   ;;
             -s|--user-stories)   inc_stories=true   ;;
             -u|--use-cases)      inc_cases=true     ;;
+            --case)
+                shift
+                [[ $# -eq 0 ]] && { echo "--case requires a name argument"; usage; }
+                case_filter+=("$1")
+                inc_cases=true
+                ;;
             -h|--help)           usage              ;;
             *) echo "Unknown flag: $1"; usage       ;;
         esac
@@ -87,6 +98,14 @@ if $inc_cases; then
     for f in $(ls "$DOC/User-Cases/"*.md | sort); do
         [[ "$(basename "$f")" == "template.md" ]] && continue
         [[ -s "$f" ]] || continue
+        if [[ ${#case_filter[@]} -gt 0 ]]; then
+            base="$(basename "$f" .md)"
+            match=false
+            for pattern in "${case_filter[@]}"; do
+                [[ "${base,,}" == "${pattern,,}" ]] && match=true && break
+            done
+            $match || continue
+        fi
         name=$(awk -F'|' '/Use Case Name/{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); print $3; exit}' "$f")
         echo -e "\n## $name" >> "$OUTPUT"
         echo "" >> "$OUTPUT"
