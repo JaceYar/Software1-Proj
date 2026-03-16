@@ -69,11 +69,11 @@ sequenceDiagram
 
     ctrl->>res: isModifiable()
     activate res
-    Note right of res: GRASP: Information Expert<br>(Reservation knows its checkInDate;<br>enforces X-hour modification policy)
+    Note right of res: GRASP: Information Expert
     res-->>ctrl: canModify
     deactivate res
 
-    alt canModify == true
+    alt modification allowed
         ctrl->>rmc: getAvailableRoomByType(newCheckInDate, newCheckOutDate, newRoomType)
         activate rmc
         Note right of rmc: GRASP: Information Expert<br>+ Pure Fabrication
@@ -82,7 +82,7 @@ sequenceDiagram
 
         ctrl->>res: applyModification(newCheckInDate, newCheckOutDate, room)
         activate res
-        Note right of res: GRASP: Information Expert<br>(Reservation applies changes<br>to its own state)
+        Note right of res: GRASP: Information Expert
 
         res->>r: getDailyRate(rateType)
         activate r
@@ -99,7 +99,7 @@ sequenceDiagram
         deactivate res
 
         ctrl-->>Guest: modificationConfirmation
-    else canModify == false
+    else modification not allowed
         ctrl-->>Guest: modificationDenied
     end
 

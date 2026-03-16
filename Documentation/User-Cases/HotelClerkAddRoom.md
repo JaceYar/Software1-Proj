@@ -58,7 +58,7 @@ sequenceDiagram
     Note right of rc: GRASP: Creator<br>(RoomCatalog records Room instances)
     rc->>r: <<create>>(roomNumber, theme, roomType, bedType, smokingStatus, qualityLevel, maxDailyRate)
     activate r
-    r->>r: setStatus("available")
+    r->>r: setStatus(available)
     Note right of r: GRASP: Information Expert<br>(Room initializes its own status)
     rc-->>ctrl: room
     deactivate r

@@ -64,17 +64,17 @@ sequenceDiagram
     sc-->>ctrl: staff
     deactivate sc
 
-    alt requestType == "technical"
+    alt technical support request
         ctrl->>cs: initiateChat(helpRequest, staff)
         activate cs
         Note right of cs: GRASP: Pure Fabrication<br>(manages live chat sessions)
         cs-->>ctrl: chatSession
         deactivate cs
-        ctrl->>req: setStatus("in-chat")
+        ctrl->>req: setStatus(inChat)
         activate req
         req-->>ctrl: ok
         deactivate req
-    else requestType == "service"
+    else service request
         ctrl->>req: scheduleService(staff)
         activate req
         Note right of req: GRASP: Information Expert<br>(HelpRequest records its own<br>scheduledTime and assigned staff)

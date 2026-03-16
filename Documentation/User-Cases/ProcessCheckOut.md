@@ -107,7 +107,7 @@ sequenceDiagram
     res-->>ctrl: ok
     deactivate res
 
-    ctrl->>r: setStatus("available")
+    ctrl->>r: setStatus(available)
     activate r
     Note right of r: GRASP: Information Expert<br>(Room manages its own status)
     r-->>ctrl: ok

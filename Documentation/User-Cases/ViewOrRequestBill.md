@@ -40,34 +40,34 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    actor Actor as Guest or Clerk
-    participant ctrl as :BillHandler
-    participant rcat as :ReservationCatalog
-    participant res as reservation:Reservation
-    participant pc as :PurchaseCatalog
-    participant ig as :InvoiceGenerator
-    participant al as :AuditLog
+    actor GuestOrClerk as Actor
+    participant ctrl as BillHandler
+    participant rcat as ReservationCatalog
+    participant res as Reservation
+    participant pc as PurchaseCatalog
+    participant ig as InvoiceGenerator
+    participant al as AuditLog
 
-    Note over Actor,al: [1] viewBill(stayId)
-    Actor->>ctrl: viewBill(stayId)
+    Note over ctrl,al: [1] viewBill(stayId)
+    GuestOrClerk->>ctrl: viewBill(stayId)
     activate ctrl
     Note right of ctrl: GRASP: Controller
 
     ctrl->>rcat: getReservation(stayId)
     activate rcat
-    Note right of rcat: GRASP: Information Expert<br>+ Pure Fabrication
+    Note right of rcat: GRASP: Information Expert + Pure Fabrication
     rcat-->>ctrl: reservation
     deactivate rcat
 
     ctrl->>pc: getByReservation(stayId)
     activate pc
-    Note right of pc: GRASP: Information Expert<br>+ Pure Fabrication
+    Note right of pc: GRASP: Information Expert + Pure Fabrication
     pc-->>ctrl: purchases
     deactivate pc
 
     ctrl->>res: getChargesSummary()
     activate res
-    Note right of res: GRASP: Information Expert<br>(Reservation knows its own charges)
+    Note right of res: GRASP: Information Expert
     res-->>ctrl: chargesSummary
     deactivate res
 
@@ -77,11 +77,11 @@ sequenceDiagram
     al-->>ctrl: ok
     deactivate al
 
-    ctrl-->>Actor: itemizedBill
+    ctrl-->>GuestOrClerk: itemizedBill
     deactivate ctrl
 
-    Note over Actor,al: [2] requestInvoice(stayId)
-    Actor->>ctrl: requestInvoice(stayId)
+    Note over ctrl,al: [2] requestInvoice(stayId)
+    GuestOrClerk->>ctrl: requestInvoice(stayId)
     activate ctrl
 
     ctrl->>rcat: getReservation(stayId)
@@ -96,7 +96,7 @@ sequenceDiagram
 
     ctrl->>ig: generate(reservation, purchases)
     activate ig
-    Note right of ig: GRASP: Pure Fabrication<br>(generates formatted invoice document)
+    Note right of ig: GRASP: Pure Fabrication
     ig-->>ctrl: invoiceDocument
     deactivate ig
 
@@ -105,7 +105,7 @@ sequenceDiagram
     al-->>ctrl: ok
     deactivate al
 
-    ctrl-->>Actor: invoiceDocument
+    ctrl-->>GuestOrClerk: invoiceDocument
     deactivate ctrl
 ```
 

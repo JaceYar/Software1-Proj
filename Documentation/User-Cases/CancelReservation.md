@@ -67,15 +67,15 @@ sequenceDiagram
 
     ctrl->>res: isCancellable()
     activate res
-    Note right of res: GRASP: Information Expert<br>(Reservation knows its checkInDate;<br>enforces X-hour cancellation policy)
+    Note right of res: GRASP: Information Expert
     res-->>ctrl: canCancel
     deactivate res
 
-    alt canCancel == true
+    alt cancellation allowed
         ctrl->>res: cancel()
         activate res
-        Note right of res: GRASP: Information Expert<br>(Reservation sets its own status<br>and records any penalty)
-        res->>res: setStatus("cancelled")
+        Note right of res: GRASP: Information Expert
+        res->>res: setStatus(cancelled)
         res->>res: recordPenalty()
         res-->>ctrl: ok
         deactivate res
@@ -87,7 +87,7 @@ sequenceDiagram
         deactivate al
 
         ctrl-->>Guest: cancellationConfirmation
-    else canCancel == false
+    else cancellation denied
         ctrl-->>Guest: cancellationDenied
     end
 
