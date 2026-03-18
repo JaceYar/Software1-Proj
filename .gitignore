@@ -34,3 +34,5 @@ ExportDrafts/
 # The .mvn folder can be committed to ensure a fully encapsulated build setup for all users.
 # If you choose to ignore it, uncomment the following line:
 # .mvn/wrapper/maven-wrapper.jar
+
+node_modules
