@@ -14,5 +14,7 @@ This is our project management site. It's rendered with Astro.
     - Zain Altaf
     - Erick Martinez
     - James Bagwell
+- [Repository](https://github.com/JaceYar/Software1-Proj)
+- [Jira Board](https://csi-3471-drop-table-teams.atlassian.net/jira/software/projects/SCRUM/boards/1)
 
 
