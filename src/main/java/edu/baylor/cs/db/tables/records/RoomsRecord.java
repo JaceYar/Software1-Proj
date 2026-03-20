@@ -33,45 +33,143 @@ public class RoomsRecord extends UpdatableRecordImpl<RoomsRecord> {
     }
 
     /**
-     * Setter for <code>rooms.name</code>.
+     * Setter for <code>rooms.room_number</code>.
      */
-    public void setName(String value) {
+    public void setRoomNumber(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>rooms.name</code>.
+     * Getter for <code>rooms.room_number</code>.
      */
-    public String getName() {
+    public String getRoomNumber() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>rooms.capacity</code>.
+     * Setter for <code>rooms.floor</code>.
      */
-    public void setCapacity(Integer value) {
+    public void setFloor(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>rooms.capacity</code>.
+     * Getter for <code>rooms.floor</code>.
      */
-    public Integer getCapacity() {
+    public Integer getFloor() {
         return (Integer) get(2);
+    }
+
+    /**
+     * Setter for <code>rooms.room_type</code>.
+     */
+    public void setRoomType(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>rooms.room_type</code>.
+     */
+    public String getRoomType() {
+        return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>rooms.quality_level</code>.
+     */
+    public void setQualityLevel(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>rooms.quality_level</code>.
+     */
+    public String getQualityLevel() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>rooms.bed_type</code>.
+     */
+    public void setBedType(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>rooms.bed_type</code>.
+     */
+    public String getBedType() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>rooms.num_beds</code>.
+     */
+    public void setNumBeds(Integer value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>rooms.num_beds</code>.
+     */
+    public Integer getNumBeds() {
+        return (Integer) get(6);
+    }
+
+    /**
+     * Setter for <code>rooms.smoking</code>.
+     */
+    public void setSmoking(Integer value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>rooms.smoking</code>.
+     */
+    public Integer getSmoking() {
+        return (Integer) get(7);
+    }
+
+    /**
+     * Setter for <code>rooms.daily_rate</code>.
+     */
+    public void setDailyRate(Float value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>rooms.daily_rate</code>.
+     */
+    public Float getDailyRate() {
+        return (Float) get(8);
     }
 
     /**
      * Setter for <code>rooms.description</code>.
      */
     public void setDescription(String value) {
-        set(3, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>rooms.description</code>.
      */
     public String getDescription() {
-        return (String) get(3);
+        return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>rooms.status</code>.
+     */
+    public void setStatus(String value) {
+        set(10, value);
+    }
+
+    /**
+     * Getter for <code>rooms.status</code>.
+     */
+    public String getStatus() {
+        return (String) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -97,13 +195,20 @@ public class RoomsRecord extends UpdatableRecordImpl<RoomsRecord> {
     /**
      * Create a detached, initialised RoomsRecord
      */
-    public RoomsRecord(Integer id, String name, Integer capacity, String description) {
+    public RoomsRecord(Integer id, String roomNumber, Integer floor, String roomType, String qualityLevel, String bedType, Integer numBeds, Integer smoking, Float dailyRate, String description, String status) {
         super(Rooms.ROOMS);
 
         setId(id);
-        setName(name);
-        setCapacity(capacity);
+        setRoomNumber(roomNumber);
+        setFloor(floor);
+        setRoomType(roomType);
+        setQualityLevel(qualityLevel);
+        setBedType(bedType);
+        setNumBeds(numBeds);
+        setSmoking(smoking);
+        setDailyRate(dailyRate);
         setDescription(description);
+        setStatus(status);
         resetChangedOnNotNull();
     }
 }

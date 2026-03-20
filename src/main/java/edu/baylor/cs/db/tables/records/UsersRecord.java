@@ -35,45 +35,129 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
     }
 
     /**
-     * Setter for <code>users.email</code>.
+     * Setter for <code>users.username</code>.
      */
-    public void setEmail(String value) {
+    public void setUsername(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>users.email</code>.
+     * Getter for <code>users.username</code>.
      */
-    public String getEmail() {
+    public String getUsername() {
         return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>users.password_hash</code>.
+     */
+    public void setPasswordHash(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>users.password_hash</code>.
+     */
+    public String getPasswordHash() {
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>users.name</code>.
      */
     public void setName(String value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>users.name</code>.
      */
     public String getName() {
-        return (String) get(2);
+        return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>users.email</code>.
+     */
+    public void setEmail(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>users.email</code>.
+     */
+    public String getEmail() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>users.address</code>.
+     */
+    public void setAddress(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>users.address</code>.
+     */
+    public String getAddress() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>users.credit_card_number</code>.
+     */
+    public void setCreditCardNumber(String value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>users.credit_card_number</code>.
+     */
+    public String getCreditCardNumber() {
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>users.credit_card_expiry</code>.
+     */
+    public void setCreditCardExpiry(String value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>users.credit_card_expiry</code>.
+     */
+    public String getCreditCardExpiry() {
+        return (String) get(7);
+    }
+
+    /**
+     * Setter for <code>users.role</code>.
+     */
+    public void setRole(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>users.role</code>.
+     */
+    public String getRole() {
+        return (String) get(8);
     }
 
     /**
      * Setter for <code>users.created_at</code>.
      */
     public void setCreatedAt(LocalDateTime value) {
-        set(3, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>users.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(3);
+        return (LocalDateTime) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -99,12 +183,18 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
     /**
      * Create a detached, initialised UsersRecord
      */
-    public UsersRecord(Integer id, String email, String name, LocalDateTime createdAt) {
+    public UsersRecord(Integer id, String username, String passwordHash, String name, String email, String address, String creditCardNumber, String creditCardExpiry, String role, LocalDateTime createdAt) {
         super(Users.USERS);
 
         setId(id);
-        setEmail(email);
+        setUsername(username);
+        setPasswordHash(passwordHash);
         setName(name);
+        setEmail(email);
+        setAddress(address);
+        setCreditCardNumber(creditCardNumber);
+        setCreditCardExpiry(creditCardExpiry);
+        setRole(role);
         setCreatedAt(createdAt);
         resetChangedOnNotNull();
     }

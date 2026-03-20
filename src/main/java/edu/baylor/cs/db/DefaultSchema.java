@@ -4,7 +4,13 @@
 package edu.baylor.cs.db;
 
 
-import edu.baylor.cs.db.tables.Bookings;
+import edu.baylor.cs.db.tables.Bills;
+import edu.baylor.cs.db.tables.Corporations;
+import edu.baylor.cs.db.tables.GuestCorporations;
+import edu.baylor.cs.db.tables.OrderItems;
+import edu.baylor.cs.db.tables.Orders;
+import edu.baylor.cs.db.tables.Products;
+import edu.baylor.cs.db.tables.Reservations;
 import edu.baylor.cs.db.tables.Rooms;
 import edu.baylor.cs.db.tables.Users;
 
@@ -30,9 +36,39 @@ public class DefaultSchema extends SchemaImpl {
     public static final DefaultSchema DEFAULT_SCHEMA = new DefaultSchema();
 
     /**
-     * The table <code>bookings</code>.
+     * The table <code>bills</code>.
      */
-    public final Bookings BOOKINGS = Bookings.BOOKINGS;
+    public final Bills BILLS = Bills.BILLS;
+
+    /**
+     * The table <code>corporations</code>.
+     */
+    public final Corporations CORPORATIONS = Corporations.CORPORATIONS;
+
+    /**
+     * The table <code>guest_corporations</code>.
+     */
+    public final GuestCorporations GUEST_CORPORATIONS = GuestCorporations.GUEST_CORPORATIONS;
+
+    /**
+     * The table <code>order_items</code>.
+     */
+    public final OrderItems ORDER_ITEMS = OrderItems.ORDER_ITEMS;
+
+    /**
+     * The table <code>orders</code>.
+     */
+    public final Orders ORDERS = Orders.ORDERS;
+
+    /**
+     * The table <code>products</code>.
+     */
+    public final Products PRODUCTS = Products.PRODUCTS;
+
+    /**
+     * The table <code>reservations</code>.
+     */
+    public final Reservations RESERVATIONS = Reservations.RESERVATIONS;
 
     /**
      * The table <code>rooms</code>.
@@ -60,7 +96,13 @@ public class DefaultSchema extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Bookings.BOOKINGS,
+            Bills.BILLS,
+            Corporations.CORPORATIONS,
+            GuestCorporations.GUEST_CORPORATIONS,
+            OrderItems.ORDER_ITEMS,
+            Orders.ORDERS,
+            Products.PRODUCTS,
+            Reservations.RESERVATIONS,
             Rooms.ROOMS,
             Users.USERS
         );

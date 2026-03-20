@@ -6,10 +6,12 @@ package edu.baylor.cs.db.tables;
 
 import edu.baylor.cs.db.DefaultSchema;
 import edu.baylor.cs.db.Keys;
-import edu.baylor.cs.db.tables.Bookings.BookingsPath;
+import edu.baylor.cs.db.tables.Reservations.ReservationsPath;
 import edu.baylor.cs.db.tables.records.RoomsRecord;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -61,19 +63,54 @@ public class Rooms extends TableImpl<RoomsRecord> {
     public final TableField<RoomsRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.identity(true), this, "");
 
     /**
-     * The column <code>rooms.name</code>.
+     * The column <code>rooms.room_number</code>.
      */
-    public final TableField<RoomsRecord, String> NAME = createField(DSL.name("name"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<RoomsRecord, String> ROOM_NUMBER = createField(DSL.name("room_number"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>rooms.capacity</code>.
+     * The column <code>rooms.floor</code>.
      */
-    public final TableField<RoomsRecord, Integer> CAPACITY = createField(DSL.name("capacity"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<RoomsRecord, Integer> FLOOR = createField(DSL.name("floor"), SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>rooms.room_type</code>.
+     */
+    public final TableField<RoomsRecord, String> ROOM_TYPE = createField(DSL.name("room_type"), SQLDataType.CLOB.nullable(false), this, "");
+
+    /**
+     * The column <code>rooms.quality_level</code>.
+     */
+    public final TableField<RoomsRecord, String> QUALITY_LEVEL = createField(DSL.name("quality_level"), SQLDataType.CLOB.nullable(false), this, "");
+
+    /**
+     * The column <code>rooms.bed_type</code>.
+     */
+    public final TableField<RoomsRecord, String> BED_TYPE = createField(DSL.name("bed_type"), SQLDataType.CLOB.nullable(false), this, "");
+
+    /**
+     * The column <code>rooms.num_beds</code>.
+     */
+    public final TableField<RoomsRecord, Integer> NUM_BEDS = createField(DSL.name("num_beds"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("1"), SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>rooms.smoking</code>.
+     */
+    public final TableField<RoomsRecord, Integer> SMOKING = createField(DSL.name("smoking"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>rooms.daily_rate</code>.
+     */
+    public final TableField<RoomsRecord, Float> DAILY_RATE = createField(DSL.name("daily_rate"), SQLDataType.REAL.nullable(false), this, "");
 
     /**
      * The column <code>rooms.description</code>.
      */
     public final TableField<RoomsRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>rooms.status</code>.
+     */
+    public final TableField<RoomsRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.CLOB.nullable(false).defaultValue(DSL.field(DSL.raw("'AVAILABLE'"), SQLDataType.CLOB)), this, "");
 
     private Rooms(Name alias, Table<RoomsRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -150,16 +187,21 @@ public class Rooms extends TableImpl<RoomsRecord> {
         return Keys.ROOMS__PK_ROOMS;
     }
 
-    private transient BookingsPath _bookings;
+    @Override
+    public List<UniqueKey<RoomsRecord>> getUniqueKeys() {
+        return Arrays.asList(Keys.ROOMS__UK_ROOMS_5607445);
+    }
+
+    private transient ReservationsPath _reservations;
 
     /**
-     * Get the implicit to-many join path to the <code>bookings</code> table
+     * Get the implicit to-many join path to the <code>reservations</code> table
      */
-    public BookingsPath bookings() {
-        if (_bookings == null)
-            _bookings = new BookingsPath(this, null, Keys.BOOKINGS__FK_BOOKINGS_PK_ROOMS.getInverseKey());
+    public ReservationsPath reservations() {
+        if (_reservations == null)
+            _reservations = new ReservationsPath(this, null, Keys.RESERVATIONS__FK_RESERVATIONS_PK_ROOMS.getInverseKey());
 
-        return _bookings;
+        return _reservations;
     }
 
     @Override

@@ -6,7 +6,11 @@ package edu.baylor.cs.db.tables;
 
 import edu.baylor.cs.db.DefaultSchema;
 import edu.baylor.cs.db.Keys;
-import edu.baylor.cs.db.tables.Bookings.BookingsPath;
+import edu.baylor.cs.db.tables.Bills.BillsPath;
+import edu.baylor.cs.db.tables.Corporations.CorporationsPath;
+import edu.baylor.cs.db.tables.GuestCorporations.GuestCorporationsPath;
+import edu.baylor.cs.db.tables.Orders.OrdersPath;
+import edu.baylor.cs.db.tables.Reservations.ReservationsPath;
 import edu.baylor.cs.db.tables.records.UsersRecord;
 
 import java.time.LocalDateTime;
@@ -64,14 +68,44 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.identity(true), this, "");
 
     /**
-     * The column <code>users.email</code>.
+     * The column <code>users.username</code>.
      */
-    public final TableField<UsersRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<UsersRecord, String> USERNAME = createField(DSL.name("username"), SQLDataType.CLOB.nullable(false), this, "");
+
+    /**
+     * The column <code>users.password_hash</code>.
+     */
+    public final TableField<UsersRecord, String> PASSWORD_HASH = createField(DSL.name("password_hash"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
      * The column <code>users.name</code>.
      */
     public final TableField<UsersRecord, String> NAME = createField(DSL.name("name"), SQLDataType.CLOB.nullable(false), this, "");
+
+    /**
+     * The column <code>users.email</code>.
+     */
+    public final TableField<UsersRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>users.address</code>.
+     */
+    public final TableField<UsersRecord, String> ADDRESS = createField(DSL.name("address"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>users.credit_card_number</code>.
+     */
+    public final TableField<UsersRecord, String> CREDIT_CARD_NUMBER = createField(DSL.name("credit_card_number"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>users.credit_card_expiry</code>.
+     */
+    public final TableField<UsersRecord, String> CREDIT_CARD_EXPIRY = createField(DSL.name("credit_card_expiry"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>users.role</code>.
+     */
+    public final TableField<UsersRecord, String> ROLE = createField(DSL.name("role"), SQLDataType.CLOB.nullable(false).defaultValue(DSL.field(DSL.raw("'GUEST'"), SQLDataType.CLOB)), this, "");
 
     /**
      * The column <code>users.created_at</code>.
@@ -155,19 +189,64 @@ public class Users extends TableImpl<UsersRecord> {
 
     @Override
     public List<UniqueKey<UsersRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.USERS__UK_USERS_116436086);
+        return Arrays.asList(Keys.USERS__UK_USERS_3307420);
     }
 
-    private transient BookingsPath _bookings;
+    private transient BillsPath _bills;
 
     /**
-     * Get the implicit to-many join path to the <code>bookings</code> table
+     * Get the implicit to-many join path to the <code>bills</code> table
      */
-    public BookingsPath bookings() {
-        if (_bookings == null)
-            _bookings = new BookingsPath(this, null, Keys.BOOKINGS__FK_BOOKINGS_PK_USERS.getInverseKey());
+    public BillsPath bills() {
+        if (_bills == null)
+            _bills = new BillsPath(this, null, Keys.BILLS__FK_BILLS_PK_USERS.getInverseKey());
 
-        return _bookings;
+        return _bills;
+    }
+
+    private transient GuestCorporationsPath _guestCorporations;
+
+    /**
+     * Get the implicit to-many join path to the <code>guest_corporations</code>
+     * table
+     */
+    public GuestCorporationsPath guestCorporations() {
+        if (_guestCorporations == null)
+            _guestCorporations = new GuestCorporationsPath(this, null, Keys.GUEST_CORPORATIONS__FK_GUEST_CORPORATIONS_PK_USERS.getInverseKey());
+
+        return _guestCorporations;
+    }
+
+    private transient OrdersPath _orders;
+
+    /**
+     * Get the implicit to-many join path to the <code>orders</code> table
+     */
+    public OrdersPath orders() {
+        if (_orders == null)
+            _orders = new OrdersPath(this, null, Keys.ORDERS__FK_ORDERS_PK_USERS.getInverseKey());
+
+        return _orders;
+    }
+
+    private transient ReservationsPath _reservations;
+
+    /**
+     * Get the implicit to-many join path to the <code>reservations</code> table
+     */
+    public ReservationsPath reservations() {
+        if (_reservations == null)
+            _reservations = new ReservationsPath(this, null, Keys.RESERVATIONS__FK_RESERVATIONS_PK_USERS.getInverseKey());
+
+        return _reservations;
+    }
+
+    /**
+     * Get the implicit many-to-many join path to the <code>corporations</code>
+     * table
+     */
+    public CorporationsPath corporations() {
+        return guestCorporations().corporations();
     }
 
     @Override

@@ -4,7 +4,13 @@
 package edu.baylor.cs.db;
 
 
-import edu.baylor.cs.db.tables.Bookings;
+import edu.baylor.cs.db.tables.Bills;
+import edu.baylor.cs.db.tables.Corporations;
+import edu.baylor.cs.db.tables.GuestCorporations;
+import edu.baylor.cs.db.tables.OrderItems;
+import edu.baylor.cs.db.tables.Orders;
+import edu.baylor.cs.db.tables.Products;
+import edu.baylor.cs.db.tables.Reservations;
 import edu.baylor.cs.db.tables.Rooms;
 import edu.baylor.cs.db.tables.Users;
 
@@ -16,9 +22,39 @@ import edu.baylor.cs.db.tables.Users;
 public class Tables {
 
     /**
-     * The table <code>bookings</code>.
+     * The table <code>bills</code>.
      */
-    public static final Bookings BOOKINGS = Bookings.BOOKINGS;
+    public static final Bills BILLS = Bills.BILLS;
+
+    /**
+     * The table <code>corporations</code>.
+     */
+    public static final Corporations CORPORATIONS = Corporations.CORPORATIONS;
+
+    /**
+     * The table <code>guest_corporations</code>.
+     */
+    public static final GuestCorporations GUEST_CORPORATIONS = GuestCorporations.GUEST_CORPORATIONS;
+
+    /**
+     * The table <code>order_items</code>.
+     */
+    public static final OrderItems ORDER_ITEMS = OrderItems.ORDER_ITEMS;
+
+    /**
+     * The table <code>orders</code>.
+     */
+    public static final Orders ORDERS = Orders.ORDERS;
+
+    /**
+     * The table <code>products</code>.
+     */
+    public static final Products PRODUCTS = Products.PRODUCTS;
+
+    /**
+     * The table <code>reservations</code>.
+     */
+    public static final Reservations RESERVATIONS = Reservations.RESERVATIONS;
 
     /**
      * The table <code>rooms</code>.
