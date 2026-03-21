@@ -37,3 +37,11 @@ This project follows the **Maven Standard Directory Layout** to ensure consisten
 | **`Documentation/`** | Project deliverables, requirement docs, and diagrams. |
 | **`pom.xml`** | The Project Object Model file containing dependencies and build settings. |
 
+
+# Run Project
+
+In two terminals:
+- `mvn spring-boot:run`
+- `cd frontend && bun run dev`
+
+You'll need maven and bun installed.
