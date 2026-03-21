@@ -8,7 +8,7 @@
 
 [Jira](https://csi-3471-drop-table-teams.atlassian.net/jira/software/projects/SCRUM/boards/1)
 
-**Group Proj Website** : [Group Website]([Iteration 1 Presentation](https://docs.google.com/presentation/d/1XgAxJA99X4LI3pehg47F-dqAIvkeNirDLHARpfGjdOs/edit?usp=sharing))
+**Group Proj Website** : [Group Website](https://software1-proj.vercel.app/)
 ## Getting Started
 
 We're using jOOQ. This is a useful tool that generates an ORM straight from our schema file, located in `schema.sql`. Every time you update the schema, make sure to regenerate the ORM.
