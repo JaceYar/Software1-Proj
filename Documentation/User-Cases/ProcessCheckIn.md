@@ -1,54 +1,105 @@
-# Use Case Name:
-Process Check-In
+| Use Case Name | Process Check-In |
+|---------------|-----------------|
+| Actor         | Hotel Clerk    |
+| Author        | Erick Martinez |
+| Preconditions | 1. The hotel system is functional and online <br>2. The clerk is logged in to the system <br>3. The guest has an existing reservation for the current date <br>4. At least one room matching the reservation criteria is available |
+| Postconditions | 1. The guest is checked in and assigned to a specific room <br>2. The room status is updated to occupied <br>3. The check-in date and time are recorded <br>4. The guest can access hotel services (including the store) |
+| Main Success Scenario | 1. The clerk searches for the guest's reservation by name or confirmation number <br>2. The system displays the reservation details <br>3. The clerk verifies the guest's identity <br>4. The clerk confirms the reservation details with the guest <br>5. The system displays available rooms matching the reservation <br>6. The clerk selects a room to assign to the guest <br>7. The system allocates the room to the guest <br>8. The system updates the room status to occupied <br>9. The system records the check-in timestamp <br>10. The clerk provides the room key/access information to the guest <br>11. The system displays check-in confirmation |
+| Extensions | [1]a. **Reservation not found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[1]a1 The clerk verifies guest information<br>&nbsp;&nbsp;&nbsp;&nbsp;[1]a2 The clerk offers to create a new reservation (see Make Reservation use case)<br>&nbsp;&nbsp;&nbsp;&nbsp;[1]a3 Use case ends or continues with new reservation<br>[4]a. **Guest requests different room type**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 The clerk searches for alternative available rooms<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a2 The system displays available alternatives with price differences<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a3 The guest selects a new room type<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a4 The system updates the reservation with new rate if applicable<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a5 Continue from step 5<br>[6]a. **No rooms available matching reservation**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a1 The system notifies the clerk of the situation<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 The clerk offers an upgrade or alternative room<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a3 The guest accepts or declines the alternative<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a4 If declined, the clerk processes a cancellation with no penalty<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a5 Use case ends or continues with alternative room |
+| Special Reqs | ● Check-in must update room availability in real-time<br>● Guest must have an active reservation to access store purchasing |
 
-# Actor
-Hotel Clerk
+```mermaid
+sequenceDiagram
+    actor Clerk
+    participant System
 
-# Preconditions
-- The hotel system is functional and online
-- The clerk is logged in to the system
-- The guest has an existing reservation for the current date
-- At least one room matching the reservation criteria is available
+    Clerk->>System: findReservation(nameOrConfirmationNumber)
+    System-->>Clerk: reservationDetails
+    Clerk->>System: processCheckIn(reservationId, roomId)
+    System-->>Clerk: checkInConfirmation
+```
 
-# Postconditions
-- The guest is checked in and assigned to a specific room
-- The room status is updated to occupied
-- The check-in date and time are recorded
-- The guest can access hotel services (including the store)
+### Operation Contract
 
-# Main Success Scenario
-1. The clerk searches for the guest's reservation by name or confirmation number
-2. The system displays the reservation details
-3. The clerk verifies the guest's identity
-4. The clerk confirms the reservation details with the guest
-5. The system displays available rooms matching the reservation
-6. The clerk selects a room to assign to the guest
-7. The system allocates the room to the guest
-8. The system updates the room status to occupied
-9. The system records the check-in timestamp
-10. The clerk provides the room key/access information to the guest
-11. The system displays check-in confirmation
+| Operation | `processCheckIn(reservationId: String, roomId: String)` |
+|---|---|
+| Cross References | Use Case: Process Check-In |
+| Preconditions | 1. Hotel clerk is logged in<br>2. Guest has a reservation for the current date<br>3. The specified room is available and matches the reservation criteria |
+| Postconditions | 1. Room.status was changed to 'occupied'<br>2. Reservation.checkInTimestamp was recorded<br>3. Reservation was associated with the specific assigned Room<br>4. Guest.checkedIn was set to true |
 
-# Extensions
-1a. Reservation not found:
-    1. The clerk verifies guest information
-    2. The clerk offers to create a new reservation (see Make Reservation use case)
-    3. Use case ends or continues with new reservation
+### Design Sequence Diagram
 
-4a. Guest requests different room type:
-    1. The clerk searches for alternative available rooms
-    2. The system displays available alternatives with price differences
-    3. The guest selects a new room type
-    4. The system updates the reservation with new rate if applicable
-    5. Continue from step 5
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:CheckInHandler` | Use-case controller; handles both system operations for this use case session |
+| **Information Expert + Pure Fabrication** | `:ReservationCatalog` | Holds all Reservation data; finds reservations by name or confirmation number |
+| **Information Expert + Pure Fabrication** | `:RoomCatalog` | Holds all Room data; looks up a specific room by ID |
+| **Information Expert** | `reservation:Reservation` | Records its own `checkInTimestamp` and updates its room association |
+| **Information Expert** | `room:Room` | Manages its own `status` attribute |
+| **Information Expert** | `guest:Guest` | Manages its own `checkedIn` flag |
 
-6a. No rooms available matching reservation:
-    1. The system notifies the clerk of the situation
-    2. The clerk offers an upgrade or alternative room
-    3. The guest accepts or declines the alternative
-    4. If declined, the clerk processes a cancellation with no penalty
-    5. Use case ends or continues with alternative room
+```mermaid
+sequenceDiagram
+    actor Clerk
+    participant ctrl as :CheckInHandler
+    participant rsc as :ReservationCatalog
+    participant res as reservation:Reservation
+    participant rmc as :RoomCatalog
+    participant r as room:Room
+    participant g as guest:Guest
 
-# Special Requirements
-- Check-in must update room availability in real-time
-- Guest must have an active reservation to access store purchasing
+    Note over Clerk,rsc: [1] findReservation(nameOrConfirmationNumber)
+    Clerk->>ctrl: findReservation(nameOrConfirmationNumber)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+    ctrl->>rsc: findReservation(query)
+    activate rsc
+    Note right of rsc: GRASP: Information Expert<br>+ Pure Fabrication
+    rsc-->>ctrl: reservation
+    deactivate rsc
+    ctrl-->>Clerk: reservationDetails
+    deactivate ctrl
+
+    Note over Clerk,g: [2] processCheckIn(reservationId, roomId)
+    Clerk->>ctrl: processCheckIn(reservationId, roomId)
+    activate ctrl
+
+    ctrl->>rsc: getReservation(reservationId)
+    activate rsc
+    rsc-->>ctrl: reservation
+    deactivate rsc
+
+    ctrl->>rmc: getRoom(roomId)
+    activate rmc
+    Note right of rmc: GRASP: Information Expert<br>+ Pure Fabrication
+    rmc-->>ctrl: room
+    deactivate rmc
+
+    ctrl->>res: assignRoom(room)
+    activate res
+    Note right of res: GRASP: Information Expert<br>(Reservation records its own<br>checkInTimestamp and room association)
+    res->>res: setCheckInTimestamp(now)
+    res-->>ctrl: ok
+    deactivate res
+
+    ctrl->>r: setStatus(occupied)
+    activate r
+    Note right of r: GRASP: Information Expert<br>(Room manages its own status)
+    r-->>ctrl: ok
+    deactivate r
+
+    ctrl->>res: getGuest()
+    activate res
+    res-->>ctrl: guest
+    deactivate res
+
+    ctrl->>g: setCheckedIn(true)
+    activate g
+    Note right of g: GRASP: Information Expert<br>(Guest manages its own state)
+    g-->>ctrl: ok
+    deactivate g
+
+    ctrl-->>Clerk: checkInConfirmation
+    deactivate ctrl
+```
+

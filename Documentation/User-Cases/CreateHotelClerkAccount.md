@@ -1,8 +1,76 @@
 | Use Case Name | Create Hotel Clerk Account |
 |---------------|----------------------------|
 | Actor         | Admin                      |
+| Author        | Jace Yarborough            |
 | Preconditions | 1. Hotel system online and operational <br>2. User is logged in as an Admin|
 |Postconditions | 1. A new hotel clerk account is created <br> 2. Clerk account has given username and default password (or custom password)|
-|Main Success Scenerio| 1. Admin selects option to create hotel clerk account <br>2. System prompts admin to enter desired username and shows prefilled password for account.<br>3. Admin enters username and opitonal different password<br>4. System validates inpout <br> 5. System creates clerk account<br> 6. System displays success message for created account |
-|Extentions| 4a. **Username already in use**<br>&nbsp;&nbsp;&nbsp;&nbsp;    4a1 System detecuts username already in use(Ex: John_Smith)<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4a2 System displays error message and potential username replacement (EX: John_Smith1)<br>5a **Failure to create account**<br>&nbsp;&nbsp;&nbsp;&nbsp; 5a1 Display error message of account creation failure<br>&nbsp;&nbsp;&nbsp;&nbsp; 5a2 Reprompt user to try creating account again.|
+|Main Success Scenario| 1. Admin selects option to create hotel clerk account <br>2. System prompts admin to enter desired username and shows prefilled password for account.<br>3. Admin enters username and optional different password<br>4. System validates input <br> 5. System creates clerk account<br> 6. System displays success message for created account |
+|Extensions| [4]a. **Username already in use**<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a1 System detects username already in use(Ex: John_Smith)<br>&nbsp;&nbsp;&nbsp;&nbsp;[4]a2 System displays error message and potential username replacement (EX: John_Smith1)<br>[5]a. **Failure to create account**<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a1 Display error message of account creation failure<br>&nbsp;&nbsp;&nbsp;&nbsp;[5]a2 Reprompt user to try creating account again.|
 |Special Reqs| ● Create account in timely manner<br>● Keep log of created accounts<br> ● Keep log of which admin created account|
+
+```mermaid
+sequenceDiagram
+    actor Admin
+    participant System
+
+    Admin->>System: createClerkAccount(username, password)
+    System-->>Admin: accountCreationConfirmation
+```
+
+### Operation Contract
+
+| Operation | `createClerkAccount(username: String, password: String)` |
+|---|---|
+| Cross References | Use Case: Create Hotel Clerk Account |
+| Preconditions | 1. Admin is logged in<br>2. The given username does not already exist in the system |
+| Postconditions | 1. A new HotelClerk account was created<br>2. HotelClerk.username was set<br>3. HotelClerk.password was encrypted and stored<br>4. Account creation was logged with the creating admin's identity |
+
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:CreateClerkAccountHandler` | Use-case controller; receives the `createClerkAccount` system operation |
+| **Information Expert + Pure Fabrication** | `:ClerkCatalog` | Knows all existing usernames; checks uniqueness before creation |
+| **Creator** | `:ClerkCatalog` | Records HotelClerk instances (GRASP Creator: B records A → B creates A) |
+| **Information Expert** | `clerk:HotelClerk` | Manages its own password encryption |
+| **Pure Fabrication** | `:AuditLog` | Logs account creation with the admin's identity |
+
+```mermaid
+sequenceDiagram
+    actor Admin
+    participant ctrl as :CreateClerkAccountHandler
+    participant cc as :ClerkCatalog
+    participant c as clerk:HotelClerk
+    participant al as :AuditLog
+
+    Admin->>ctrl: createClerkAccount(username, password)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>cc: isUsernameAvailable(username)
+    activate cc
+    Note right of cc: GRASP: Information Expert<br>(ClerkCatalog knows all usernames)
+    cc-->>ctrl: true
+    deactivate cc
+
+    ctrl->>cc: createClerk(username, password)
+    activate cc
+    Note right of cc: GRASP: Creator<br>(ClerkCatalog records HotelClerk instances)
+    cc->>c: <<create>>(username, password)
+    activate c
+    c->>c: encryptPassword(password)
+    Note right of c: GRASP: Information Expert<br>(HotelClerk manages its own credentials)
+    cc-->>ctrl: clerk
+    deactivate c
+    deactivate cc
+
+    ctrl->>al: logAccountCreation(clerk, adminId)
+    activate al
+    Note right of al: GRASP: Pure Fabrication
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>Admin: accountCreationConfirmation
+    deactivate ctrl
+```
+

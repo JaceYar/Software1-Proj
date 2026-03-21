@@ -1,25 +1,52 @@
-# Use Case Name: 
-Search Available Room
+| Use Case Name | Search Available Room |
+|---------------|-----------------|
+| Actor         | Hotel Guest    |
+| Author        | James Bagwell  |
+| Preconditions | 1. The hotel system is functional and online <br>2. Room and reservation data exists in the database |
+| Postconditions | 1. Available rooms are displayed to the user <br>2. Data is not modified |
+| Main Success Scenario | 1. The user selects the search option <br>2. The user enters their search criteria such as check in / out date, number of guests, number of beds, bed size, etc. <br>3. System validates input <br>4. System searches for rooms that match user criteria, if available <br>5. System displays list of available rooms that match user criteria, if available |
+| Extensions | |
+| Special Reqs | |
 
-# Actor
-Hotel Guest
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant System
 
-# Preconditions
-- The hotel system is functional and online
-- Room and reservation data exists in the database
+    Guest->>System: searchAvailableRooms(checkInDate, checkOutDate, numGuests, numBeds, bedSize)
+    System-->>Guest: availableRoomList
+```
 
-# Postconitions
-- Available rooms are displayed to the user
-- Data is not modified
+### Operation Contract
 
-# Main Success Scenario
-1. The user selects the search option
-2. The user enters their search criteria such as check in / out date, number of guests, number of beds, bed size, etc.
-3. System validates input
-4. System searches for rooms that match user criteria, if available
-5. System displays list of available rooms that match user criteria, if available
+| Operation | `searchAvailableRooms(checkInDate: Date, checkOutDate: Date, numGuests: Integer, numBeds: Integer, bedSize: String)` |
+|---|---|
+| Cross References | Use Case: Search Available Room |
+| Preconditions | 1. Hotel system is functional and online<br>2. Room and reservation data exist in the database |
+| Postconditions | 1. No domain model state was changed (read-only operation)<br>2. A list of rooms matching the search criteria was retrieved and displayed |
 
-# Extensions
+### Design Sequence Diagram
 
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:SearchRoomHandler` | Use-case controller; receives the `searchAvailableRooms` system operation |
+| **Information Expert + Pure Fabrication** | `:RoomCatalog` | Holds all Room and Reservation data; filters rooms by availability and all search criteria |
 
-# Special Requirements
+```mermaid
+sequenceDiagram
+    actor Guest
+    participant ctrl as :SearchRoomHandler
+    participant rc as :RoomCatalog
+
+    Guest->>ctrl: searchAvailableRooms(checkInDate, checkOutDate, numGuests, numBeds, bedSize)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+    ctrl->>rc: getAvailableRooms(checkInDate, checkOutDate, numGuests, numBeds, bedSize)
+    activate rc
+    Note right of rc: GRASP: Information Expert<br>+ Pure Fabrication
+    rc-->>ctrl: availableRooms
+    deactivate rc
+    ctrl-->>Guest: availableRoomList
+    deactivate ctrl
+```
+

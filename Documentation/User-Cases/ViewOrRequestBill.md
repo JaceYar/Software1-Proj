@@ -1,0 +1,111 @@
+| Use Case Name | View or Request Bill |
+|---------------|-----------------|
+| Actor         | Hotel Guest or Hotel Clerk    |
+| Author        | [Aaron]    |
+| Preconditions | 1. The hotel system is functional and online <br>2. The actor is logged in to the system <br>3. There exists a stay, reservation, or set of charges associated with the guest (current or past) |
+| Postconditions | 1. The actor has viewed the current bill or a historical bill for the specified stay <br>2. If requested, an invoice or receipt is generated and made available (e.g., download or email) <br>3. The request is logged for auditing where applicable |
+| Main Success Scenario | 1. The guest or clerk navigates to billing, "My Stay," or reservation details <br>2. The guest selects their stay (or the clerk selects the guest and stay) <br>3. The system retrieves all charges for that stay (room, rate, taxes, minibar, store purchases, incidentals) <br>4. The system displays an itemized bill with line items, dates, and totals <br>5. The actor reviews the bill <br>6. If the actor requests an invoice or receipt, they select "Request Invoice" or "Download Receipt" <br>7. The system generates the document (PDF or formatted print) with hotel branding and bill details <br>8. The system makes the document available for download or sends it to the guest's email <br>9. The system displays confirmation that the bill was viewed and, if applicable, that the invoice was sent |
+| Extensions | [2]a. **No stay or reservation found**<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a1 The system displays a message that no billable stay was found for this guest<br>&nbsp;&nbsp;&nbsp;&nbsp;[2]a2 Use case ends<br>[6]a. **Invoice request for past stay**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a1 The system allows invoice generation for completed stays within the retention period<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]a2 Continue from step 7<br>[6]b. **Invoice request not allowed (e.g., stay in progress and policy requires check-out first)**<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b1 The system displays "Final invoice available at check-out" or similar<br>&nbsp;&nbsp;&nbsp;&nbsp;[6]b2 Use case ends with bill view only |
+| Special Reqs | ● Bill must reflect all charges from room, store (Purchase from Store), and incidentals in real time<br>● Invoice/receipt must include all legally required information (hotel name, stay dates, tax breakdown, etc.)<br>● Guest may only view or request bills for their own stays; clerks may view bills for any guest as authorized |
+
+```mermaid
+sequenceDiagram
+    actor GuestOrClerk
+    participant System
+
+    GuestOrClerk->>System: viewBill(stayId)
+    System-->>GuestOrClerk: itemizedBill
+    GuestOrClerk->>System: requestInvoice(stayId)
+    System-->>GuestOrClerk: invoiceDocument
+```
+
+### Operation Contract
+
+| Operation | `viewBill(stayId: String)` / `requestInvoice(stayId: String)` |
+|---|---|
+| Cross References | Use Case: View or Request Bill |
+| Preconditions | 1. Actor is logged in<br>2. A stay, reservation, or set of charges exists for the guest in the system |
+| Postconditions | 1. Bill view event was logged for the stay<br>2. An invoice document was generated containing all line items, dates, and totals (if requested)<br>3. Invoice was made available for download or sent to the guest's email (if requested)<br>4. Invoice request was logged (if applicable) |
+
+### Design Sequence Diagram
+
+| Pattern | Applied To | Rationale |
+|---|---|---|
+| **Controller** | `:BillHandler` | Use-case controller; handles both system operations for this use case session |
+| **Information Expert + Pure Fabrication** | `:ReservationCatalog` | Holds all Reservation data; retrieves the stay by ID |
+| **Information Expert** | `reservation:Reservation` | Knows its own charges (room rate, dates, totalCost) |
+| **Information Expert + Pure Fabrication** | `:PurchaseCatalog` | Holds all store purchase records linked to a stay |
+| **Pure Fabrication** | `:InvoiceGenerator` | Generates the formatted invoice document; no domain counterpart |
+| **Pure Fabrication** | `:AuditLog` | Logs bill views and invoice requests |
+
+```mermaid
+sequenceDiagram
+    actor GuestOrClerk as Actor
+    participant ctrl as BillHandler
+    participant rcat as ReservationCatalog
+    participant res as Reservation
+    participant pc as PurchaseCatalog
+    participant ig as InvoiceGenerator
+    participant al as AuditLog
+
+    Note over ctrl,al: [1] viewBill(stayId)
+    GuestOrClerk->>ctrl: viewBill(stayId)
+    activate ctrl
+    Note right of ctrl: GRASP: Controller
+
+    ctrl->>rcat: getReservation(stayId)
+    activate rcat
+    Note right of rcat: GRASP: Information Expert + Pure Fabrication
+    rcat-->>ctrl: reservation
+    deactivate rcat
+
+    ctrl->>pc: getByReservation(stayId)
+    activate pc
+    Note right of pc: GRASP: Information Expert + Pure Fabrication
+    pc-->>ctrl: purchases
+    deactivate pc
+
+    ctrl->>res: getChargesSummary()
+    activate res
+    Note right of res: GRASP: Information Expert
+    res-->>ctrl: chargesSummary
+    deactivate res
+
+    ctrl->>al: logBillView(stayId, actorId)
+    activate al
+    Note right of al: GRASP: Pure Fabrication
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>GuestOrClerk: itemizedBill
+    deactivate ctrl
+
+    Note over ctrl,al: [2] requestInvoice(stayId)
+    GuestOrClerk->>ctrl: requestInvoice(stayId)
+    activate ctrl
+
+    ctrl->>rcat: getReservation(stayId)
+    activate rcat
+    rcat-->>ctrl: reservation
+    deactivate rcat
+
+    ctrl->>pc: getByReservation(stayId)
+    activate pc
+    pc-->>ctrl: purchases
+    deactivate pc
+
+    ctrl->>ig: generate(reservation, purchases)
+    activate ig
+    Note right of ig: GRASP: Pure Fabrication
+    ig-->>ctrl: invoiceDocument
+    deactivate ig
+
+    ctrl->>al: logInvoiceRequest(stayId, actorId)
+    activate al
+    al-->>ctrl: ok
+    deactivate al
+
+    ctrl-->>GuestOrClerk: invoiceDocument
+    deactivate ctrl
+```
+
