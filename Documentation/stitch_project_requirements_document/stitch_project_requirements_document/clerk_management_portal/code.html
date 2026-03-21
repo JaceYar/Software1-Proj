@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heritage Portal - Room &amp; Reservation Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdad8",
+              "secondary-container": "#fdddb9",
+              "inverse-on-surface": "#f2f1ec",
+              "surface-container-highest": "#e4e2dd",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#96a99b",
+              "tertiary-fixed-dim": "#ffb3af",
+              "tertiary": "#4b0c0f",
+              "on-tertiary-fixed-variant": "#792f2e",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed": "#0e1f15",
+              "tertiary-container": "#682222",
+              "on-tertiary-container": "#ea8885",
+              "error": "#ba1a1a",
+              "on-surface-variant": "#434844",
+              "background": "#fbf9f4",
+              "surface": "#fbf9f4",
+              "surface-tint": "#516356",
+              "error-container": "#ffdad6",
+              "surface-dim": "#dbdad5",
+              "on-error": "#ffffff",
+              "surface-variant": "#e4e2dd",
+              "on-surface": "#1b1c19",
+              "secondary-fixed": "#fdddb9",
+              "secondary": "#715a3e",
+              "inverse-surface": "#30312e",
+              "on-background": "#1b1c19",
+              "surface-container-low": "#f5f3ee",
+              "primary-fixed-dim": "#b8cbbc",
+              "surface-container-high": "#eae8e3",
+              "on-tertiary-fixed": "#3e0307",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed": "#281803",
+              "on-secondary-fixed-variant": "#584329",
+              "surface-bright": "#fbf9f4",
+              "inverse-primary": "#b8cbbc",
+              "outline": "#737873",
+              "on-secondary-container": "#786044",
+              "on-primary-fixed-variant": "#394b3f",
+              "surface-container": "#f0eee9",
+              "primary-container": "#2d3e33",
+              "surface-container-lowest": "#ffffff",
+              "primary": "#18281e",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#e0c29f",
+              "primary-fixed": "#d4e7d8",
+              "outline-variant": "#c3c8c2"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .font-noto-serif { font-family: 'Noto Serif', serif; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f5f3ee] dark:bg-[#121d16] border-r border-[#c3c8c2]/15 flex flex-col py-8 space-y-4 z-50">
+<div class="px-6 mb-8">
+<h1 class="font-noto-serif text-xl font-bold text-[#18281e]">Heritage Portal</h1>
+<p class="font-manrope text-[10px] uppercase tracking-widest text-[#737873]">Staff Management</p>
+</div>
+<nav class="flex-1 flex flex-col space-y-1">
+<a class="text-[#1b1c19] dark:text-[#c3c8c2] hover:bg-[#18281e]/5 mx-2 px-4 py-3 flex items-center gap-3 transition-transform duration-300 hover:translate-x-1 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span> Dashboard
+            </a>
+<a class="text-[#1b1c19] dark:text-[#c3c8c2] hover:bg-[#18281e]/5 mx-2 px-4 py-3 flex items-center gap-3 transition-transform duration-300 hover:translate-x-1 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined text-lg">calendar_month</span> Reservations
+            </a>
+<a class="bg-[#18281e] text-[#fbf9f4] rounded-lg mx-2 px-4 py-3 flex items-center gap-3 font-manrope text-[11px] uppercase tracking-widest font-medium shadow-sm" href="#">
+<span class="material-symbols-outlined text-lg">storefront</span> Inventory
+            </a>
+<a class="text-[#1b1c19] dark:text-[#c3c8c2] hover:bg-[#18281e]/5 mx-2 px-4 py-3 flex items-center gap-3 transition-transform duration-300 hover:translate-x-1 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span> Analytics
+            </a>
+<a class="text-[#1b1c19] dark:text-[#c3c8c2] hover:bg-[#18281e]/5 mx-2 px-4 py-3 flex items-center gap-3 transition-transform duration-300 hover:translate-x-1 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined text-lg">settings</span> Settings
+            </a>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 rounded-xl font-label text-[10px] uppercase tracking-[0.15rem] font-bold shadow-lg active:scale-95 transition-all">
+                New Entry
+            </button>
+<div class="mt-6 flex items-center gap-3 p-2 rounded-lg bg-surface-container-low">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile photo of hotel staff" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDu6KBnpx0HtCnDFIY_ZM__r33DTTeHu2vBWQ2bpa1xAyFvev8STd98fE6LtWj-RXTybE9Z3ahNxvbwlaqAgfhxq6SP2v1V-Spxs2vHxvfN1AuMFiqNOoJ_WwuhQttUYa2jQHjFBXKGUzPy-qcwPiIU5NqZGh7cPKK6bG27fI5j0A7Xbf-RQR2t6waDGb6cthZKa-LLT2jkkmCwccLc6tUrNs0Q88MzdzgM1EcJEvr3BEv0hGx_ylsJeJy2LCZGH3WzJkThxqHGEQ"/>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface">Julian Vance</p>
+<p class="text-[10px] text-outline">Senior Concierge</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-12 min-h-screen">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-headline text-4xl font-bold text-primary tracking-tight mb-2">Room Inventory</h2>
+<p class="font-body text-outline max-w-md">Oversee real-time status of the estate's chambers and manage upcoming guest transitions.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 bg-surface-container-high border border-outline-variant/15 text-on-surface-variant rounded-xl font-label text-[10px] uppercase tracking-widest hover:bg-surface-container-highest transition-colors">
+                    Modify Room
+                </button>
+<button class="px-6 py-3 bg-primary text-on-primary rounded-xl font-label text-[10px] uppercase tracking-widest flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm">add</span> Add New Room
+                </button>
+</div>
+</header>
+<!-- Room Status Grid (Bento Style) -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+<!-- Room Card: Available -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-[0_20px_40px_rgba(27,28,25,0.06)] relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-8">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-tighter">Available</span>
+<span class="material-symbols-outlined text-outline/40">more_vert</span>
+</div>
+<p class="font-headline text-2xl text-primary mb-1">Room 204</p>
+<p class="font-body text-xs text-outline mb-6">King Heritage Suite</p>
+<button class="w-full py-2 bg-secondary text-on-secondary rounded-lg font-label text-[9px] uppercase tracking-widest hover:brightness-110 transition-all">
+                    Assign Guest
+                </button>
+</div>
+<!-- Room Card: Occupied -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-[0_20px_40px_rgba(27,28,25,0.06)] relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-tertiary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-8">
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-tighter">Occupied</span>
+<span class="material-symbols-outlined text-outline/40">more_vert</span>
+</div>
+<p class="font-headline text-2xl text-primary mb-1">Room 102</p>
+<p class="font-body text-xs text-outline mb-6">Garden View Terrace</p>
+<div class="flex items-center gap-2 text-[10px] text-on-surface-variant font-medium">
+<span class="material-symbols-outlined text-sm">person</span> Mr. Alistair Thorne
+                </div>
+</div>
+<!-- Room Card: Cleaning -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-[0_20px_40px_rgba(27,28,25,0.06)] relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-secondary-container/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-8">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-tighter">Cleaning</span>
+<span class="material-symbols-outlined text-outline/40">more_vert</span>
+</div>
+<p class="font-headline text-2xl text-primary mb-1">Room 305</p>
+<p class="font-body text-xs text-outline mb-6">Artisanal Loft</p>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-2/3"></div>
+</div>
+<p class="text-[9px] text-outline mt-2 text-right uppercase tracking-widest">65% Complete</p>
+</div>
+<!-- Room Card: Maintenance -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-[0_20px_40px_rgba(27,28,25,0.06)] relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-24 h-24 bg-error-container/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+<div class="flex justify-between items-start mb-8">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-tighter">Maintenance</span>
+<span class="material-symbols-outlined text-outline/40">more_vert</span>
+</div>
+<p class="font-headline text-2xl text-primary mb-1">Room 004</p>
+<p class="font-body text-xs text-outline mb-6">The Library Suite</p>
+<div class="flex items-center gap-2 text-[10px] text-error font-medium">
+<span class="material-symbols-outlined text-sm">build</span> HVAC Refurbishment
+                </div>
+</div>
+</section>
+<!-- Quick Action Banner -->
+<section class="bg-primary-container p-8 rounded-xl flex flex-col md:flex-row items-center justify-between mb-16 border border-primary/20">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-[#fbf9f4]/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed text-3xl" style="font-variation-settings: 'FILL' 1;">doorbell</span>
+</div>
+<div>
+<h3 class="font-headline text-xl text-primary-fixed mb-1">Upcoming Guest Arrival</h3>
+<p class="font-body text-sm text-on-primary-container/80">Ms. Elena Rodriguez arriving in 45 minutes for check-in.</p>
+</div>
+</div>
+<button class="mt-4 md:mt-0 px-8 py-3 bg-[#fbf9f4] text-primary rounded-xl font-label text-[11px] uppercase tracking-[0.2em] font-bold shadow-xl hover:scale-105 transition-transform">
+                Instant Check-In
+            </button>
+</section>
+<!-- Reservations Data Table -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+<h3 class="font-headline text-lg text-primary">Recent Reservations</h3>
+<div class="flex items-center gap-2 text-outline text-xs cursor-pointer hover:text-primary transition-colors">
+                    See All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-outline">Guest Name</th>
+<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-outline">Room Type</th>
+<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-outline">Duration</th>
+<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-outline">Status</th>
+<th class="px-6 py-4 font-label text-[10px] uppercase tracking-widest text-outline text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-6 py-5">
+<p class="text-sm font-bold text-on-surface">Eleanor Fitzroy</p>
+<p class="text-[10px] text-outline">Booking #HER-9921</p>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">King Heritage Suite</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 12 — Oct 15</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-[9px] font-bold uppercase bg-secondary-container/40 text-on-secondary-container">Confirmed</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-secondary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-6 py-5">
+<p class="text-sm font-bold text-on-surface">Marcus Webb</p>
+<p class="text-[10px] text-outline">Booking #HER-9844</p>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Artisanal Loft</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 14 — Oct 20</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-[9px] font-bold uppercase bg-primary-fixed text-on-primary-fixed-variant">Checked In</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-secondary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-6 py-5">
+<p class="text-sm font-bold text-on-surface">Silvia Chen</p>
+<p class="text-[10px] text-outline">Booking #HER-9723</p>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Garden View Terrace</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 12 — Oct 13</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full text-[9px] font-bold uppercase bg-surface-container-high text-outline">Checked Out</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-secondary hover:text-primary-container p-2">
+<span class="material-symbols-outlined">edit_square</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="ml-64 bg-[#18281e] dark:bg-[#0c140f] w-[calc(100%-16rem)] px-12 py-16 flex flex-col md:flex-row justify-between items-center border-t border-[#fbf9f4]/10 mt-20">
+<div class="mb-8 md:mb-0">
+<h4 class="font-noto-serif text-lg text-[#fbf9f4] mb-2">Artisanal Heritage Hotel &amp; Boutique</h4>
+<p class="font-manrope text-xs tracking-wide text-[#fbf9f4]/60">© 2024 Artisanal Heritage Hotel &amp; Boutique. All rights reserved.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-manrope text-xs tracking-wide text-[#fbf9f4]/60 hover:text-[#715a3e] transition-colors" href="#">Privacy Policy</a>
+<a class="font-manrope text-xs tracking-wide text-[#fbf9f4]/60 hover:text-[#715a3e] transition-colors" href="#">Terms of Service</a>
+<a class="font-manrope text-xs tracking-wide text-[#fbf9f4]/60 hover:text-[#715a3e] transition-colors" href="#">Sustainability</a>
+<a class="font-manrope text-xs tracking-wide text-[#fbf9f4]/60 hover:text-[#715a3e] transition-colors" href="#">Press Kit</a>
+</div>
+</footer>
+</body></html>

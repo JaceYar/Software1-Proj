@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Artisanal Heritage Hotel &amp; Store</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-tertiary-container": "#ea8885",
+                "tertiary": "#4b0c0f",
+                "inverse-primary": "#b8cbbc",
+                "surface": "#fbf9f4",
+                "tertiary-container": "#682222",
+                "on-surface-variant": "#434844",
+                "on-error": "#ffffff",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed": "#3e0307",
+                "surface-container-highest": "#e4e2dd",
+                "error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#ffb3af",
+                "error": "#ba1a1a",
+                "surface-container": "#f0eee9",
+                "surface-container-high": "#eae8e3",
+                "on-tertiary-fixed-variant": "#792f2e",
+                "on-primary-fixed-variant": "#394b3f",
+                "outline-variant": "#c3c8c2",
+                "on-secondary-fixed": "#281803",
+                "surface-tint": "#516356",
+                "on-tertiary": "#ffffff",
+                "inverse-surface": "#30312e",
+                "on-secondary-container": "#786044",
+                "secondary-container": "#fdddb9",
+                "surface-variant": "#e4e2dd",
+                "on-primary": "#ffffff",
+                "surface-container-low": "#f5f3ee",
+                "surface-bright": "#fbf9f4",
+                "primary-fixed-dim": "#b8cbbc",
+                "secondary": "#715a3e",
+                "on-surface": "#1b1c19",
+                "primary-fixed": "#d4e7d8",
+                "surface-dim": "#dbdad5",
+                "on-primary-container": "#96a99b",
+                "outline": "#737873",
+                "on-primary-fixed": "#0e1f15",
+                "on-background": "#1b1c19",
+                "on-secondary": "#ffffff",
+                "primary-container": "#2d3e33",
+                "inverse-on-surface": "#f2f1ec",
+                "background": "#fbf9f4",
+                "surface-container-lowest": "#ffffff",
+                "secondary-fixed": "#fdddb9",
+                "secondary-fixed-dim": "#e0c29f",
+                "primary": "#18281e",
+                "on-secondary-fixed-variant": "#584329",
+                "tertiary-fixed": "#ffdad8"
+              },
+              fontFamily: {
+                "headline": ["Noto Serif"],
+                "body": ["Manrope"],
+                "label": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#fbf9f4]/80 dark:bg-[#1b1c19]/80 backdrop-blur-xl shadow-[0_20px_40px_rgba(27,28,25,0.06)] flex justify-between items-center px-12 py-6 w-full max-w-none">
+<div class="text-xl font-bold font-headline italic tracking-tight text-[#18281e] dark:text-[#fbf9f4]">
+            Artisanal Heritage Hotel &amp; Store
+        </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-[#18281e] dark:text-white border-b-2 border-[#715a3e] pb-1 font-headline italic tracking-tight" href="#">Hotel</a>
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Floors</a>
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Shop</a>
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">My Stay</a>
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Dashboard</a>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-8 py-3 rounded-xl font-label text-[12px] uppercase tracking-[0.1rem] hover:brightness-105 transition-all active:scale-95 duration-200 ease-in-out">
+            Book Now
+        </button>
+</nav>
+<!-- Side Navigation (Floor Quick Switch) -->
+<aside class="fixed right-6 top-1/2 -translate-y-1/2 rounded-full py-6 bg-[#ffffff]/90 dark:bg-[#1b1c19]/90 backdrop-blur-lg shadow-2xl border border-outline-variant/15 flex flex-col items-center space-y-4 px-2 z-40">
+<div class="p-3 text-[#737873] hover:scale-110 transition-transform cursor-pointer group relative">
+<span class="material-symbols-outlined">nature</span>
+<span class="absolute right-14 bg-primary text-white text-[10px] py-1 px-3 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Nature Retreat</span>
+</div>
+<div class="bg-[#18281e] text-white rounded-full p-3 hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<div class="p-3 text-[#737873] hover:scale-110 transition-transform cursor-pointer group relative">
+<span class="material-symbols-outlined">history</span>
+<span class="absolute right-14 bg-primary text-white text-[10px] py-1 px-3 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Vintage Charm</span>
+</div>
+</aside>
+<!-- Hero Section -->
+<section class="relative h-screen w-full overflow-hidden">
+<div class="absolute inset-0">
+<img class="w-full h-full object-cover" data-alt="Luxury boutique hotel exterior with heritage architecture and warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd-Hc41W9880hqMYBEdmlJnPgQzXAHR0tAVIMI1LI9tN7PTM3hrzfqwRSNXo0XIrkfM8UB1ik_ECZdcHSESGHC0IMn9St8HQc3BY1Sh9u1UJqzfvex3Lo1aLaP0hQygSSeSgC2QYvhjLjwpuw2s6FAgYJj-VV6YuEPjNKSSho40G2IKz_z9jBKosM2aru1CHsbr0HPyTp2Zjq1hn25bKU7m7gaZqw-LYgv_I5ql-5FnycjPEHfsG2AGNszMOxKQMUqymz-WZJuGw"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-primary/80"></div>
+</div>
+<div class="relative h-full flex flex-col justify-center px-12 md:px-24">
+<div class="max-w-4xl space-y-6">
+<span class="text-secondary-fixed font-label uppercase tracking-[0.2rem] text-xs">Since 1924 — Curated Comfort</span>
+<h1 class="text-7xl md:text-9xl font-headline italic text-surface leading-[1.1] tracking-tighter">
+                    A Story In <br/> Every Stay.
+                </h1>
+</div>
+<!-- Booking Engine -->
+<div class="mt-16 w-full max-w-5xl bg-surface-lowest/80 backdrop-blur-2xl rounded-xl p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-end">
+<div class="flex-1 space-y-2">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline">Check In / Out</label>
+<div class="relative">
+<input class="w-full bg-transparent border-b border-outline py-2 focus:outline-none focus:border-primary font-body text-sm" placeholder="Oct 24 - Oct 28" type="text"/>
+<span class="material-symbols-outlined absolute right-0 top-2 text-outline-variant text-sm">calendar_month</span>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline">Guests</label>
+<div class="relative">
+<select class="w-full bg-transparent border-b border-outline py-2 focus:outline-none focus:border-primary font-body text-sm appearance-none">
+<option>2 Adults, 0 Children</option>
+<option>1 Adult</option>
+<option>3 Adults</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-2 text-outline-variant text-sm">group</span>
+</div>
+</div>
+<div class="flex-1 space-y-2">
+<label class="block font-label text-[10px] uppercase tracking-widest text-outline">Theme Preference</label>
+<div class="relative">
+<select class="w-full bg-transparent border-b border-outline py-2 focus:outline-none focus:border-primary font-body text-sm appearance-none">
+<option>Urban Elegance</option>
+<option>Nature Retreat</option>
+<option>Vintage Charm</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-2 text-outline-variant text-sm">brush</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-10 py-4 rounded-xl font-label text-xs uppercase tracking-widest hover:bg-primary-container transition-all">
+                    Check Availability
+                </button>
+</div>
+</div>
+</section>
+<!-- Thematic Floors Showcase -->
+<section class="py-32 px-12 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-20 space-y-4">
+<div class="max-w-xl">
+<h2 class="text-5xl font-headline italic text-primary leading-tight">Explore our <br/>curated atmospheres</h2>
+</div>
+<div class="md:w-1/3">
+<p class="font-body text-on-surface-variant leading-relaxed">Each floor is a dedicated experience, blending distinct architectural legacies with modern sensory design. Choose your journey.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<!-- Nature Retreat -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-md mb-6 relative">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Lush green botanical interior with organic wooden furniture and large windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa5aRoM_lCy3nIEZ0JXR0RDwSaa67LMvbxUFOiOPJ9H5L98le65sAQ5j3I6JwIsbDZOyefhoAMSBkVNkxJ5k4TQDcpEks5D0WEdcpmyglQKDGgigJiV1iJN_k7RVyBwtQFeOVzWeJwT9v0pbILJwfFtP9ExMMtbnNxU4tnuurGqr0H9v5NkMx6-oSiHxmxYqfWehIv1NHBHiNdCwqVelsIVqDzG7I1lqqxc6XT8_mN_wld7f5fs5L46EvfwyVYQuxF7kqd2nm7YA"/>
+<div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="space-y-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-primary">Floor 01</span>
+<h3 class="text-2xl font-headline italic">Nature Retreat</h3>
+<p class="text-sm text-on-surface-variant font-body">Biophilic design elements and forest tones for deep mental restoration.</p>
+</div>
+</div>
+<!-- Urban Elegance -->
+<div class="group cursor-pointer translate-y-12">
+<div class="aspect-[4/5] overflow-hidden rounded-md mb-6 relative">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Minimalist modern suite with slate and gold accents and floor-to-ceiling windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI79z9RgXW_e__dc8SR3kW1te1PEBwjmyswhHfukl91kX8QfKhdEnsJ_02s5rsPKVcfDQvhty4uUpXeq2yD8uV14rGPfYnEgziYw2Ae4n99awh-WTRzHBip8x9WGmm3K28kwi4q1RyCuR5-fQqy-0GEFBJ4Gi7BFJ3uriRl4z8DgQKGrTweqQNRAV1rWQKvBCLdAZiKvH84yJxrYDzUWcJ5okJ-FpYeyUV6BlknAueWnSfQNS1j7oyO5ndsGvHUYbPZWFjOCB-YA"/>
+<div class="absolute inset-0 bg-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="space-y-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-secondary">Floor 02</span>
+<h3 class="text-2xl font-headline italic">Urban Elegance</h3>
+<p class="text-sm text-on-surface-variant font-body">Crisp lines and sophisticated slate-gold hybrid palettes for the refined traveler.</p>
+</div>
+</div>
+<!-- Vintage Charm -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-md mb-6 relative">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Traditional grand bedroom with burgundy velvet drapes and antique wood panelling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmGBecE3_L8A-FJURKaKIprBxW4x0gFAdndQO9x03vmH_QiL-AIhTlkSJIIHBV4v1e6LQjTbMeAVIb0W4bumlng7TU6HocJJ-9GBp4FI9htQH3wHYqIaABXDxzWKMnMMDArYiS2kzsK0LxJwTnXyQwbjhAplkhwwhmVyainp-P07z4Qq1bXpreB8DC5gPYbdfbTMgM3dN-udTeDhiAKIqiS4pxcPpcTKpcjn5g4sWewF3EELpE-OoZTLEfRCAxM59i5YxfN1STXA"/>
+<div class="absolute inset-0 bg-tertiary/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="space-y-3">
+<span class="text-[10px] font-label uppercase tracking-widest text-tertiary">Floor 03</span>
+<h3 class="text-2xl font-headline italic">Vintage Charm</h3>
+<p class="text-sm text-on-surface-variant font-body">Deep burgundy wine tones and hand-crafted furniture celebrating heritage storytelling.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- USP Bento Grid -->
+<section class="py-32 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-12">
+<div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<div class="md:col-span-2 md:row-span-2 bg-primary p-12 flex flex-col justify-end text-on-primary rounded-xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-12 opacity-10 scale-150 rotate-12 transition-transform group-hover:scale-125">
+<span class="material-symbols-outlined text-9xl">shopping_bag</span>
+</div>
+<h3 class="text-4xl font-headline italic mb-6">Seamlessly Integrated Store</h3>
+<p class="font-body opacity-80 max-w-sm leading-relaxed">Experience a curated retail journey where every element of your room—from the linen to the tea set—is available for your own collection.</p>
+</div>
+<div class="md:col-span-2 bg-surface-container-high p-12 flex flex-col justify-center rounded-xl">
+<h4 class="text-xl font-headline italic mb-4">Personal Concierge</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Our digital concierge ensures that your preferences are met before you even step through the doors.</p>
+</div>
+<div class="bg-secondary p-8 flex flex-col justify-between text-on-secondary rounded-xl">
+<span class="material-symbols-outlined text-3xl">eco</span>
+<span class="font-label text-[10px] uppercase tracking-widest">Sustainable Sourcing</span>
+</div>
+<div class="bg-tertiary p-8 flex flex-col justify-between text-on-tertiary rounded-xl">
+<span class="material-symbols-outlined text-3xl">history_edu</span>
+<span class="font-label text-[10px] uppercase tracking-widest">Handmade Heritage</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Store Preview Carousel -->
+<section class="py-32 bg-surface overflow-hidden">
+<div class="max-w-7xl mx-auto px-12 mb-16 flex justify-between items-center">
+<h2 class="text-4xl font-headline italic text-primary">The Heritage Collection</h2>
+<div class="flex space-x-4">
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex space-x-8 px-12 no-scrollbar overflow-x-auto pb-12">
+<!-- Product 1 -->
+<div class="flex-shrink-0 w-80">
+<div class="aspect-square bg-surface-container mb-6 relative group overflow-hidden rounded-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High quality minimalist organic linen shirt in cream" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXxUaGTMnEHiZ7OBRCZqgi3mtG_s0e2XMcpUN2ph_gnNaK0SbyeSRI8OFPGnlc__ayOAeYktH0CptTOWhOvzyCJwjrtkMcyoQXeGJ72CR3_aGQ6RafrFs1jmUDPIEm9JmGnkv9WilaOjjVjtQitqwMttNAJ9lyLOIymxTGFSMPE5ehfoRygnVqPSxAlZvhHSmLDOVpsvz868brU4htQ-ZOA2qBcn0ehXNqILMQDnGbSZpGzCIMeoHBCy68lDyJM2omO5J4NCZZnw"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-surface/90 backdrop-blur px-3 py-1 text-[10px] font-label uppercase tracking-widest text-primary">Apparel</span>
+</div>
+</div>
+<h4 class="font-headline italic text-lg">Raw Linen Lounge Shirt</h4>
+<p class="font-body text-secondary text-sm">$185.00</p>
+</div>
+<!-- Product 2 -->
+<div class="flex-shrink-0 w-80">
+<div class="aspect-square bg-surface-container mb-6 relative group overflow-hidden rounded-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Artisanal ceramic tea set with earth tone glaze" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgg3FDfT7uDXGH-14C-mWNC_qxhOoUupiWrOJEphkL7Gs4Pac0idLhM2tVTi9jffpEFJE6KFycKxF94KYeAmL9n_9ytv5Z44MatPgm_gF061mfgcmWjgym5aKhtbgc7n8LY7keDgux9M71Q1-Y8zbHOo_qpIYyesiRLQOTX2d9Zt-wwqAuTm4f2vZJljGPf573HYpKAHuOwGgsw84dShl5LXZZdf6ec6FFniA7JftOpcWaqzq5oUcjDabajKT79kM7-UOTHNTypA"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-surface/90 backdrop-blur px-3 py-1 text-[10px] font-label uppercase tracking-widest text-primary">Home</span>
+</div>
+</div>
+<h4 class="font-headline italic text-lg">Ceramic Teaware Set</h4>
+<p class="font-body text-secondary text-sm">$240.00</p>
+</div>
+<!-- Product 3 -->
+<div class="flex-shrink-0 w-80">
+<div class="aspect-square bg-surface-container mb-6 relative group overflow-hidden rounded-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Premium leather weekender bag in deep chestnut brown" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM50FTELjz9mOM92AXIZu-eWUdLFVNgnJFHfjwinCMXT8Q5DdkBWH3fVlIAkdCH8uE9IqNf4pbp1tEHB4e45g8vgKBniDYGxoiSZoYg942ng-aMN3Iio0_wTiNa6ZF6dF1zmCJXySihHq4s2vF7AZihOdQj9-GQxCS_39aMTNESd26rYKoJCg-ILzuPlrVBYyGeBZeEe5zcTELhgxN2a2IWKPvEO3j4PtNzvSfn2WOpA2ol212dG_ejRrX12jo1rr5YioL08PlYA"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-surface/90 backdrop-blur px-3 py-1 text-[10px] font-label uppercase tracking-widest text-primary">Travel</span>
+</div>
+</div>
+<h4 class="font-headline italic text-lg">Chestnut Weekender Bag</h4>
+<p class="font-body text-secondary text-sm">$650.00</p>
+</div>
+<!-- Product 4 -->
+<div class="flex-shrink-0 w-80">
+<div class="aspect-square bg-surface-container mb-6 relative group overflow-hidden rounded-md">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Signature scented candle in a textured stone vessel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCF6Ww1nk1Yf6bHZPHy_nfRVPSF6A8vymYh7bYf6K3MG_0xgaoEVnHQmabfpb0GKLiBXFYCI3S76pbZZ4tx8PwwcHv7KRtBUVBAjEgrXTQrE7NN1AEMfP-5utJ97z_j4-eg2iynsPxNCQD5ixPbAjH_kzoipd4OrszFTO4jchONPOyeOsayOzKlkKyftW-DjiBxCw_AKLdpnko96doMpbRB0caTgJU2mtWCgfi_2p6KI7q05SPRdELGw2AfxJOOn7DTashMDBAvrQ"/>
+<div class="absolute bottom-4 left-4">
+<span class="bg-surface/90 backdrop-blur px-3 py-1 text-[10px] font-label uppercase tracking-widest text-primary">Aroma</span>
+</div>
+</div>
+<h4 class="font-headline italic text-lg">Floor 01 Signature Candle</h4>
+<p class="font-body text-secondary text-sm">$65.00</p>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#f5f3ee] dark:bg-[#121212] w-full pt-20 pb-10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-7xl mx-auto font-manrope text-sm tracking-wide">
+<div class="space-y-6">
+<span class="font-headline text-lg text-[#1b1c19]">Artisanal Heritage</span>
+<p class="text-[#737873] leading-relaxed">Refining the art of hospitality and heritage since 1924. A sanctuary for the mindful traveler.</p>
+</div>
+<div class="space-y-6">
+<h5 class="text-[#18281e] font-semibold">Stay with Us</h5>
+<ul class="space-y-4">
+<li><a class="text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] opacity-80 hover:opacity-100 transition-opacity" href="#">Nature Retreat</a></li>
+<li><a class="text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] opacity-80 hover:opacity-100 transition-opacity" href="#">Urban Elegance</a></li>
+<li><a class="text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] opacity-80 hover:opacity-100 transition-opacity" href="#">Vintage Charm</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-[#18281e] font-semibold">Discover</h5>
+<ul class="space-y-4">
+<li><a class="text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] opacity-80 hover:opacity-100 transition-opacity" href="#">Our Story</a></li>
+<li><a class="text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] opacity-80 hover:opacity-100 transition-opacity" href="#">Sustainability</a></li>
+<li><a class="text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] opacity-80 hover:opacity-100 transition-opacity" href="#">Contact</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-[#18281e] font-semibold">Newsletter</h5>
+<p class="text-[#737873]">Receive invitations to our exclusive private sales and openings.</p>
+<div class="flex items-center border-b border-outline py-2">
+<input class="bg-transparent border-none focus:ring-0 w-full text-sm" placeholder="Your email address" type="email"/>
+<button class="material-symbols-outlined text-primary">arrow_forward</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-12 mt-20 pt-10 border-t border-outline-variant/15 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+<span class="text-[#737873]">© 2024 Artisanal Heritage. All rights reserved.</span>
+<div class="flex space-x-8">
+<a class="text-[#737873] hover:text-[#18281e]" href="#">Privacy Policy</a>
+<a class="text-[#737873] hover:text-[#18281e]" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

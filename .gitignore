@@ -1,0 +1,11 @@
+# Maven build output
+target/
+
+# Compiled Java class files
+*.class
+
+# IDE specific files (IntelliJ, VS Code, etc.)
+.idea/
+*.iml
+.vscode/
+.DS_Store
