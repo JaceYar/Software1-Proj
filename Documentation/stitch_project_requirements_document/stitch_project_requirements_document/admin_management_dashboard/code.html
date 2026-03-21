@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Heritage Portal | Staff Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#ffdad8",
+              "secondary-container": "#fdddb9",
+              "inverse-on-surface": "#f2f1ec",
+              "surface-container-highest": "#e4e2dd",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#96a99b",
+              "tertiary-fixed-dim": "#ffb3af",
+              "tertiary": "#4b0c0f",
+              "on-tertiary-fixed-variant": "#792f2e",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed": "#0e1f15",
+              "tertiary-container": "#682222",
+              "on-tertiary-container": "#ea8885",
+              "error": "#ba1a1a",
+              "on-surface-variant": "#434844",
+              "background": "#fbf9f4",
+              "surface": "#fbf9f4",
+              "surface-tint": "#516356",
+              "error-container": "#ffdad6",
+              "surface-dim": "#dbdad5",
+              "on-error": "#ffffff",
+              "surface-variant": "#e4e2dd",
+              "on-surface": "#1b1c19",
+              "secondary-fixed": "#fdddb9",
+              "secondary": "#715a3e",
+              "inverse-surface": "#30312e",
+              "on-background": "#1b1c19",
+              "surface-container-low": "#f5f3ee",
+              "primary-fixed-dim": "#b8cbbc",
+              "surface-container-high": "#eae8e3",
+              "on-tertiary-fixed": "#3e0307",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed": "#281803",
+              "on-secondary-fixed-variant": "#584329",
+              "surface-bright": "#fbf9f4",
+              "inverse-primary": "#b8cbbc",
+              "outline": "#737873",
+              "on-secondary-container": "#786044",
+              "on-primary-fixed-variant": "#394b3f",
+              "surface-container": "#f0eee9",
+              "primary-container": "#2d3e33",
+              "surface-container-lowest": "#ffffff",
+              "primary": "#18281e",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#e0c29f",
+              "primary-fixed": "#d4e7d8",
+              "outline-variant": "#c3c8c2"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .font-noto-serif { font-family: 'Noto Serif', serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f5f3ee] dark:bg-[#121d16] flex flex-col py-8 space-y-4 border-r border-[#c3c8c2]/15">
+<div class="px-6 mb-8">
+<h1 class="font-noto-serif text-xl font-bold text-[#18281e]">Heritage Portal</h1>
+<p class="font-manrope text-[10px] uppercase tracking-widest text-[#737873] mt-1">Staff Management</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center space-x-3 text-[#1b1c19] dark:text-[#c3c8c2] hover:bg-[#18281e]/5 mx-2 px-4 py-3 transition-transform duration-300 hover:translate-x-1 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 bg-[#18281e] text-[#fbf9f4] rounded-lg mx-2 px-4 py-3 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+<span>Clerk Management</span>
+</a>
+<a class="flex items-center space-x-3 text-[#1b1c19] dark:text-[#c3c8c2] hover:bg-[#18281e]/5 mx-2 px-4 py-3 transition-transform duration-300 hover:translate-x-1 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span>Security</span>
+</a>
+<a class="flex items-center space-x-3 text-[#1b1c19] dark:text-[#c3c8c2] hover:bg-[#18281e]/5 mx-2 px-4 py-3 transition-transform duration-300 hover:translate-x-1 font-manrope text-[11px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>System Settings</span>
+</a>
+</nav>
+<div class="px-4 mt-auto border-t border-outline-variant/15 pt-6">
+<div class="flex items-center space-x-3 px-2 py-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</div>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Julian Thorne</p>
+<p class="text-[10px] uppercase tracking-tighter opacity-60">System Admin</p>
+</div>
+</div>
+<button class="w-full mt-4 bg-gradient-to-br from-primary to-primary-container text-on-primary py-3 rounded-xl font-manrope text-[10px] uppercase tracking-widest font-bold hover:brightness-105 active:scale-95 transition-all">
+                New Entry
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar Context -->
+<header class="bg-[#fbf9f4]/80 backdrop-blur-xl flex justify-between items-center w-full px-12 py-8 max-w-[1920px] mx-auto z-40">
+<div class="flex flex-col">
+<h2 class="font-noto-serif text-3xl font-bold tracking-tight text-[#1b1c19]">Clerk Management</h2>
+<p class="font-manrope text-sm text-outline mt-1">Configure and monitor administrative access across the heritage estate.</p>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-lg" data-icon="search">search</span>
+<input class="pl-12 pr-6 py-3 bg-surface-container-low border-none focus:ring-1 focus:ring-primary rounded-xl text-sm w-72 transition-all outline-none" placeholder="Find clerk by name or ID..." type="text"/>
+</div>
+<button class="flex items-center space-x-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<section class="px-12 py-6 space-y-10">
+<!-- Quick Stats & Actions Bento -->
+<div class="grid grid-cols-12 gap-6">
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low p-8 rounded-xl flex flex-col justify-between relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-noto-serif text-2xl font-bold mb-2">Registry Overview</h3>
+<p class="text-on-surface-variant max-w-md">Maintain the integrity of service standards by managing authorized personnel access levels and security protocols.</p>
+</div>
+<div class="mt-8 flex space-x-8 relative z-10">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-outline mb-1">Total Active</p>
+<p class="text-3xl font-noto-serif font-bold text-primary">24</p>
+</div>
+<div class="w-px h-10 bg-outline-variant/30"></div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-outline mb-1">Pending Sync</p>
+<p class="text-3xl font-noto-serif font-bold text-secondary">03</p>
+</div>
+<div class="w-px h-10 bg-outline-variant/30"></div>
+<div>
+<p class="text-[10px] uppercase tracking-widest text-outline mb-1">Security Flags</p>
+<p class="text-3xl font-noto-serif font-bold text-tertiary">None</p>
+</div>
+</div>
+<!-- Aesthetic decoration -->
+<div class="absolute -right-12 -bottom-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+<div class="col-span-12 lg:col-span-4 bg-primary text-on-primary p-8 rounded-xl flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-5xl mb-4 text-primary-fixed-dim" data-icon="person_add">person_add</span>
+<h3 class="font-noto-serif text-xl font-bold mb-4">Onboard New Personnel</h3>
+<button class="bg-surface text-primary px-8 py-3 rounded-xl font-manrope text-[11px] uppercase tracking-widest font-bold hover:bg-surface-container-high transition-colors active:scale-95">
+                        Create New Clerk
+                    </button>
+</div>
+</div>
+<!-- Clerks Table Section -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_20px_40px_rgba(27,28,25,0.06)] border border-outline-variant/10">
+<div class="p-6 border-b border-outline-variant/15 flex justify-between items-center bg-surface-container-low/30">
+<h4 class="font-noto-serif text-lg font-bold">Authorized Clerks</h4>
+<div class="flex space-x-2">
+<button class="p-2 hover:bg-surface-container rounded-lg text-outline"><span class="material-symbols-outlined" data-icon="filter_list">filter_list</span></button>
+<button class="p-2 hover:bg-surface-container rounded-lg text-outline"><span class="material-symbols-outlined" data-icon="download">download</span></button>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-4 font-manrope text-[10px] uppercase tracking-widest text-outline font-bold">Personnel Details</th>
+<th class="px-8 py-4 font-manrope text-[10px] uppercase tracking-widest text-outline font-bold">Username</th>
+<th class="px-8 py-4 font-manrope text-[10px] uppercase tracking-widest text-outline font-bold">Assignment</th>
+<th class="px-8 py-4 font-manrope text-[10px] uppercase tracking-widest text-outline font-bold">Status</th>
+<th class="px-8 py-4 font-manrope text-[10px] uppercase tracking-widest text-outline font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-noto-serif text-primary italic font-bold">EA</div>
+<div>
+<p class="font-bold text-on-surface">Elowen Ashworth</p>
+<p class="text-xs text-outline">e.ashworth@artisanal.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-medium">eashworth_hr</td>
+<td class="px-8 py-6 text-sm text-outline">Front Desk Concierge</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary-fixed text-on-primary-fixed-variant">
+                                    Active
+                                </span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-secondary font-manrope text-[10px] font-bold uppercase tracking-widest hover:underline">Reset Password</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center font-noto-serif text-secondary italic font-bold">TC</div>
+<div>
+<p class="font-bold text-on-surface">Thaddeus Croft</p>
+<p class="text-xs text-outline">t.croft@artisanal.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-medium">croft_ops</td>
+<td class="px-8 py-6 text-sm text-outline">Operations Supervisor</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary-fixed text-on-primary-fixed-variant">
+                                    Active
+                                </span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-secondary font-manrope text-[10px] font-bold uppercase tracking-widest hover:underline">Reset Password</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center font-noto-serif text-tertiary italic font-bold">MS</div>
+<div>
+<p class="font-bold text-on-surface">Marisol Vance</p>
+<p class="text-xs text-outline">m.vance@artisanal.com</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6 text-sm font-medium">mvance_concierge</td>
+<td class="px-8 py-6 text-sm text-outline">Night Manager</td>
+<td class="px-8 py-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-surface-container-highest text-outline">
+                                    Suspended
+                                </span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="text-secondary font-manrope text-[10px] font-bold uppercase tracking-widest hover:underline">Reset Password</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 border-t border-outline-variant/10 flex items-center justify-center bg-surface-container-low/20">
+<button class="text-outline hover:text-primary transition-colors flex items-center space-x-1 font-manrope text-[11px] uppercase tracking-widest font-bold">
+<span>Load More Registry Entries</span>
+<span class="material-symbols-outlined text-sm" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Footer Component -->
+<footer class="w-full px-12 py-16 flex flex-col md:flex-row justify-between items-center border-t border-[#fbf9f4]/10 bg-[#18281e] mt-auto">
+<div class="flex flex-col mb-8 md:mb-0">
+<p class="font-noto-serif text-lg text-[#fbf9f4]">Artisanal Heritage</p>
+<p class="font-manrope text-xs tracking-wide text-[#fbf9f4]/60 mt-2">© 2024 Artisanal Heritage Hotel &amp; Boutique. All rights reserved.</p>
+</div>
+<div class="flex space-x-12">
+<a class="text-[#fbf9f4]/60 font-manrope text-xs tracking-wide hover:text-[#715a3e] transition-colors" href="#">Privacy Policy</a>
+<a class="text-[#fbf9f4]/60 font-manrope text-xs tracking-wide hover:text-[#715a3e] transition-colors" href="#">Security Portal</a>
+<a class="text-[#fbf9f4]/60 font-manrope text-xs tracking-wide hover:text-[#715a3e] transition-colors" href="#">Admin Support</a>
+</div>
+</footer>
+</main>
+<!-- Modal: Create New Clerk (Static Overlay for UI Demo) -->
+<!-- This would normally be toggled by JS, here it is rendered as a focused state example -->
+<div class="fixed inset-0 z-[100] bg-primary/40 backdrop-blur-sm flex items-center justify-center p-6 hidden">
+<div class="bg-surface-container-lowest w-full max-w-lg rounded-xl shadow-2xl overflow-hidden border border-outline-variant/20">
+<div class="p-8 border-b border-outline-variant/15 flex justify-between items-center">
+<h3 class="font-noto-serif text-2xl font-bold">New Clerk Provisioning</h3>
+<button class="text-outline hover:text-error"><span class="material-symbols-outlined" data-icon="close">close</span></button>
+</div>
+<div class="p-8 space-y-6">
+<div class="space-y-1">
+<label class="block font-manrope text-[10px] uppercase tracking-widest text-outline font-bold">Account Username</label>
+<input class="w-full bg-transparent border-b border-outline focus:border-primary focus:ring-0 transition-all py-3 px-1 outline-none text-on-surface" placeholder="e.g. h.wells_desk" type="text"/>
+</div>
+<div class="space-y-1">
+<label class="block font-manrope text-[10px] uppercase tracking-widest text-outline font-bold">Default Assignment Password</label>
+<div class="relative">
+<input class="w-full bg-transparent border-b border-outline focus:border-primary focus:ring-0 transition-all py-3 px-1 outline-none text-on-surface" type="password" value="HeritagePass2024!"/>
+<span class="absolute right-2 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline cursor-pointer" data-icon="visibility">visibility</span>
+</div>
+<p class="text-[10px] text-outline mt-2 italic">Clerk will be prompted to update credentials upon first login.</p>
+</div>
+<div class="pt-4 grid grid-cols-2 gap-4">
+<button class="bg-surface-container-high text-on-surface py-4 rounded-xl font-manrope text-[11px] uppercase tracking-widest font-bold">Cancel</button>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary py-4 rounded-xl font-manrope text-[11px] uppercase tracking-widest font-bold shadow-lg">Assign Credentials</button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

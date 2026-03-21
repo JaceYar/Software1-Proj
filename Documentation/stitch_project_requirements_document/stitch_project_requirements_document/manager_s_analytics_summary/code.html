@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Management Dashboard | Artisanal Heritage Hotel &amp; Store</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-container": "#ea8885",
+              "tertiary": "#4b0c0f",
+              "inverse-primary": "#b8cbbc",
+              "surface": "#fbf9f4",
+              "tertiary-container": "#682222",
+              "on-surface-variant": "#434844",
+              "on-error": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed": "#3e0307",
+              "surface-container-highest": "#e4e2dd",
+              "error-container": "#ffdad6",
+              "tertiary-fixed-dim": "#ffb3af",
+              "error": "#ba1a1a",
+              "surface-container": "#f0eee9",
+              "surface-container-high": "#eae8e3",
+              "on-tertiary-fixed-variant": "#792f2e",
+              "on-primary-fixed-variant": "#394b3f",
+              "outline-variant": "#c3c8c2",
+              "on-secondary-fixed": "#281803",
+              "surface-tint": "#516356",
+              "on-tertiary": "#ffffff",
+              "inverse-surface": "#30312e",
+              "on-secondary-container": "#786044",
+              "secondary-container": "#fdddb9",
+              "surface-variant": "#e4e2dd",
+              "on-primary": "#ffffff",
+              "surface-container-low": "#f5f3ee",
+              "surface-bright": "#fbf9f4",
+              "primary-fixed-dim": "#b8cbbc",
+              "secondary": "#715a3e",
+              "on-surface": "#1b1c19",
+              "primary-fixed": "#d4e7d8",
+              "surface-dim": "#dbdad5",
+              "on-primary-container": "#96a99b",
+              "outline": "#737873",
+              "on-primary-fixed": "#0e1f15",
+              "on-background": "#1b1c19",
+              "on-secondary": "#ffffff",
+              "primary-container": "#2d3e33",
+              "inverse-on-surface": "#f2f1ec",
+              "background": "#fbf9f4",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#fdddb9",
+              "secondary-fixed-dim": "#e0c29f",
+              "primary": "#18281e",
+              "on-secondary-fixed-variant": "#584329",
+              "tertiary-fixed": "#ffdad8"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- TopNavBar Shell -->
+<nav class="bg-[#fbf9f4]/80 dark:bg-[#1b1c19]/80 backdrop-blur-xl fixed top-0 w-full z-50 flex justify-between items-center px-12 py-6 w-full max-w-none shadow-[0_20px_40px_rgba(27,28,25,0.06)]">
+<div class="text-xl font-bold font-noto-serif text-[#18281e] dark:text-[#fbf9f4]">
+            Artisanal Heritage Hotel &amp; Store
+        </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Hotel</a>
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Floors</a>
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Shop</a>
+<a class="text-[#737873] dark:text-[#c3c8c2] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">My Stay</a>
+<a class="text-[#18281e] dark:text-white border-b-2 border-[#715a3e] pb-1 font-manrope uppercase tracking-[0.1rem] text-[10px]" href="#">Dashboard</a>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2 rounded-xl font-label text-[10px] uppercase tracking-widest hover:brightness-105 transition-all">
+            Book Now
+        </button>
+</nav>
+<!-- SideNavBar (Floor Switcher) -->
+<aside class="fixed right-6 top-1/2 -translate-y-1/2 rounded-full py-6 bg-[#ffffff]/90 dark:bg-[#1b1c19]/90 backdrop-blur-lg shadow-2xl flex flex-col items-center space-y-4 px-2 outline-variant/15 border z-40">
+<div class="bg-[#18281e] text-white rounded-full p-3 hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" data-icon="nature">nature</span>
+</div>
+<div class="text-[#737873] p-3 hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" data-icon="apartment">apartment</span>
+</div>
+<div class="text-[#737873] p-3 hover:scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</div>
+</aside>
+<main class="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Dashboard Header -->
+<header class="mb-12">
+<h1 class="text-4xl md:text-5xl font-headline italic tracking-tight text-primary mb-2">Management Intelligence</h1>
+<p class="font-body text-on-surface-variant max-w-2xl">A curated overview of your property's performance across the Nature, Urban, and Vintage floors.</p>
+</header>
+<!-- Key Metrics Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+<div class="md:col-span-1 bg-surface-container-lowest p-8 rounded-xl shadow-[0_20px_40px_rgba(27,28,25,0.06)] flex flex-col justify-between border border-outline-variant/10">
+<span class="font-label text-[10px] uppercase tracking-widest text-outline">Total Reservations</span>
+<div class="mt-4">
+<span class="text-4xl font-headline text-primary">1,284</span>
+<span class="block text-xs text-secondary mt-1 font-body">+12% from last month</span>
+</div>
+</div>
+<div class="md:col-span-1 bg-surface-container-lowest p-8 rounded-xl shadow-[0_20px_40px_rgba(27,28,25,0.06)] flex flex-col justify-between border border-outline-variant/10">
+<span class="font-label text-[10px] uppercase tracking-widest text-outline">Total Revenue</span>
+<div class="mt-4">
+<span class="text-4xl font-headline text-primary">$412.5k</span>
+<span class="block text-xs text-secondary mt-1 font-body">Editorial targets met</span>
+</div>
+</div>
+<div class="md:col-span-2 bg-primary text-on-primary p-8 rounded-xl flex flex-col justify-between overflow-hidden relative">
+<div class="relative z-10">
+<span class="font-label text-[10px] uppercase tracking-widest text-on-primary/60">Global Occupancy</span>
+<div class="mt-4 flex items-end space-x-6">
+<div>
+<span class="text-5xl font-headline italic">89%</span>
+<span class="block text-xs text-on-primary/60 mt-1 font-body">Average across floors</span>
+</div>
+<div class="flex space-x-2 pb-1">
+<div class="w-1.5 h-8 bg-on-primary/20 rounded-full flex flex-col justify-end">
+<div class="w-full h-[95%] bg-on-primary rounded-full"></div>
+</div>
+<div class="w-1.5 h-8 bg-on-primary/20 rounded-full flex flex-col justify-end">
+<div class="w-full h-[75%] bg-secondary-fixed-dim rounded-full"></div>
+</div>
+<div class="w-1.5 h-8 bg-on-primary/20 rounded-full flex flex-col justify-end">
+<div class="w-full h-[88%] bg-tertiary-fixed-dim rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute right-0 top-0 h-full w-1/3 opacity-10 pointer-events-none">
+<img class="h-full w-full object-cover" data-alt="Abstract architectural hotel interior detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpYh6cKL3TKde1z4v2WVUbN7rD2blD4Wg9lQzpa2sZ-gHmOl0V3v5yLFnyiRYTGEZnJbC0C7_EiLdu92e-H-rXvpjHMEsOWEsKctkrTqqTVLnilOVVZMdud8O4xT1acgwxP11BfL2sjAOWJ6WdeMq-ofxsryTjBhM0G8wc-mOPy2FNfLIBH0IevTg-B43A1fJnXxvj8DDClHI92hMrU3mU2hAsrGp3q6fUDehA0YfkxHoQct_iOxoNsO98SPI0u1mjoFZguxgqfA"/>
+</div>
+</div>
+</section>
+<!-- Analytics Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Revenue Trends -->
+<div class="lg:col-span-2 bg-surface-container-low p-8 rounded-xl">
+<div class="flex justify-between items-center mb-10">
+<h3 class="text-2xl font-headline italic">Revenue Analytics</h3>
+<div class="flex space-x-4">
+<span class="flex items-center text-[10px] font-label uppercase tracking-widest text-primary">
+<span class="w-2 h-2 rounded-full bg-primary mr-2"></span> Rooms
+                        </span>
+<span class="flex items-center text-[10px] font-label uppercase tracking-widest text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2"></span> Boutique
+                        </span>
+</div>
+</div>
+<!-- Visual Placeholder for a Chart -->
+<div class="h-64 flex items-end justify-between px-2 border-b border-outline-variant/20 pb-2">
+<div class="w-[8%] bg-surface-container-high h-[40%] rounded-t-lg relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-white text-[10px] px-2 py-1 rounded">24k</div>
+</div>
+<div class="w-[8%] bg-primary-container h-[55%] rounded-t-lg"></div>
+<div class="w-[8%] bg-primary h-[70%] rounded-t-lg"></div>
+<div class="w-[8%] bg-primary h-[65%] rounded-t-lg"></div>
+<div class="w-[8%] bg-secondary h-[85%] rounded-t-lg"></div>
+<div class="w-[8%] bg-primary h-[90%] rounded-t-lg"></div>
+<div class="w-[8%] bg-primary-container h-[75%] rounded-t-lg"></div>
+<div class="w-[8%] bg-primary h-[82%] rounded-t-lg"></div>
+<div class="w-[8%] bg-primary h-[88%] rounded-t-lg"></div>
+<div class="w-[8%] bg-primary h-[95%] rounded-t-lg"></div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-label uppercase text-outline px-2">
+<span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+</div>
+</div>
+<!-- Floor Performance -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_20px_40px_rgba(27,28,25,0.06)] border border-outline-variant/10">
+<h3 class="text-2xl font-headline italic mb-8">Floor Performance</h3>
+<div class="space-y-8">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-4">
+<div class="p-2 bg-primary/5 rounded-full text-primary">
+<span class="material-symbols-outlined" data-icon="nature">nature</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Nature Retreat</p>
+<p class="text-[10px] font-label text-outline">FLOOR 01-03</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">94%</p>
+<div class="w-16 h-1 bg-outline-variant/20 mt-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[94%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-4">
+<div class="p-2 bg-secondary/5 rounded-full text-secondary">
+<span class="material-symbols-outlined" data-icon="apartment">apartment</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Urban Elegance</p>
+<p class="text-[10px] font-label text-outline">FLOOR 04-06</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">78%</p>
+<div class="w-16 h-1 bg-outline-variant/20 mt-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[78%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-4">
+<div class="p-2 bg-tertiary/5 rounded-full text-tertiary">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Vintage Charm</p>
+<p class="text-[10px] font-label text-outline">FLOOR 07-08</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">82%</p>
+<div class="w-16 h-1 bg-outline-variant/20 mt-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[82%]"></div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-10 py-3 border-b border-outline-variant text-[10px] font-label uppercase tracking-widest text-primary hover:text-secondary transition-colors text-left flex justify-between items-center">
+                    Detailed Reports <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Tabbed Table Section -->
+<section class="bg-surface-container-lowest rounded-xl shadow-[0_20px_40px_rgba(27,28,25,0.06)] border border-outline-variant/10 overflow-hidden">
+<div class="flex border-b border-outline-variant/10">
+<button class="px-8 py-6 text-[10px] font-label uppercase tracking-[0.15rem] border-b-2 border-primary text-primary">Live Reservations</button>
+<button class="px-8 py-6 text-[10px] font-label uppercase tracking-[0.15rem] text-outline hover:text-primary transition-colors">Corporate Billing</button>
+<button class="px-8 py-6 text-[10px] font-label uppercase tracking-[0.15rem] text-outline hover:text-primary transition-colors">Housekeeping Status</button>
+</div>
+<div class="p-0 overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-4 text-[10px] font-label uppercase text-outline tracking-wider">Guest Identity</th>
+<th class="px-8 py-4 text-[10px] font-label uppercase text-outline tracking-wider">Room &amp; Theme</th>
+<th class="px-8 py-4 text-[10px] font-label uppercase text-outline tracking-wider">Stay Duration</th>
+<th class="px-8 py-4 text-[10px] font-label uppercase text-outline tracking-wider">Payment Status</th>
+<th class="px-8 py-4 text-[10px] font-label uppercase text-outline tracking-wider">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-headline italic">EJ</div>
+<div>
+<p class="text-sm font-semibold">Elena Jörgensen</p>
+<p class="text-xs text-outline">Stockholm, SE</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<p class="text-sm font-body">Suite 302</p>
+<span class="text-[10px] font-label text-primary bg-primary/5 px-2 py-0.5 rounded-full">Nature Retreat</span>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-body">
+                                Oct 12 — Oct 18
+                            </td>
+<td class="px-8 py-6">
+<span class="flex items-center text-[10px] font-label text-[#18281e]">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mr-2"></span> PAID IN FULL
+                                </span>
+</td>
+<td class="px-8 py-6">
+<button class="text-outline hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-headline italic">MA</div>
+<div>
+<p class="text-sm font-semibold">Marcus Aurelius</p>
+<p class="text-xs text-outline">Rome, IT</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<p class="text-sm font-body">Loft 510</p>
+<span class="text-[10px] font-label text-secondary bg-secondary/5 px-2 py-0.5 rounded-full">Urban Elegance</span>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-body">
+                                Oct 14 — Oct 16
+                            </td>
+<td class="px-8 py-6">
+<span class="flex items-center text-[10px] font-label text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-2"></span> DEPOSIT PAID
+                                </span>
+</td>
+<td class="px-8 py-6">
+<button class="text-outline hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container/30 transition-colors">
+<td class="px-8 py-6">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-headline italic">LH</div>
+<div>
+<p class="text-sm font-semibold">Lydia Hearst</p>
+<p class="text-xs text-outline">New York, US</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<p class="text-sm font-body">Heritage 801</p>
+<span class="text-[10px] font-label text-tertiary bg-tertiary/5 px-2 py-0.5 rounded-full">Vintage Charm</span>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-body">
+                                Oct 15 — Oct 22
+                            </td>
+<td class="px-8 py-6">
+<span class="flex items-center text-[10px] font-label text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error mr-2"></span> PENDING
+                                </span>
+</td>
+<td class="px-8 py-6">
+<button class="text-outline hover:text-primary"><span class="material-symbols-outlined">more_horiz</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-6 bg-surface-container-low/30 flex justify-between items-center">
+<span class="text-xs text-outline font-body italic">Showing 3 of 42 active reservations</span>
+<div class="flex space-x-2">
+<button class="p-2 border border-outline-variant/20 rounded-lg hover:bg-white transition-colors"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button class="p-2 border border-outline-variant/20 rounded-lg hover:bg-white transition-colors"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="bg-[#f5f3ee] dark:bg-[#121212] w-full pt-20 pb-10">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="font-noto-serif text-lg text-[#1b1c19] mb-4">Artisanal Heritage</div>
+<p class="font-manrope text-sm tracking-wide text-[#737873]">Curated experiences for the modern traveler. Every floor tells a different story.</p>
+</div>
+<div>
+<h4 class="font-noto-serif font-bold text-sm mb-6 uppercase tracking-widest text-[#18281e]">The Hotel</h4>
+<ul class="space-y-4">
+<li><a class="font-manrope text-sm tracking-wide text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] transition-opacity opacity-80 hover:opacity-100" href="#">Our Story</a></li>
+<li><a class="font-manrope text-sm tracking-wide text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] transition-opacity opacity-80 hover:opacity-100" href="#">Sustainability</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-noto-serif font-bold text-sm mb-6 uppercase tracking-widest text-[#18281e]">Support</h4>
+<ul class="space-y-4">
+<li><a class="font-manrope text-sm tracking-wide text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] transition-opacity opacity-80 hover:opacity-100" href="#">Contact</a></li>
+<li><a class="font-manrope text-sm tracking-wide text-[#737873] hover:text-[#18281e] underline underline-offset-4 decoration-[#715a3e] transition-opacity opacity-80 hover:opacity-100" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-noto-serif font-bold text-sm mb-6 uppercase tracking-widest text-[#18281e]">Join the Story</h4>
+<div class="relative">
+<input class="w-full bg-transparent border-b border-outline py-2 focus:outline-none focus:border-primary text-sm font-manrope" placeholder="Email Address" type="email"/>
+<button class="absolute right-0 top-2 text-primary"><span class="material-symbols-outlined text-sm">east</span></button>
+</div>
+</div>
+</div>
+<div class="mt-20 border-t border-outline-variant/10 pt-10 px-12 text-center">
+<p class="font-manrope text-xs tracking-wide text-[#737873]">© 2024 Artisanal Heritage. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

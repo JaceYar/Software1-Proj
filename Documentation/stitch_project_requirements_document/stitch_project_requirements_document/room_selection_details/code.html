@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Room Selection | Artisanal Heritage Hotel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-tertiary-container": "#ea8885",
+                "tertiary": "#4b0c0f",
+                "inverse-primary": "#b8cbbc",
+                "surface": "#fbf9f4",
+                "tertiary-container": "#682222",
+                "on-surface-variant": "#434844",
+                "on-error": "#ffffff",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed": "#3e0307",
+                "surface-container-highest": "#e4e2dd",
+                "error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#ffb3af",
+                "error": "#ba1a1a",
+                "surface-container": "#f0eee9",
+                "surface-container-high": "#eae8e3",
+                "on-tertiary-fixed-variant": "#792f2e",
+                "on-primary-fixed-variant": "#394b3f",
+                "outline-variant": "#c3c8c2",
+                "on-secondary-fixed": "#281803",
+                "surface-tint": "#516356",
+                "on-tertiary": "#ffffff",
+                "inverse-surface": "#30312e",
+                "on-secondary-container": "#786044",
+                "secondary-container": "#fdddb9",
+                "surface-variant": "#e4e2dd",
+                "on-primary": "#ffffff",
+                "surface-container-low": "#f5f3ee",
+                "surface-bright": "#fbf9f4",
+                "primary-fixed-dim": "#b8cbbc",
+                "secondary": "#715a3e",
+                "on-surface": "#1b1c19",
+                "primary-fixed": "#d4e7d8",
+                "surface-dim": "#dbdad5",
+                "on-primary-container": "#96a99b",
+                "outline": "#737873",
+                "on-primary-fixed": "#0e1f15",
+                "on-background": "#1b1c19",
+                "on-secondary": "#ffffff",
+                "primary-container": "#2d3e33",
+                "inverse-on-surface": "#f2f1ec",
+                "background": "#fbf9f4",
+                "surface-container-lowest": "#ffffff",
+                "secondary-fixed": "#fdddb9",
+                "secondary-fixed-dim": "#e0c29f",
+                "primary": "#18281e",
+                "on-secondary-fixed-variant": "#584329",
+                "tertiary-fixed": "#ffdad8"
+              },
+              fontFamily: {
+                "headline": ["Noto Serif"],
+                "body": ["Manrope"],
+                "label": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .font-noto-serif { font-family: 'Noto Serif', serif; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fbf9f4]/80 backdrop-blur-xl shadow-[0_20px_40px_rgba(27,28,25,0.06)]">
+<div class="flex justify-between items-center px-12 py-6 w-full max-w-none">
+<div class="text-xl font-bold font-noto-serif text-[#18281e]">Artisanal Heritage Hotel &amp; Store</div>
+<nav class="hidden md:flex space-x-8 items-center">
+<a class="text-[#737873] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Hotel</a>
+<a class="text-[#737873] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Floors</a>
+<a class="text-[#737873] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Shop</a>
+<a class="text-[#737873] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">My Stay</a>
+<a class="text-[#737873] uppercase tracking-[0.1rem] text-[10px] font-manrope hover:text-[#715a3e] transition-colors duration-300" href="#">Dashboard</a>
+</nav>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-6 py-2 rounded-xl font-label text-[10px] uppercase tracking-[0.1rem] hover:brightness-105 transition-all">Book Now</button>
+</div>
+</header>
+<!-- SideNavBar (Floor Switcher) -->
+<aside class="fixed right-6 top-1/2 -translate-y-1/2 rounded-full py-6 bg-[#ffffff]/90 backdrop-blur-lg shadow-2xl z-40 border border-outline-variant/15 flex flex-col items-center space-y-4 px-2">
+<div class="text-[8px] font-manrope font-medium uppercase tracking-widest text-[#737873] rotate-180 [writing-mode:vertical-lr] mb-2">Floor Themes</div>
+<button class="p-3 text-[#737873] hover:scale-110 transition-transform" title="Nature Retreat">
+<span class="material-symbols-outlined" data-icon="nature">nature</span>
+</button>
+<button class="bg-[#18281e] text-white rounded-full p-3 hover:scale-110 transition-transform" title="Urban Elegance">
+<span class="material-symbols-outlined" data-icon="apartment">apartment</span>
+</button>
+<button class="p-3 text-[#737873] hover:scale-110 transition-transform" title="Vintage Charm">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+</aside>
+<main class="pt-32 pb-20 px-12 max-w-[1600px] mx-auto">
+<div class="mb-12">
+<h1 class="font-headline text-5xl italic tracking-tight text-primary">Curated Sanctuaries</h1>
+<p class="font-body text-on-surface-variant mt-2 max-w-xl">Each room is an architectural dialogue between heritage craft and contemporary ease. Select your preferred atmosphere below.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Filter Sidebar -->
+<aside class="w-full lg:w-72 space-y-10">
+<!-- Filter Section: Theme -->
+<div>
+<h3 class="font-label text-[10px] uppercase tracking-[0.15rem] text-primary font-bold mb-6">Atmosphere</h3>
+<div class="space-y-3">
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-4 h-4 border-outline text-primary focus:ring-primary rounded-sm bg-transparent" type="checkbox"/>
+<span class="ml-3 font-body text-sm text-on-surface-variant group-hover:text-primary transition-colors">Nature Retreat</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 border-outline text-primary focus:ring-primary rounded-sm bg-transparent" type="checkbox"/>
+<span class="ml-3 font-body text-sm text-on-surface-variant group-hover:text-primary transition-colors">Urban Elegance</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 border-outline text-primary focus:ring-primary rounded-sm bg-transparent" type="checkbox"/>
+<span class="ml-3 font-body text-sm text-on-surface-variant group-hover:text-primary transition-colors">Vintage Charm</span>
+</label>
+</div>
+</div>
+<!-- Filter Section: Quality -->
+<div>
+<h3 class="font-label text-[10px] uppercase tracking-[0.15rem] text-primary font-bold mb-6">Tier</h3>
+<div class="grid grid-cols-1 gap-3">
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 border-outline text-primary focus:ring-primary bg-transparent" name="tier" type="radio"/>
+<span class="ml-3 font-body text-sm text-on-surface-variant group-hover:text-primary transition-colors">Executive Suite</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 border-outline text-primary focus:ring-primary bg-transparent" name="tier" type="radio"/>
+<span class="ml-3 font-body text-sm text-on-surface-variant group-hover:text-primary transition-colors">Business Atelier</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-4 h-4 border-outline text-primary focus:ring-primary bg-transparent" name="tier" type="radio"/>
+<span class="ml-3 font-body text-sm text-on-surface-variant group-hover:text-primary transition-colors">Heritage Standard</span>
+</label>
+</div>
+</div>
+<!-- Filter Section: Bed & Features -->
+<div>
+<h3 class="font-label text-[10px] uppercase tracking-[0.15rem] text-primary font-bold mb-6">Features</h3>
+<div class="space-y-4">
+<select class="w-full bg-transparent border-0 border-b border-outline py-2 font-body text-sm text-on-surface focus:ring-0 focus:border-primary">
+<option>Any Bed Type</option>
+<option>King Sized</option>
+<option>Queen Sized</option>
+<option>Twin Heritage</option>
+</select>
+<div class="flex items-center justify-between pt-4">
+<span class="font-body text-sm text-on-surface-variant">Non-Smoking Only</span>
+<button class="relative inline-flex h-5 w-10 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out bg-primary-container focus:outline-none">
+<span class="translate-x-5 pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+</div>
+<div class="pt-8">
+<button class="w-full py-4 border border-outline-variant/30 font-label text-[10px] uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-high transition-colors">Clear All Filters</button>
+</div>
+</aside>
+<!-- Room Grid -->
+<div class="flex-1">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Room Card 1 -->
+<div class="group bg-surface-container-low p-6 transition-all hover:bg-surface-container duration-500">
+<div class="aspect-[4/3] overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Boutique hotel room with deep forest green accents and wood furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkCvop03X7AwVomySDxlUqCnn9MY36fU6KCLfvJLARYSAOtQcTgh3uLJ4364z9V3ppVZ-SLVP9xHXbqr4J5bgQvMOuXDMRnKzw70ByDaQ4CiFW8njyEKhRrH6IoYuXDgDXfkeQArwaS1S-oaa03VgGz2CC8io5Gj_2hMg9oTcmpx3QJZuMKIAQGW9QXTAG_tsjRkSufC1ddpk_7o_PiDPy1PJI4v-k1e4Us3WyIUzwT4m28qWBeeFh2MIvnpe476hpS_PFmFQX9Q"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary font-label text-[8px] uppercase tracking-widest px-3 py-1">Nature Retreat</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline text-2xl text-primary">The Evergreen Suite</h3>
+<p class="font-body text-xs text-on-surface-variant uppercase tracking-wide mt-1">Executive Tier • King Bed</p>
+</div>
+<div class="text-right">
+<span class="block font-body text-[10px] line-through text-outline">$540</span>
+<span class="block font-headline text-xl text-secondary">$425</span>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/15 flex items-center justify-between">
+<div class="flex items-center space-x-4 text-outline">
+<span class="material-symbols-outlined text-lg" data-icon="smoke_free">smoke_free</span>
+<span class="material-symbols-outlined text-lg" data-icon="wifi">wifi</span>
+<span class="material-symbols-outlined text-lg" data-icon="bathtub">bathtub</span>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-xl font-label text-[9px] uppercase tracking-[0.1rem] hover:bg-primary-container transition-all">Select Room</button>
+</div>
+</div>
+<!-- Room Card 2 -->
+<div class="group bg-surface-container-low p-6 transition-all hover:bg-surface-container duration-500">
+<div class="aspect-[4/3] overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Minimalist urban hotel room with floor to ceiling windows and grey textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdMqYmkIFcOASOYdoFskkKvzKHxKCxpJsgd6pKnyNWgGL9H8C5MtYYBpzV3EfB-3ESjIksOliECWoKb_u-zTOICGs1qfAgJvnQMma_0hY8DHOuTEFnSr-4j8RoTCt0DuNTpptWnHBb2ZxqN-g00Aa8AWQI3CtC_kn-DszNeHxm2hatFTC4IWK5D3YLCgJIpKq9BUlIGE8hC0-u-JxHh3pwV3ddz6QV8gFp4nNeoNrhu5hoCjHbDYZRLhLCgzwGqTK_OtvaRCZQXQ"/>
+<div class="absolute top-4 left-4 bg-secondary text-on-primary font-label text-[8px] uppercase tracking-widest px-3 py-1">Urban Elegance</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline text-2xl text-primary">Skyline Atelier</h3>
+<p class="font-body text-xs text-on-surface-variant uppercase tracking-wide mt-1">Business Tier • Queen Bed</p>
+</div>
+<div class="text-right">
+<span class="block font-body text-[10px] line-through text-outline">$380</span>
+<span class="block font-headline text-xl text-secondary">$295</span>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/15 flex items-center justify-between">
+<div class="flex items-center space-x-4 text-outline">
+<span class="material-symbols-outlined text-lg" data-icon="smoke_free">smoke_free</span>
+<span class="material-symbols-outlined text-lg" data-icon="laptop_mac">laptop_mac</span>
+<span class="material-symbols-outlined text-lg" data-icon="coffee_maker">coffee_maker</span>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-xl font-label text-[9px] uppercase tracking-[0.1rem] hover:bg-primary-container transition-all">Select Room</button>
+</div>
+</div>
+<!-- Room Card 3 -->
+<div class="group bg-surface-container-low p-6 transition-all hover:bg-surface-container duration-500">
+<div class="aspect-[4/3] overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Vintage style hotel room with dark wood paneling and burgundy velvet pillows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2R2leDGlE_wq-7cXhm_8_c0V1-FOAEr16LSzF7SCNgr_UHGONjVgUAmb431gOcWr0K1fPTg5oB_5IW-imUco5bnYkUHInVdLJjRkx6LG5GfqJQczvV49WNJ_xT6SH-0cikvk6ZGFbh5oADU1BEdzbs9Cy7-R4-bGJj5Gtnq48o3kC3RLa4SUTVuwo774Nv01o59EyCgnaGhfR1mdKmOA2YbMRQV80CmR8o2XsemE5HydTIJ9MvgArvn5wPWwfluUo-n0TZLcOJQ"/>
+<div class="absolute top-4 left-4 bg-tertiary text-on-tertiary font-label text-[8px] uppercase tracking-widest px-3 py-1">Vintage Charm</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline text-2xl text-primary">Heritage Double</h3>
+<p class="font-body text-xs text-on-surface-variant uppercase tracking-wide mt-1">Standard Tier • Twin Beds</p>
+</div>
+<div class="text-right">
+<span class="block font-headline text-xl text-secondary">$210</span>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/15 flex items-center justify-between">
+<div class="flex items-center space-x-4 text-outline">
+<span class="material-symbols-outlined text-lg" data-icon="smoking_rooms">smoking_rooms</span>
+<span class="material-symbols-outlined text-lg" data-icon="radio">radio</span>
+<span class="material-symbols-outlined text-lg" data-icon="local_library">local_library</span>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-xl font-label text-[9px] uppercase tracking-[0.1rem] hover:bg-primary-container transition-all">Select Room</button>
+</div>
+</div>
+<!-- Room Card 4 -->
+<div class="group bg-surface-container-low p-6 transition-all hover:bg-surface-container duration-500 border border-secondary/20">
+<div class="aspect-[4/3] overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Opulent luxury hotel suite with gold accents and marble surfaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmDxUJtviwApSv6INbpw6K7vo6HkEmCTeD6ILLUe-mhTOReSI8pxTtGtTXU2NDPpGuhFMPEWi-cUc8vtzrXOlC7Emd9pN8lI6Z6nJ0bpvTmkTPQ8eYzKfbSP9_F-t7IRgeUKLv7Q5RrG4VaprXqDePAMABLh8s3gEcjszF9E3dDK4nnkn6OeIb-bSiLZtx385xIA_mNiBf-cOgQ2jC2ppWAWAMflPTCqZyv300tmX2ny-420F0mag4Iyc1Ur2jRphpD1Js-MMiqw"/>
+<div class="absolute top-4 left-4 bg-secondary text-on-primary font-label text-[8px] uppercase tracking-widest px-3 py-1">Urban Elegance</div>
+</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<h3 class="font-headline text-2xl text-primary">Metropolitan Suite</h3>
+<p class="font-body text-xs text-on-surface-variant uppercase tracking-wide mt-1">Executive Tier • California King</p>
+</div>
+<div class="text-right">
+<span class="block font-body text-[10px] line-through text-outline">$890</span>
+<span class="block font-headline text-xl text-secondary">$750</span>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant/15 flex items-center justify-between">
+<div class="flex items-center space-x-4 text-outline">
+<span class="material-symbols-outlined text-lg" data-icon="smoke_free">smoke_free</span>
+<span class="material-symbols-outlined text-lg" data-icon="wine_bar">wine_bar</span>
+<span class="material-symbols-outlined text-lg" data-icon="spa">spa</span>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-xl font-label text-[9px] uppercase tracking-[0.1rem] hover:bg-primary-container transition-all ring-2 ring-primary ring-offset-2 ring-offset-surface">Room Selected</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Booking Summary -->
+<div class="fixed bottom-8 left-12 right-12 md:left-auto md:w-[400px] z-40">
+<div class="bg-surface-container-lowest/80 backdrop-blur-2xl p-6 rounded-xl shadow-[0_20px_40px_rgba(27,28,25,0.06)] border border-outline-variant/15">
+<div class="flex justify-between items-center mb-4">
+<h4 class="font-label text-[10px] uppercase tracking-widest text-primary font-bold">Booking Summary</h4>
+<span class="font-body text-xs text-on-surface-variant italic">1 Room Selected</span>
+</div>
+<div class="flex items-center space-x-6 mb-6">
+<div>
+<span class="block font-label text-[8px] uppercase text-outline mb-1">Check-in</span>
+<span class="block font-body text-sm text-primary">Oct 12, 2024</span>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<div>
+<span class="block font-label text-[8px] uppercase text-outline mb-1">Check-out</span>
+<span class="block font-body text-sm text-primary">Oct 15, 2024</span>
+</div>
+<div class="flex-1 text-right">
+<span class="block font-label text-[8px] uppercase text-outline mb-1">Total Stay</span>
+<span class="block font-headline text-lg text-secondary">$2,250.00</span>
+</div>
+</div>
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-4 rounded-xl font-label text-[10px] uppercase tracking-[0.2rem] hover:brightness-110 transition-all flex items-center justify-center space-x-2">
+<span>Continue to Checkout</span>
+<span class="material-symbols-outlined text-base" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-[#f5f3ee] w-full pt-20 pb-10 mt-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 max-w-7xl mx-auto font-manrope text-sm tracking-wide text-[#1b1c19]">
+<div class="space-y-6">
+<div class="font-noto-serif text-lg text-[#1b1c19]">Artisanal Heritage</div>
+<p class="text-[#737873] leading-relaxed">A sanctuary for the modern traveler, where every floor tells a story and every room is a masterpiece.</p>
+</div>
+<div>
+<h5 class="font-semibold text-[#18281e] mb-6">Explore</h5>
+<ul class="space-y-4">
+<li><a class="text-[#737873] hover:text-[#18281e] transition-opacity underline underline-offset-4 decoration-[#715a3e]" href="#">Our Story</a></li>
+<li><a class="text-[#737873] hover:text-[#18281e] transition-opacity underline underline-offset-4 decoration-[#715a3e]" href="#">Sustainability</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-semibold text-[#18281e] mb-6">Concierge</h5>
+<ul class="space-y-4">
+<li><a class="text-[#737873] hover:text-[#18281e] transition-opacity underline underline-offset-4 decoration-[#715a3e]" href="#">Contact</a></li>
+<li><a class="text-[#737873] hover:text-[#18281e] transition-opacity underline underline-offset-4 decoration-[#715a3e]" href="#">Booking Help</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-semibold text-[#18281e] mb-6">Legal</h5>
+<ul class="space-y-4">
+<li><a class="text-[#737873] hover:text-[#18281e] transition-opacity underline underline-offset-4 decoration-[#715a3e]" href="#">Privacy Policy</a></li>
+<li><a class="text-[#737873] hover:text-[#18281e] transition-opacity underline underline-offset-4 decoration-[#715a3e]" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="mt-20 px-12 max-w-7xl mx-auto border-t border-outline-variant/10 pt-8 text-center text-[#737873] text-[10px] uppercase tracking-widest">
+            © 2024 Artisanal Heritage. All rights reserved.
+        </div>
+</footer>
+</body></html>
