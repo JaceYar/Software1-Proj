@@ -45,3 +45,5 @@ In two terminals:
 - `cd frontend && bun run dev`
 
 You'll need maven and bun installed.
+
+The frontend will be `http://localhost:5173`
