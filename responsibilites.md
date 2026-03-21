@@ -1,14 +1,28 @@
 
 # Responsibilites
 
-- Erick
+- Erick:
+Stitched AI Front end
+Front end design UI/UX
+
   
-- Zane
+- Zane:
+  Auth controller
   
-- Johnathon
+
   
-- Aaron
+- Johnathon:
+  Set up database ,jooq, etc..
   
-- Jace
+- Aaron:
+  Search controller
   
-- James
+- Jace:
+  Front end set up
+  
+
+  
+- James:
+   Update jira for current things we got to do for deliverables
+  Utilties classes
+
