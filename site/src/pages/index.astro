@@ -1,0 +1,397 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const members = [
+  { name: "Jace Yarborough",  github: "JaceYar",        role: "Full Stack" },
+  { name: "Jonathan Deiss",   github: "FireSquid6",     role: "Full Stack" },
+  { name: "Aaron Evans",      github: "aaron-d-e",      role: "Full Stack" },
+  { name: "Erick Martinez",   github: "emartinez-06",   role: "Full Stack" },
+  { name: "James Bagwell",    github: "jamesdavid0214", role: "Full Stack" },
+  { name: "Zain Altaf",       github: "zfa2005",        role: "Full Stack" },
+];
+---
+
+<Layout title="; DROP TABLE teams; -- | Stay & Shop">
+  <div class="page">
+
+    <!-- HEADER -->
+    <header>
+      <div class="header-inner">
+        <div class="prompt-line">
+          <span class="prompt-sym">$</span>
+          <span class="prompt-cmd" id="typed"></span>
+          <span class="cursor">█</span>
+        </div>
+        <h1 class="team-name">; DROP TABLE teams; --</h1>
+        <p class="tagline">CSI 3471 · Baylor University · Spring 2026</p>
+        <div class="header-links">
+          <a href="https://github.com/JaceYar/Software1-Proj" class="btn" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://csi-3471-drop-table-teams.atlassian.net/jira/software/projects/SCRUM/boards/1" class="btn" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.75 0C5.26 0 0 5.26 0 11.75S5.26 23.5 11.75 23.5 23.5 18.24 23.5 11.75 18.24 0 11.75 0zm4.91 13.19-4.27 4.27a.9.9 0 0 1-1.28 0l-4.27-4.27a.9.9 0 0 1 0-1.28l4.27-4.27a.9.9 0 0 1 1.28 0l4.27 4.27a.9.9 0 0 1 0 1.28z"/></svg>
+            Jira Board
+          </a>
+          <a href="https://software1-proj.vercel.app/login" class="btn btn-green" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live App
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- PROJECT DESCRIPTION -->
+    <section class="section">
+      <div class="section-label"><span class="label-sym">▶</span> project.description</div>
+      <div class="desc-grid">
+        <div class="desc-block">
+          <div class="desc-icon">🏨</div>
+          <h3>Hotel Reservation</h3>
+          <p>Three themed floors — Nature Retreat, Urban Elegance, and Vintage Charm — with room types from standard to executive. Guests search availability, book, modify, and cancel with smart rate handling and cancellation penalties.</p>
+        </div>
+        <div class="desc-block">
+          <div class="desc-icon">🛍️</div>
+          <h3>In-Hotel Store</h3>
+          <p>An exclusive shopping experience within the premises. Guests browse products, add to cart, and receive a single combined bill covering their entire stay — room charges and purchases together.</p>
+        </div>
+        <div class="desc-block">
+          <div class="desc-icon">👥</div>
+          <h3>Role-Based Access</h3>
+          <p>Three roles: Guests manage their reservations and shopping, Clerks handle check-in/out and billing, and Admins provision accounts and oversee operations. Each with a dedicated dashboard.</p>
+        </div>
+        <div class="desc-block">
+          <div class="desc-icon">⚙️</div>
+          <h3>Tech Stack</h3>
+          <p>Java 17 + Spring Boot backend with jOOQ for type-safe SQL and SQLite persistence. React 19 + Vite frontend deployed on Vercel. Maven-based build with JUnit tests and full Javadoc coverage.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH BADGES -->
+    <section class="section">
+      <div class="section-label"><span class="label-sym">▶</span> project.stack</div>
+      <div class="badges">
+        {[
+          { t: "Java 17",      c: "#f89820" },
+          { t: "Spring Boot",  c: "#6db33f" },
+          { t: "jOOQ",         c: "#00a8e1" },
+          { t: "SQLite",       c: "#0f80cc" },
+          { t: "React 19",     c: "#61dafb" },
+          { t: "Vite",         c: "#bd34fe" },
+          { t: "Astro",        c: "#ff5d01" },
+          { t: "Vercel",       c: "#aaaaaa" },
+          { t: "Maven",        c: "#c71a36" },
+          { t: "JUnit",        c: "#25a162" },
+          { t: "jOOQ",         c: "#00a8e1" },
+        ].filter((v,i,a)=>a.findIndex(x=>x.t===v.t)===i).map(b => (
+          <span class="badge" style={`--bc: ${b.c}`}>{b.t}</span>
+        ))}
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section">
+      <div class="section-label"><span class="label-sym">▶</span> team.members</div>
+      <div class="team-grid">
+        {members.map(m => (
+          <div class="member-card">
+            <div class="member-avatar-wrap">
+              <img
+                class="member-avatar"
+                src={`https://github.com/${m.github}.png?size=120`}
+                alt={m.name}
+                loading="lazy"
+                onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect width=%2260%22 height=%2260%22 fill=%22%231a2030%22/><text x=%2250%%22 y=%2255%%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%234a5568%22 font-size=%2224%22>?</text></svg>'"
+              />
+              <div class="avatar-ring"></div>
+            </div>
+            <div class="member-info">
+              <div class="member-name">{m.name}</div>
+              <div class="member-handle">@{m.github}</div>
+              <a class="member-gh-link" href={`https://github.com/${m.github}`} target="_blank">github.com/{m.github}</a>
+              <div class="member-commits">
+                <span class="commit-label">commits</span>
+                <span class="commit-count" data-user={m.github}>—</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span class="footer-text">© 2026 ; DROP TABLE teams; -- · CSI 3471 · Baylor University</span>
+      <span class="footer-dim">Built with Astro · Deployed on Vercel</span>
+    </footer>
+  </div>
+
+  <style>
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* HEADER */
+    header {
+      padding: 5rem 0 3rem;
+      border-bottom: 1px solid #111820;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .header-inner { max-width: 800px; }
+
+    .prompt-line {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .prompt-sym { color: #00ff88; }
+    .prompt-cmd { color: #c8dae8; }
+    .cursor {
+      color: #00ff88;
+      animation: blink 1s step-end infinite;
+    }
+
+    h1.team-name {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .tagline {
+      color: #c8dae8;
+      font-size: 0.8rem;
+      margin-bottom: 2rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .header-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid #1a2030;
+      border-radius: 6px;
+      color: #c8dae8;
+      font-size: 0.8rem;
+      background: #0d1117;
+      transition: all 0.2s;
+      font-family: var(--mono);
+    }
+    .btn:hover {
+      border-color: #2e3f50;
+      color: #c8dae8;
+    }
+    .btn-green {
+      border-color: rgba(0,255,136,0.25);
+      color: #00ff88;
+      background: #020d07;
+    }
+    .btn-green:hover {
+      border-color: #00ff88;
+      box-shadow: 0 0 20px rgba(0,255,136,0.12);
+      color: #00ff88;
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-bottom: 3.5rem;
+      animation: fadeUp 0.6s ease both;
+      animation-delay: 0.1s;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      color: #c8dae8;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .label-sym { color: #00ff88; }
+
+    /* DESC GRID */
+    .desc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1px;
+      background: #111820;
+      border: 1px solid #111820;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .desc-block {
+      background: #050709;
+      padding: 1.75rem;
+      transition: background 0.2s;
+    }
+    .desc-block:hover { background: #080d12; }
+    .desc-icon { font-size: 1.4rem; margin-bottom: 0.75rem; }
+    .desc-block h3 {
+      color: #a0b8cc;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .desc-block p {
+      color: #c8dae8;
+      font-size: 0.76rem;
+      line-height: 1.75;
+    }
+
+    /* BADGES */
+    .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .badge {
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      border: 1px solid color-mix(in srgb, var(--bc) 25%, transparent);
+      color: var(--bc);
+      background: color-mix(in srgb, var(--bc) 7%, transparent);
+      transition: background 0.2s;
+    }
+    .badge:hover { background: color-mix(in srgb, var(--bc) 15%, transparent); }
+
+    /* TEAM */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .member-card {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: #050709;
+      border: 1px solid #111820;
+      border-radius: 10px;
+      padding: 1.25rem;
+      transition: all 0.25s;
+    }
+    .member-card:hover {
+      border-color: rgba(0,255,136,0.2);
+      background: #020d07;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .member-avatar-wrap { position: relative; flex-shrink: 0; }
+    .member-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: block;
+      background: #111820;
+    }
+    .avatar-ring {
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      transition: border-color 0.25s;
+    }
+    .member-card:hover .avatar-ring { border-color: rgba(0,255,136,0.5); }
+
+    .member-info { flex: 1; min-width: 0; }
+    .member-name {
+      color: #c8dae8;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 0.1rem;
+    }
+    .member-handle {
+      color: #c8dae8;
+      font-size: 0.72rem;
+      margin-bottom: 0.3rem;
+    }
+    .member-gh-link {
+      color: #1e3040;
+      font-size: 0.68rem;
+      display: block;
+      margin-bottom: 0.5rem;
+      transition: color 0.2s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .member-card:hover .member-gh-link { color: #00ff88; }
+
+    .member-commits { display: flex; align-items: center; gap: 0.5rem; }
+    .commit-label {
+      font-size: 0.62rem;
+      color: #c8dae8;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .commit-count {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #00ff88;
+      min-width: 1.5rem;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #0d1117;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .footer-text { color: #c8dae8; font-size: 0.72rem; }
+    .footer-dim  { color: #c8dae8; font-size: 0.68rem; }
+
+    @media (max-width: 600px) {
+      header { padding: 3rem 0 2rem; }
+      h1.team-name { font-size: 1.5rem; }
+      .team-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+
+  <script>
+    // Typing animation in header
+    const cmd = document.getElementById('typed');
+    const text = 'git log --oneline --all | wc -l';
+    let i = 0;
+    function type() {
+      if (i < text.length) {
+        cmd.textContent += text[i++];
+        setTimeout(type, 50 + Math.random() * 40);
+      }
+    }
+    setTimeout(type, 800);
+
+    // Live commit counts from GitHub contributors API
+    async function loadCommits() {
+      try {
+        const res = await fetch('https://api.github.com/repos/JaceYar/Software1-Proj/contributors');
+        if (!res.ok) return;
+        const data = await res.json();
+        const map = {};
+        data.forEach(c => { map[c.login.toLowerCase()] = c.contributions; });
+        document.querySelectorAll('.commit-count').forEach(el => {
+          const user = el.dataset.user.toLowerCase();
+          if (map[user] !== undefined) el.textContent = map[user];
+        });
+      } catch (_) {}
+    }
+    loadCommits();
+  </script>
+</Layout>
