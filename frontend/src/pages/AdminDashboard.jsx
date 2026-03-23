@@ -44,7 +44,11 @@ export default function AdminDashboard() {
     }
   };
 
-  const ROLE_COLORS = { ADMIN: '#f8d7da', CLERK: '#cce5ff', GUEST: '#d4edda' };
+  const ROLE_COLORS = {
+    ADMIN: { bg: 'rgba(75,12,15,0.08)', color: '#4b0c0f' },
+    CLERK: { bg: 'rgba(113,90,62,0.1)', color: '#715a3e' },
+    GUEST: { bg: 'rgba(24,40,30,0.08)', color: '#18281e' },
+  };
 
   return (
     <div style={styles.page}>
@@ -93,7 +97,7 @@ export default function AdminDashboard() {
               <td style={styles.td}>{u.name}</td>
               <td style={styles.td}>{u.email}</td>
               <td style={styles.td}>
-                <span style={{ background: ROLE_COLORS[u.role], padding: '0.1rem 0.5rem', borderRadius: '3px', fontSize: '0.75rem' }}>
+                <span style={{ background: (ROLE_COLORS[u.role] || {}).bg, color: (ROLE_COLORS[u.role] || {}).color, padding: '0.2rem 0.6rem', borderRadius: '0.375rem', fontSize: '0.65rem', fontWeight: '600', letterSpacing: '0.04rem' }}>
                   {u.role}
                 </span>
               </td>
@@ -106,17 +110,52 @@ export default function AdminDashboard() {
 }
 
 const styles = {
-  page: { maxWidth: '1000px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1.5rem' },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  success: { background: '#efe', color: '#060', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' },
-  panel: { background: '#fff', borderRadius: '8px', padding: '1.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' },
-  panelTitle: { color: '#1a1a2e', fontSize: '1.1rem', marginBottom: '1rem' },
-  form: { display: 'flex', flexDirection: 'column', gap: '0.75rem' },
-  input: { padding: '0.625rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.9rem' },
-  btn: { padding: '0.625rem', background: '#1a1a2e', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  table: { width: '100%', borderCollapse: 'collapse', background: '#fff', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' },
-  th: { background: '#1a1a2e', color: '#fff', padding: '0.75rem 1rem', textAlign: 'left', fontSize: '0.875rem' },
-  td: { padding: '0.625rem 1rem', borderBottom: '1px solid #eee', fontSize: '0.875rem' },
+  page: { maxWidth: '1000px', margin: '0 auto', padding: '2.5rem 2rem' },
+  heading: {
+    color: '#1b1c19', marginBottom: '2rem',
+    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
+  },
+  error: {
+    background: 'rgba(75,12,15,0.06)', color: '#4b0c0f',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  success: {
+    background: 'rgba(24,40,30,0.06)', color: '#18281e',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem' },
+  panel: {
+    background: '#ffffff', borderRadius: '1rem', padding: '2rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
+  },
+  panelTitle: {
+    color: '#1b1c19', marginBottom: '1.25rem',
+    fontFamily: "'Noto Serif', Georgia, serif", fontSize: '1.1rem', fontWeight: '500',
+  },
+  form: { display: 'flex', flexDirection: 'column', gap: '1.25rem' },
+  input: {
+    padding: '0.5rem 0', border: 'none', borderBottom: '1px solid #737873',
+    background: 'transparent', fontSize: '0.9rem', outline: 'none',
+    color: '#1b1c19', fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  btn: {
+    padding: '0.75rem', background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  table: {
+    width: '100%', borderCollapse: 'collapse', background: '#ffffff',
+    borderRadius: '1rem', overflow: 'hidden', boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
+  },
+  th: {
+    background: '#18281e', color: '#ffffff', padding: '1rem 1.25rem',
+    textAlign: 'left', fontSize: '0.65rem', fontWeight: '600',
+    letterSpacing: '0.08rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  td: {
+    padding: '0.875rem 1.25rem', fontSize: '0.875rem', color: '#1b1c19',
+    borderBottom: '1px solid #f5f3ee',
+  },
 };

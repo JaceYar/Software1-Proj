@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { getReservations, cancelReservation } from '../services/api';
 
 const STATUS_COLORS = {
-  CONFIRMED: '#d4edda', CHECKED_IN: '#cce5ff',
-  CHECKED_OUT: '#e2e3e5', CANCELLED: '#f8d7da',
+  CONFIRMED: { bg: 'rgba(24,40,30,0.08)', color: '#18281e' },
+  CHECKED_IN: { bg: 'rgba(113,90,62,0.1)', color: '#715a3e' },
+  CHECKED_OUT: { bg: '#f0eee9', color: '#737873' },
+  CANCELLED: { bg: 'rgba(75,12,15,0.08)', color: '#4b0c0f' },
 };
 
 export default function ReservationsPage() {
@@ -45,11 +47,11 @@ export default function ReservationsPage() {
       ) : (
         <div style={styles.list}>
           {reservations.map((r) => (
-            <div key={r.id} style={{ ...styles.card, borderLeft: `4px solid ${STATUS_COLORS[r.status] || '#ddd'}` }}>
+            <div key={r.id} style={styles.card}>
               <div style={styles.cardTop}>
-                <div>
-                  <strong>Room {r.roomNumber}</strong>
-                  <span style={{ ...styles.statusBadge, background: STATUS_COLORS[r.status] }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <strong style={{ fontFamily: "'Noto Serif', Georgia, serif", fontWeight: '500' }}>Room {r.roomNumber}</strong>
+                  <span style={{ ...styles.statusBadge, background: (STATUS_COLORS[r.status] || {}).bg, color: (STATUS_COLORS[r.status] || {}).color }}>
                     {r.status}
                   </span>
                 </div>
@@ -80,24 +82,32 @@ export default function ReservationsPage() {
 }
 
 const styles = {
-  page: { maxWidth: '800px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1.5rem' },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  list: { display: 'flex', flexDirection: 'column', gap: '1rem' },
+  page: { maxWidth: '800px', margin: '0 auto', padding: '2.5rem 2rem' },
+  heading: {
+    color: '#1b1c19', marginBottom: '2rem',
+    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
+  },
+  error: {
+    background: 'rgba(75,12,15,0.06)', color: '#4b0c0f',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  list: { display: 'flex', flexDirection: 'column', gap: '1.25rem' },
   card: {
-    background: '#fff', borderRadius: '8px', padding: '1.25rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+    background: '#ffffff', borderRadius: '1rem', padding: '1.5rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
   },
-  cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' },
+  cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' },
   statusBadge: {
-    marginLeft: '0.75rem', padding: '0.1rem 0.5rem', borderRadius: '3px',
-    fontSize: '0.75rem', fontWeight: 'bold',
+    padding: '0.2rem 0.6rem', borderRadius: '0.375rem',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.04rem',
   },
-  total: { fontWeight: 'bold', color: '#1a1a2e' },
-  dates: { color: '#555', fontSize: '0.9rem', marginBottom: '0.25rem' },
-  meta: { color: '#888', fontSize: '0.8rem', marginBottom: '0.75rem' },
+  total: { fontWeight: '600', color: '#1b1c19', fontFamily: "'Noto Serif', Georgia, serif" },
+  dates: { color: '#737873', fontSize: '0.9rem', marginBottom: '0.25rem' },
+  meta: { color: '#737873', fontSize: '0.8rem', marginBottom: '1rem' },
   cancelBtn: {
-    padding: '0.35rem 0.9rem', background: '#dc3545', color: '#fff',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.875rem',
+    padding: '0.5rem 1.25rem', background: 'rgba(75,12,15,0.08)', color: '#4b0c0f',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer', fontSize: '0.7rem',
+    fontWeight: '600', letterSpacing: '0.06rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
   },
 };

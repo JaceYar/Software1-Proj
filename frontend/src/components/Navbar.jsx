@@ -46,17 +46,26 @@ export default function Navbar() {
 const styles = {
   nav: {
     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    padding: '0.75rem 2rem', background: '#1a1a2e', color: '#fff',
+    padding: '1rem 2.5rem',
+    background: 'rgba(221, 229, 219, 0.6)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    position: 'sticky', top: 0, zIndex: 100,
   },
   brand: {
-    color: '#e0c06e', fontWeight: 'bold', fontSize: '1.25rem', textDecoration: 'none',
+    color: '#18281e', fontWeight: '700', fontSize: '1.1rem', textDecoration: 'none',
+    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.01em',
   },
-  links: { display: 'flex', alignItems: 'center', gap: '1rem' },
-  link: { color: '#ccc', textDecoration: 'none', fontSize: '0.9rem' },
-  username: { color: '#e0c06e', fontSize: '0.85rem' },
+  links: { display: 'flex', alignItems: 'center', gap: '1.5rem' },
+  link: {
+    color: '#737873', textDecoration: 'none', fontSize: '0.75rem',
+    fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
+  },
+  username: { color: '#18281e', fontSize: '0.75rem', fontWeight: '500' },
   button: {
-    background: 'none', border: '1px solid #ccc', color: '#ccc',
-    padding: '0.25rem 0.75rem', cursor: 'pointer', borderRadius: '4px',
-    fontSize: '0.85rem',
+    background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
+    border: 'none', padding: '0.4rem 1rem', cursor: 'pointer', borderRadius: '0.75rem',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
   },
 };

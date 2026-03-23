@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react';
 import { getReservations, getRooms, checkIn, checkOut, createRoom } from '../services/api';
 
 const STATUS_COLORS = {
-  CONFIRMED: '#d4edda', CHECKED_IN: '#cce5ff',
-  CHECKED_OUT: '#e2e3e5', CANCELLED: '#f8d7da',
+  CONFIRMED: { bg: 'rgba(24,40,30,0.08)', color: '#18281e' },
+  CHECKED_IN: { bg: 'rgba(113,90,62,0.1)', color: '#715a3e' },
+  CHECKED_OUT: { bg: '#f0eee9', color: '#737873' },
+  CANCELLED: { bg: 'rgba(75,12,15,0.08)', color: '#4b0c0f' },
+  AVAILABLE: { bg: 'rgba(24,40,30,0.08)', color: '#18281e' },
+  OCCUPIED: { bg: 'rgba(113,90,62,0.1)', color: '#715a3e' },
 };
 
 export default function ClerkDashboard() {
@@ -72,11 +76,12 @@ export default function ClerkDashboard() {
       {tab === 'reservations' && (
         <div style={styles.list}>
           {reservations.map((r) => (
-            <div key={r.id} style={{ ...styles.card, borderLeft: `4px solid ${STATUS_COLORS[r.status] || '#ddd'}` }}>
+            <div key={r.id} style={styles.card}>
               <div style={styles.cardTop}>
-                <div>
-                  <strong>#{r.id}</strong> — Room {r.roomNumber}
-                  <span style={{ ...styles.badge, background: STATUS_COLORS[r.status] }}>{r.status}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <strong style={{ fontFamily: "'Noto Serif', Georgia, serif", fontWeight: '500' }}>#{r.id}</strong>
+                  <span style={{ color: '#737873' }}>— Room {r.roomNumber}</span>
+                  <span style={{ ...styles.badge, background: (STATUS_COLORS[r.status] || {}).bg, color: (STATUS_COLORS[r.status] || {}).color }}>{r.status}</span>
                 </div>
                 <span>${r.rate.toFixed(2)}</span>
               </div>
@@ -130,7 +135,7 @@ export default function ClerkDashboard() {
               <div key={r.id} style={styles.card}>
                 <div style={styles.cardTop}>
                   <strong>Room {r.roomNumber}</strong> — Floor {r.floor} · {r.roomType} · {r.qualityLevel}
-                  <span style={{ ...styles.badge, background: r.status === 'AVAILABLE' ? '#d4edda' : '#f8d7da' }}>{r.status}</span>
+                  <span style={{ ...styles.badge, background: (STATUS_COLORS[r.status] || {}).bg, color: (STATUS_COLORS[r.status] || {}).color }}>{r.status}</span>
                 </div>
                 <div style={styles.meta}>{r.numBeds}x {r.bedType} · ${r.dailyRate}/night {r.smoking ? '· Smoking' : ''}</div>
               </div>
@@ -143,23 +148,76 @@ export default function ClerkDashboard() {
 }
 
 const styles = {
-  page: { maxWidth: '900px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1rem' },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  success: { background: '#efe', color: '#060', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  tabs: { display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' },
-  tab: { padding: '0.5rem 1.25rem', background: '#eee', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  activeTab: { padding: '0.5rem 1.25rem', background: '#1a1a2e', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  list: { display: 'flex', flexDirection: 'column', gap: '0.75rem' },
-  card: { background: '#fff', borderRadius: '8px', padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' },
-  cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' },
-  badge: { marginLeft: '0.5rem', padding: '0.1rem 0.4rem', borderRadius: '3px', fontSize: '0.75rem' },
-  meta: { color: '#888', fontSize: '0.8rem', marginBottom: '0.5rem' },
+  page: { maxWidth: '900px', margin: '0 auto', padding: '2.5rem 2rem' },
+  heading: {
+    color: '#1b1c19', marginBottom: '1.5rem',
+    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
+  },
+  error: {
+    background: 'rgba(75,12,15,0.06)', color: '#4b0c0f',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  success: {
+    background: 'rgba(24,40,30,0.06)', color: '#18281e',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  tabs: { display: 'flex', gap: '0.5rem', marginBottom: '2rem' },
+  tab: {
+    padding: '0.6rem 1.5rem', background: '#f0eee9', border: 'none', borderRadius: '0.75rem',
+    cursor: 'pointer', fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.06rem',
+    textTransform: 'uppercase', color: '#737873', fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  activeTab: {
+    padding: '0.6rem 1.5rem', background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.06rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  list: { display: 'flex', flexDirection: 'column', gap: '1rem' },
+  card: {
+    background: '#ffffff', borderRadius: '1rem', padding: '1.25rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
+  },
+  cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' },
+  badge: {
+    padding: '0.2rem 0.6rem', borderRadius: '0.375rem',
+    fontSize: '0.65rem', fontWeight: '600', letterSpacing: '0.04rem',
+  },
+  meta: { color: '#737873', fontSize: '0.8rem', marginBottom: '0.75rem' },
   actions: { display: 'flex', gap: '0.5rem' },
-  inBtn: { padding: '0.3rem 0.75rem', background: '#28a745', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  outBtn: { padding: '0.3rem 0.75rem', background: '#6c757d', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  addBtn: { marginBottom: '1rem', padding: '0.5rem 1rem', background: '#e0c06e', color: '#1a1a2e', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' },
-  addForm: { background: '#fff', padding: '1.25rem', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' },
-  input: { padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.9rem' },
-  submitBtn: { padding: '0.5rem', background: '#1a1a2e', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
+  inBtn: {
+    padding: '0.4rem 1rem', background: 'rgba(24,40,30,0.08)', color: '#18281e',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.65rem', fontWeight: '600', letterSpacing: '0.06rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  outBtn: {
+    padding: '0.4rem 1rem', background: '#f0eee9', color: '#737873',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.65rem', fontWeight: '600', letterSpacing: '0.06rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  addBtn: {
+    marginBottom: '1.5rem', padding: '0.6rem 1.5rem',
+    background: 'linear-gradient(135deg, #715a3e, #8a6e50)', color: '#ffffff',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.06rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  addForm: {
+    background: '#ffffff', padding: '1.5rem', borderRadius: '1rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)', marginBottom: '1.5rem',
+    display: 'flex', flexDirection: 'column', gap: '1rem',
+  },
+  input: {
+    padding: '0.5rem 0', border: 'none', borderBottom: '1px solid #737873',
+    background: 'transparent', fontSize: '0.9rem', outline: 'none',
+    color: '#1b1c19', fontFamily: "'Manrope', system-ui, sans-serif",
+  },
+  submitBtn: {
+    padding: '0.75rem', background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
+  },
 };

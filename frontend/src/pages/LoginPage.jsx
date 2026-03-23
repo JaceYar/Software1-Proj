@@ -56,27 +56,32 @@ export default function LoginPage() {
 const styles = {
   container: {
     minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    background: '#f5f5f5',
+    background: '#fbf9f4', padding: '2rem',
   },
   card: {
-    background: '#fff', padding: '2.5rem', borderRadius: '8px',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px',
+    background: '#ffffff', padding: '3rem', borderRadius: '1.25rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)', width: '100%', maxWidth: '420px',
   },
-  title: { margin: 0, fontSize: '1.75rem', color: '#1a1a2e' },
-  subtitle: { color: '#888', marginBottom: '1.5rem' },
+  title: {
+    margin: 0, fontSize: '2rem', color: '#1b1c19',
+    fontFamily: "'Noto Serif', Georgia, serif", fontWeight: '500', letterSpacing: '-0.02em',
+  },
+  subtitle: { color: '#737873', marginBottom: '2rem', marginTop: '0.25rem', fontSize: '0.9rem' },
   error: {
-    background: '#fee', color: '#c00', padding: '0.5rem', borderRadius: '4px',
-    marginBottom: '1rem', fontSize: '0.875rem',
+    background: 'rgba(75, 12, 15, 0.06)', color: '#4b0c0f', padding: '0.75rem 1rem',
+    borderRadius: '0.5rem', marginBottom: '1.25rem', fontSize: '0.875rem',
   },
-  form: { display: 'flex', flexDirection: 'column', gap: '0.75rem' },
+  form: { display: 'flex', flexDirection: 'column', gap: '1.25rem' },
   input: {
-    padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px',
-    fontSize: '1rem', outline: 'none',
+    padding: '0.75rem 0', border: 'none', borderBottom: '1px solid #737873',
+    background: 'transparent', fontSize: '1rem', outline: 'none', width: '100%',
+    color: '#1b1c19', fontFamily: "'Manrope', system-ui, sans-serif",
   },
   button: {
-    padding: '0.75rem', background: '#1a1a2e', color: '#fff',
-    border: 'none', borderRadius: '4px', fontSize: '1rem', cursor: 'pointer',
-    marginTop: '0.5rem',
+    padding: '0.875rem', background: 'linear-gradient(135deg, #18281e, #2d3e33)',
+    color: '#ffffff', border: 'none', borderRadius: '0.75rem', fontSize: '0.75rem',
+    fontWeight: '600', letterSpacing: '0.1rem', textTransform: 'uppercase', cursor: 'pointer',
+    marginTop: '0.5rem', fontFamily: "'Manrope', system-ui, sans-serif",
   },
-  footer: { marginTop: '1rem', textAlign: 'center', fontSize: '0.875rem' },
+  footer: { marginTop: '1.5rem', textAlign: 'center', fontSize: '0.875rem', color: '#737873' },
 };

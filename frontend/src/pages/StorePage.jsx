@@ -86,9 +86,9 @@ export default function StorePage() {
           ) : (
             <>
               {cart.map((item) => (
-                <div key={item.itemId} style={styles.cartItem}>
+                <div key={item.itemId} style={{ ...styles.cartItem, borderBottom: item !== cart[cart.length-1] ? '1px solid #f0eee9' : 'none' }}>
                   <span>{item.name}</span>
-                  <span>x{item.quantity}</span>
+                  <span style={{ color: '#737873' }}>x{item.quantity}</span>
                   <span>${(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
@@ -103,39 +103,70 @@ export default function StorePage() {
 }
 
 const styles = {
-  page: { maxWidth: '1100px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1.5rem' },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  success: { background: '#efe', color: '#060', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  layout: { display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem' },
-  sectionTitle: { color: '#1a1a2e', marginBottom: '1rem', fontSize: '1.1rem' },
-  products: {},
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' },
-  card: {
-    background: '#fff', borderRadius: '8px', padding: '1rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  page: { maxWidth: '1100px', margin: '0 auto', padding: '2.5rem 2rem' },
+  heading: {
+    color: '#1b1c19', marginBottom: '2rem',
+    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
   },
-  category: { fontSize: '0.7rem', color: '#888', textTransform: 'uppercase', marginBottom: '0.25rem' },
-  productName: { fontWeight: 'bold', marginBottom: '0.25rem' },
-  desc: { color: '#666', fontSize: '0.8rem', marginBottom: '0.5rem' },
-  cardFooter: { display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' },
-  price: { fontWeight: 'bold', color: '#1a1a2e' },
-  stock: { color: '#888', fontSize: '0.75rem' },
+  error: {
+    background: 'rgba(75,12,15,0.06)', color: '#4b0c0f',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  success: {
+    background: 'rgba(24,40,30,0.06)', color: '#18281e',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  layout: { display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2.5rem' },
+  sectionTitle: {
+    color: '#1b1c19', marginBottom: '1.25rem',
+    fontFamily: "'Noto Serif', Georgia, serif", fontSize: '1.25rem', fontWeight: '500',
+  },
+  products: {},
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1.25rem' },
+  card: {
+    background: '#ffffff', borderRadius: '1rem', padding: '1.25rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
+  },
+  category: {
+    fontSize: '0.65rem', color: '#737873', textTransform: 'uppercase',
+    marginBottom: '0.4rem', fontWeight: '600', letterSpacing: '0.06rem',
+  },
+  productName: {
+    fontWeight: '500', marginBottom: '0.4rem',
+    fontFamily: "'Noto Serif', Georgia, serif", color: '#1b1c19',
+  },
+  desc: { color: '#737873', fontSize: '0.8rem', marginBottom: '0.75rem', lineHeight: '1.5' },
+  cardFooter: { display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', paddingTop: '0.75rem' },
+  price: {
+    fontWeight: '600', color: '#1b1c19',
+    fontFamily: "'Noto Serif', Georgia, serif",
+  },
+  stock: { color: '#737873', fontSize: '0.7rem' },
   addBtn: {
-    marginLeft: 'auto', padding: '0.3rem 0.75rem', background: '#e0c06e', color: '#1a1a2e',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold',
+    marginLeft: 'auto', padding: '0.35rem 0.9rem',
+    background: 'linear-gradient(135deg, #715a3e, #8a6e50)', color: '#ffffff',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.65rem', fontWeight: '600', letterSpacing: '0.06rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
   },
   cartPanel: {
-    background: '#fff', borderRadius: '8px', padding: '1.25rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)', alignSelf: 'start', position: 'sticky', top: '1rem',
+    background: '#ffffff', borderRadius: '1rem', padding: '1.5rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)', alignSelf: 'start', position: 'sticky', top: '5rem',
   },
   cartItem: {
-    display: 'flex', justifyContent: 'space-between', padding: '0.4rem 0',
-    borderBottom: '1px solid #eee', fontSize: '0.875rem',
+    display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0',
+    fontSize: '0.875rem', color: '#1b1c19',
   },
-  cartTotal: { fontWeight: 'bold', marginTop: '0.75rem', marginBottom: '1rem' },
+  cartTotal: {
+    fontWeight: '600', marginTop: '1rem', marginBottom: '1.25rem',
+    paddingTop: '0.75rem', color: '#1b1c19',
+    fontFamily: "'Noto Serif', Georgia, serif",
+  },
   checkoutBtn: {
-    width: '100%', padding: '0.75rem', background: '#1a1a2e', color: '#fff',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem',
+    width: '100%', padding: '0.875rem',
+    background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.75rem', fontWeight: '600', letterSpacing: '0.1rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
   },
 };

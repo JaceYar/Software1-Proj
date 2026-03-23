@@ -83,13 +83,13 @@ export default function RoomsPage() {
               <div key={room.id} style={styles.card}>
                 <div style={styles.cardHeader}>
                   <span style={styles.roomNumber}>Room {room.roomNumber}</span>
-                  <span style={styles.floor}>{FLOOR_NAMES[room.floor]}</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.06rem', color: FLOOR_COLORS[room.floor] || '#737873' }}>{FLOOR_NAMES[room.floor]}</span>
                 </div>
                 <div style={styles.badges}>
                   <span style={styles.badge}>{room.qualityLevel}</span>
                   <span style={styles.badge}>{room.roomType}</span>
                   <span style={styles.badge}>{room.numBeds}x {room.bedType}</span>
-                  {room.smoking && <span style={{ ...styles.badge, background: '#f5c6cb' }}>Smoking</span>}
+                  {room.smoking && <span style={{ ...styles.badge, background: 'rgba(75,12,15,0.08)', color: '#4b0c0f' }}>Smoking</span>}
                 </div>
                 {room.description && <p style={styles.desc}>{room.description}</p>}
                 <div style={styles.cardFooter}>
@@ -112,39 +112,72 @@ export default function RoomsPage() {
   );
 }
 
+const FLOOR_COLORS = { 1: '#18281e', 2: '#715a3e', 3: '#4b0c0f' };
+
 const styles = {
-  page: { maxWidth: '1100px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1.5rem' },
+  page: { maxWidth: '1100px', margin: '0 auto', padding: '2.5rem 2rem' },
+  heading: {
+    color: '#1b1c19', marginBottom: '2rem',
+    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
+  },
   searchBar: {
-    display: 'flex', gap: '1rem', alignItems: 'flex-end',
-    background: '#fff', padding: '1.5rem', borderRadius: '8px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)', marginBottom: '1.5rem',
+    display: 'flex', gap: '2rem', alignItems: 'flex-end',
+    background: '#ffffff', padding: '2rem 2.5rem', borderRadius: '1rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)', marginBottom: '2.5rem',
   },
-  label: { display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.875rem', color: '#555' },
-  input: { padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '1rem' },
+  label: {
+    display: 'flex', flexDirection: 'column', gap: '0.5rem',
+    fontSize: '0.7rem', color: '#737873', fontWeight: '600',
+    letterSpacing: '0.08rem', textTransform: 'uppercase',
+  },
+  input: {
+    padding: '0.5rem 0', border: 'none', borderBottom: '1px solid #737873',
+    background: 'transparent', fontSize: '1rem', outline: 'none',
+    color: '#1b1c19', fontFamily: "'Manrope', system-ui, sans-serif",
+  },
   searchBtn: {
-    padding: '0.625rem 1.5rem', background: '#1a1a2e', color: '#fff',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem',
+    padding: '0.75rem 2rem', background: 'linear-gradient(135deg, #18281e, #2d3e33)',
+    color: '#ffffff', border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
   },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  success: { background: '#efe', color: '#060', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  resultCount: { color: '#555', marginBottom: '1rem' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' },
+  error: {
+    background: 'rgba(75, 12, 15, 0.06)', color: '#4b0c0f',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  success: {
+    background: 'rgba(24, 40, 30, 0.06)', color: '#18281e',
+    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
+  },
+  resultCount: { color: '#737873', marginBottom: '1.5rem', fontSize: '0.875rem' },
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' },
   card: {
-    background: '#fff', borderRadius: '8px', padding: '1.25rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+    background: '#ffffff', borderRadius: '1rem', padding: '1.5rem',
+    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
   },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' },
-  roomNumber: { fontWeight: 'bold', fontSize: '1.1rem', color: '#1a1a2e' },
-  floor: { fontSize: '0.8rem', color: '#888' },
-  badges: { display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.75rem' },
-  badge: { background: '#eef', color: '#334', padding: '0.15rem 0.5rem', borderRadius: '3px', fontSize: '0.75rem' },
-  desc: { color: '#666', fontSize: '0.875rem', marginBottom: '0.75rem' },
-  cardFooter: { display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' },
-  rate: { fontWeight: 'bold', color: '#1a1a2e' },
-  total: { color: '#555', fontSize: '0.875rem' },
+  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' },
+  roomNumber: {
+    fontWeight: '500', fontSize: '1.1rem', color: '#1b1c19',
+    fontFamily: "'Noto Serif', Georgia, serif",
+  },
+  badges: { display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1rem' },
+  badge: {
+    background: '#f0eee9', color: '#737873',
+    padding: '0.2rem 0.6rem', borderRadius: '0.375rem', fontSize: '0.7rem',
+    fontWeight: '500', letterSpacing: '0.04rem',
+  },
+  desc: { color: '#737873', fontSize: '0.875rem', marginBottom: '1rem', lineHeight: '1.5' },
+  cardFooter: { display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', paddingTop: '1rem', borderTop: 'none' },
+  rate: {
+    fontWeight: '600', color: '#1b1c19',
+    fontFamily: "'Noto Serif', Georgia, serif", fontSize: '1.1rem',
+  },
+  total: { color: '#737873', fontSize: '0.875rem' },
   bookBtn: {
-    marginLeft: 'auto', padding: '0.4rem 1rem', background: '#e0c06e', color: '#1a1a2e',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold',
+    marginLeft: 'auto', padding: '0.5rem 1.25rem',
+    background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
+    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
+    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
+    fontFamily: "'Manrope', system-ui, sans-serif",
   },
 };
