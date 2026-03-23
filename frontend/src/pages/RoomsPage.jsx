@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAvailableRooms, createReservation } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const FLOOR_NAMES = { 1: 'Nature Retreat', 2: 'Urban Elegance', 3: 'Vintage Charm' };
+const FLOOR_TEXT = { 1: 'text-primary', 2: 'text-secondary', 3: 'text-tertiary' };
 
 export default function RoomsPage() {
   const { user } = useAuth();
@@ -49,56 +50,78 @@ export default function RoomsPage() {
     ? Math.max(0, (new Date(checkOut) - new Date(checkIn)) / 86400000)
     : 0;
 
-  return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>Find a Room</h1>
+  const inputClass = "border-0 border-b border-outline bg-transparent pb-2 text-on-surface outline-none font-sans text-base";
 
-      <div style={styles.searchBar}>
-        <label style={styles.label}>Check-in
-          <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)}
-            min={new Date().toISOString().split('T')[0]} style={styles.input} />
+  return (
+    <div className="max-w-6xl mx-auto px-8 py-10">
+      <h1 className="font-serif text-on-surface tracking-tight mb-8">Find a Room</h1>
+
+      <div className="flex gap-8 items-end bg-surface-lowest p-8 rounded-2xl shadow-ambient mb-10">
+        <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+          Check-in
+          <input
+            type="date"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            min={new Date().toISOString().split('T')[0]}
+            className={inputClass}
+          />
         </label>
-        <label style={styles.label}>Check-out
-          <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)}
-            min={checkIn || new Date().toISOString().split('T')[0]} style={styles.input} />
+        <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+          Check-out
+          <input
+            type="date"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            min={checkIn || new Date().toISOString().split('T')[0]}
+            className={inputClass}
+          />
         </label>
-        <button onClick={search} style={styles.searchBtn} disabled={!checkIn || !checkOut}>
+        <button
+          onClick={search}
+          disabled={!checkIn || !checkOut}
+          className="px-8 py-3 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans disabled:opacity-40"
+        >
           Search
         </button>
       </div>
 
-      {error && <div style={styles.error}>{error}</div>}
-      {success && <div style={styles.success}>{success}</div>}
-
-      {loading && <p>Searching...</p>}
+      {error && <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg mb-5">{error}</div>}
+      {success && <div className="bg-primary/8 text-primary px-4 py-3 rounded-lg mb-5">{success}</div>}
+      {loading && <p className="text-on-surface-muted">Searching...</p>}
 
       {searched && !loading && (
         <>
-          <p style={styles.resultCount}>
+          <p className="text-on-surface-muted text-sm mb-6">
             {rooms.length} room{rooms.length !== 1 ? 's' : ''} available
             {nights > 0 ? ` for ${nights} night${nights !== 1 ? 's' : ''}` : ''}
           </p>
-          <div style={styles.grid}>
+          <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
             {rooms.map((room) => (
-              <div key={room.id} style={styles.card}>
-                <div style={styles.cardHeader}>
-                  <span style={styles.roomNumber}>Room {room.roomNumber}</span>
-                  <span style={styles.floor}>{FLOOR_NAMES[room.floor]}</span>
+              <div key={room.id} className="bg-surface-lowest rounded-2xl p-6 shadow-ambient">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="font-serif font-medium text-on-surface text-lg">Room {room.roomNumber}</span>
+                  <span className={`text-xs font-semibold tracking-[0.06rem] ${FLOOR_TEXT[room.floor] || 'text-on-surface-muted'}`}>
+                    {FLOOR_NAMES[room.floor]}
+                  </span>
                 </div>
-                <div style={styles.badges}>
-                  <span style={styles.badge}>{room.qualityLevel}</span>
-                  <span style={styles.badge}>{room.roomType}</span>
-                  <span style={styles.badge}>{room.numBeds}x {room.bedType}</span>
-                  {room.smoking && <span style={{ ...styles.badge, background: '#f5c6cb' }}>Smoking</span>}
+                <div className="flex gap-1.5 flex-wrap mb-4">
+                  <span className="bg-surface-container text-on-surface-muted px-2.5 py-0.5 rounded-md text-xs font-medium">{room.qualityLevel}</span>
+                  <span className="bg-surface-container text-on-surface-muted px-2.5 py-0.5 rounded-md text-xs font-medium">{room.roomType}</span>
+                  <span className="bg-surface-container text-on-surface-muted px-2.5 py-0.5 rounded-md text-xs font-medium">{room.numBeds}x {room.bedType}</span>
+                  {room.smoking && <span className="bg-tertiary/8 text-tertiary px-2.5 py-0.5 rounded-md text-xs font-medium">Smoking</span>}
                 </div>
-                {room.description && <p style={styles.desc}>{room.description}</p>}
-                <div style={styles.cardFooter}>
-                  <span style={styles.rate}>${room.dailyRate.toFixed(2)}/night</span>
+                {room.description && <p className="text-on-surface-muted text-sm mb-4 leading-relaxed">{room.description}</p>}
+                <div className="flex items-center gap-3 flex-wrap pt-4">
+                  <span className="font-serif font-semibold text-on-surface text-lg">${room.dailyRate.toFixed(2)}/night</span>
                   {nights > 0 && (
-                    <span style={styles.total}>Total: ${(room.dailyRate * nights).toFixed(2)}</span>
+                    <span className="text-on-surface-muted text-sm">Total: ${(room.dailyRate * nights).toFixed(2)}</span>
                   )}
                   {user?.role === 'GUEST' && (
-                    <button onClick={() => handleBook(room)} style={styles.bookBtn}>
+                    <button
+                      onClick={() => handleBook(room)}
+                      className="ml-auto px-5 py-2 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
+                    >
                       Book Now
                     </button>
                   )}
@@ -111,40 +134,3 @@ export default function RoomsPage() {
     </div>
   );
 }
-
-const styles = {
-  page: { maxWidth: '1100px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1.5rem' },
-  searchBar: {
-    display: 'flex', gap: '1rem', alignItems: 'flex-end',
-    background: '#fff', padding: '1.5rem', borderRadius: '8px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)', marginBottom: '1.5rem',
-  },
-  label: { display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.875rem', color: '#555' },
-  input: { padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '1rem' },
-  searchBtn: {
-    padding: '0.625rem 1.5rem', background: '#1a1a2e', color: '#fff',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem',
-  },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  success: { background: '#efe', color: '#060', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  resultCount: { color: '#555', marginBottom: '1rem' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' },
-  card: {
-    background: '#fff', borderRadius: '8px', padding: '1.25rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-  },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' },
-  roomNumber: { fontWeight: 'bold', fontSize: '1.1rem', color: '#1a1a2e' },
-  floor: { fontSize: '0.8rem', color: '#888' },
-  badges: { display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.75rem' },
-  badge: { background: '#eef', color: '#334', padding: '0.15rem 0.5rem', borderRadius: '3px', fontSize: '0.75rem' },
-  desc: { color: '#666', fontSize: '0.875rem', marginBottom: '0.75rem' },
-  cardFooter: { display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' },
-  rate: { fontWeight: 'bold', color: '#1a1a2e' },
-  total: { color: '#555', fontSize: '0.875rem' },
-  bookBtn: {
-    marginLeft: 'auto', padding: '0.4rem 1rem', background: '#e0c06e', color: '#1a1a2e',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold',
-  },
-};

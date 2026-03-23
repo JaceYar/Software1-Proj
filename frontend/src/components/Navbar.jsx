@@ -11,52 +11,41 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={styles.nav}>
-      <Link to="/" style={styles.brand}>Stay &amp; Shop</Link>
-      <div style={styles.links}>
+    <nav className="flex items-center justify-between px-10 py-4 bg-surface-variant/60 backdrop-blur-[20px] sticky top-0 z-50">
+      <Link to="/" className="text-primary font-serif font-bold text-lg no-underline tracking-tight">
+        Stay &amp; Shop
+      </Link>
+      <div className="flex items-center gap-6">
         {user ? (
           <>
-            <Link to="/rooms" style={styles.link}>Rooms</Link>
+            <Link to="/rooms" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Rooms</Link>
             {user.role === 'GUEST' && (
               <>
-                <Link to="/reservations" style={styles.link}>My Reservations</Link>
-                <Link to="/store" style={styles.link}>Store</Link>
+                <Link to="/reservations" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">My Reservations</Link>
+                <Link to="/store" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Store</Link>
               </>
             )}
             {(user.role === 'CLERK' || user.role === 'ADMIN') && (
-              <Link to="/clerk" style={styles.link}>Clerk Dashboard</Link>
+              <Link to="/clerk" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Clerk Dashboard</Link>
             )}
             {user.role === 'ADMIN' && (
-              <Link to="/admin" style={styles.link}>Admin</Link>
+              <Link to="/admin" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Admin</Link>
             )}
-            <span style={styles.username}>{user.name} ({user.role})</span>
-            <button onClick={handleLogout} style={styles.button}>Logout</button>
+            <span className="text-on-surface text-xs font-medium">{user.name} ({user.role})</span>
+            <button
+              onClick={handleLogout}
+              className="bg-linear-to-br from-primary to-primary-container text-white border-0 px-4 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
+            >
+              Logout
+            </button>
           </>
         ) : (
           <>
-            <Link to="/login" style={styles.link}>Login</Link>
-            <Link to="/register" style={styles.link}>Register</Link>
+            <Link to="/login" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Login</Link>
+            <Link to="/register" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Register</Link>
           </>
         )}
       </div>
     </nav>
   );
 }
-
-const styles = {
-  nav: {
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    padding: '0.75rem 2rem', background: '#1a1a2e', color: '#fff',
-  },
-  brand: {
-    color: '#e0c06e', fontWeight: 'bold', fontSize: '1.25rem', textDecoration: 'none',
-  },
-  links: { display: 'flex', alignItems: 'center', gap: '1rem' },
-  link: { color: '#ccc', textDecoration: 'none', fontSize: '0.9rem' },
-  username: { color: '#e0c06e', fontSize: '0.85rem' },
-  button: {
-    background: 'none', border: '1px solid #ccc', color: '#ccc',
-    padding: '0.25rem 0.75rem', cursor: 'pointer', borderRadius: '4px',
-    fontSize: '0.85rem',
-  },
-};

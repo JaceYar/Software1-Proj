@@ -2,8 +2,9 @@ package edu.baylor.cs.controller;
 
 import edu.baylor.cs.db.tables.records.UsersRecord;
 import edu.baylor.cs.dto.ReservationRequest;
-import edu.baylor.cs.service.AuthService;
-import edu.baylor.cs.service.ReservationService;
+import edu.baylor.cs.service.IAuthService;
+import edu.baylor.cs.service.IReservationService;
+import edu.baylor.cs.util.TokenExtractor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +15,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/reservations")
 public class ReservationController {
 
-    private final ReservationService reservationService;
-    private final AuthService authService;
+    private final IReservationService reservationService;
+    private final IAuthService authService;
 
-    public ReservationController(ReservationService reservationService, AuthService authService) {
+    public ReservationController(IReservationService reservationService, IAuthService authService) {
         this.reservationService = reservationService;
         this.authService = authService;
     }
 
     @GetMapping
     public ResponseEntity<?> getReservations(@RequestHeader("Authorization") String authHeader) {
-        UsersRecord user = authService.getUserFromToken(extractToken(authHeader));
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
 
         if (user.getRole().equals("CLERK") || user.getRole().equals("ADMIN")) {
@@ -37,7 +38,7 @@ public class ReservationController {
     public ResponseEntity<?> createReservation(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody ReservationRequest req) {
-        UsersRecord user = authService.getUserFromToken(extractToken(authHeader));
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
         try {
             return ResponseEntity.ok(reservationService.createReservation(user.getId(), req));
@@ -50,7 +51,7 @@ public class ReservationController {
     public ResponseEntity<?> cancelReservation(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable int id) {
-        UsersRecord user = authService.getUserFromToken(extractToken(authHeader));
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
         try {
             return ResponseEntity.ok(reservationService.cancelReservation(id, user.getId(), user.getRole()));
@@ -63,7 +64,7 @@ public class ReservationController {
     public ResponseEntity<?> checkIn(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable int id) {
-        UsersRecord user = authService.getUserFromToken(extractToken(authHeader));
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
         if (!user.getRole().equals("CLERK") && !user.getRole().equals("ADMIN")) {
             return ResponseEntity.status(403).body("Forbidden");
@@ -79,7 +80,7 @@ public class ReservationController {
     public ResponseEntity<?> checkOut(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable int id) {
-        UsersRecord user = authService.getUserFromToken(extractToken(authHeader));
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
         if (!user.getRole().equals("CLERK") && !user.getRole().equals("ADMIN")) {
             return ResponseEntity.status(403).body("Forbidden");
@@ -89,9 +90,5 @@ public class ReservationController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
-
-    private String extractToken(String header) {
-        return header != null && header.startsWith("Bearer ") ? header.substring(7) : header;
     }
 }

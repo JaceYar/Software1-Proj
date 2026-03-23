@@ -22,61 +22,43 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>Welcome Back</h2>
-        <p style={styles.subtitle}>Stay &amp; Shop Hotel</p>
-        {error && <div style={styles.error}>{error}</div>}
-        <form onSubmit={handleSubmit} style={styles.form}>
+    <div className="min-h-screen flex items-center justify-center bg-surface p-8">
+      <div className="bg-surface-lowest p-12 rounded-2xl shadow-ambient w-full max-w-md">
+        <h2 className="font-serif text-on-surface text-3xl font-medium tracking-tight m-0">Welcome Back</h2>
+        <p className="text-on-surface-muted text-sm mt-1 mb-8">Stay &amp; Shop Hotel</p>
+
+        {error && (
+          <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg text-sm mb-5">{error}</div>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <input
-            style={styles.input}
+            className="w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50"
             placeholder="Username"
             value={form.username}
             onChange={(e) => setForm({ ...form, username: e.target.value })}
             required
           />
           <input
-            style={styles.input}
+            className="w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50"
             type="password"
             placeholder="Password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             required
           />
-          <button style={styles.button} type="submit">Login</button>
+          <button
+            className="w-full py-3.5 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer mt-2 font-sans"
+            type="submit"
+          >
+            Login
+          </button>
         </form>
-        <p style={styles.footer}>
-          No account? <Link to="/register">Register here</Link>
+
+        <p className="mt-6 text-center text-sm text-on-surface-muted">
+          No account? <Link to="/register" className="text-primary">Register here</Link>
         </p>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    background: '#f5f5f5',
-  },
-  card: {
-    background: '#fff', padding: '2.5rem', borderRadius: '8px',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.1)', width: '100%', maxWidth: '400px',
-  },
-  title: { margin: 0, fontSize: '1.75rem', color: '#1a1a2e' },
-  subtitle: { color: '#888', marginBottom: '1.5rem' },
-  error: {
-    background: '#fee', color: '#c00', padding: '0.5rem', borderRadius: '4px',
-    marginBottom: '1rem', fontSize: '0.875rem',
-  },
-  form: { display: 'flex', flexDirection: 'column', gap: '0.75rem' },
-  input: {
-    padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px',
-    fontSize: '1rem', outline: 'none',
-  },
-  button: {
-    padding: '0.75rem', background: '#1a1a2e', color: '#fff',
-    border: 'none', borderRadius: '4px', fontSize: '1rem', cursor: 'pointer',
-    marginTop: '0.5rem',
-  },
-  footer: { marginTop: '1rem', textAlign: 'center', fontSize: '0.875rem' },
-};

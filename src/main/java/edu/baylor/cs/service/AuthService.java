@@ -2,30 +2,29 @@ package edu.baylor.cs.service;
 
 import edu.baylor.cs.db.tables.records.UsersRecord;
 import edu.baylor.cs.dto.*;
-import org.jooq.DSLContext;
+import edu.baylor.cs.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static edu.baylor.cs.db.Tables.USERS;
-
 /**
  * Handles user authentication and registration.
  * Uses BCrypt for password hashing and an in-memory token store for sessions.
  */
 @Service
-public class AuthService {
+public class AuthService implements IAuthService {
 
-    private final DSLContext db;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     /** In-memory session tokens: token -> userId */
     private final ConcurrentHashMap<String, Integer> sessions = new ConcurrentHashMap<>();
 
-    public AuthService(DSLContext db) {
-        this.db = db;
+    public AuthService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -33,24 +32,14 @@ public class AuthService {
      * @return AuthResponse with a session token on success
      * @throws IllegalArgumentException if the username is already taken
      */
+    @Override
     public AuthResponse register(RegisterRequest req) {
-        boolean exists = db.fetchExists(USERS, USERS.USERNAME.eq(req.username()));
-        if (exists) {
+        if (userRepository.existsByUsername(req.username())) {
             throw new IllegalArgumentException("Username already taken");
         }
 
         String hash = passwordEncoder.encode(req.password());
-        UsersRecord record = db.insertInto(USERS)
-                .set(USERS.USERNAME, req.username())
-                .set(USERS.PASSWORD_HASH, hash)
-                .set(USERS.NAME, req.name())
-                .set(USERS.EMAIL, req.email())
-                .set(USERS.ADDRESS, req.address())
-                .set(USERS.CREDIT_CARD_NUMBER, req.creditCardNumber())
-                .set(USERS.CREDIT_CARD_EXPIRY, req.creditCardExpiry())
-                .set(USERS.ROLE, "GUEST")
-                .returning()
-                .fetchOne();
+        UsersRecord record = userRepository.insertGuest(req, hash);
 
         return createSession(record);
     }
@@ -60,10 +49,9 @@ public class AuthService {
      * @return AuthResponse with a session token on success
      * @throws IllegalArgumentException if credentials are invalid
      */
+    @Override
     public AuthResponse login(LoginRequest req) {
-        UsersRecord user = db.selectFrom(USERS)
-                .where(USERS.USERNAME.eq(req.username()))
-                .fetchOne();
+        UsersRecord user = userRepository.findByUsername(req.username());
 
         if (user == null || !passwordEncoder.matches(req.password(), user.getPasswordHash())) {
             throw new IllegalArgumentException("Invalid username or password");
@@ -73,6 +61,7 @@ public class AuthService {
     }
 
     /** Invalidates a session token. */
+    @Override
     public void logout(String token) {
         sessions.remove(token);
     }
@@ -81,10 +70,11 @@ public class AuthService {
      * Resolves a bearer token to a UsersRecord.
      * @return the user or null if the token is invalid/expired
      */
+    @Override
     public UsersRecord getUserFromToken(String token) {
         Integer userId = sessions.get(token);
         if (userId == null) return null;
-        return db.selectFrom(USERS).where(USERS.ID.eq(userId)).fetchOne();
+        return userRepository.findById(userId);
     }
 
     // -------------------------------------------------------------------------

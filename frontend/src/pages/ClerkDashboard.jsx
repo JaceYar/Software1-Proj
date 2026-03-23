@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { getReservations, getRooms, checkIn, checkOut, createRoom } from '../services/api';
 
-const STATUS_COLORS = {
-  CONFIRMED: '#d4edda', CHECKED_IN: '#cce5ff',
-  CHECKED_OUT: '#e2e3e5', CANCELLED: '#f8d7da',
+const STATUS_CLASS = {
+  CONFIRMED: 'bg-primary/8 text-primary',
+  CHECKED_IN: 'bg-secondary/10 text-secondary',
+  CHECKED_OUT: 'bg-surface-container text-on-surface-muted',
+  CANCELLED: 'bg-tertiary/8 text-tertiary',
+  AVAILABLE: 'bg-primary/8 text-primary',
+  OCCUPIED: 'bg-secondary/10 text-secondary',
 };
 
 export default function ClerkDashboard() {
@@ -54,39 +58,70 @@ export default function ClerkDashboard() {
 
   const setR = (f) => (e) => setNewRoom({ ...newRoom, [f]: e.target.type === 'checkbox' ? e.target.checked : e.target.value });
 
-  return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>Clerk Dashboard</h1>
-      {error && <div style={styles.error}>{error}</div>}
-      {success && <div style={styles.success}>{success}</div>}
+  const inputClass = "w-full border-0 border-b border-outline bg-transparent pb-2 text-on-surface outline-none font-sans text-sm";
+  const selectClass = "w-full border-0 border-b border-outline bg-transparent pb-2 text-on-surface outline-none font-sans text-sm";
 
-      <div style={styles.tabs}>
-        <button onClick={() => setTab('reservations')} style={tab === 'reservations' ? styles.activeTab : styles.tab}>
+  return (
+    <div className="max-w-4xl mx-auto px-8 py-10">
+      <h1 className="font-serif text-on-surface tracking-tight mb-6">Clerk Dashboard</h1>
+
+      {error && <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg mb-5">{error}</div>}
+      {success && <div className="bg-primary/8 text-primary px-4 py-3 rounded-lg mb-5">{success}</div>}
+
+      <div className="flex gap-2 mb-8">
+        <button
+          onClick={() => setTab('reservations')}
+          className={`px-6 py-2.5 border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans transition-all ${
+            tab === 'reservations'
+              ? 'bg-linear-to-br from-primary to-primary-container text-white'
+              : 'bg-surface-container text-on-surface-muted hover:text-on-surface'
+          }`}
+        >
           Reservations ({reservations.length})
         </button>
-        <button onClick={() => setTab('rooms')} style={tab === 'rooms' ? styles.activeTab : styles.tab}>
+        <button
+          onClick={() => setTab('rooms')}
+          className={`px-6 py-2.5 border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans transition-all ${
+            tab === 'rooms'
+              ? 'bg-linear-to-br from-primary to-primary-container text-white'
+              : 'bg-surface-container text-on-surface-muted hover:text-on-surface'
+          }`}
+        >
           Rooms ({rooms.length})
         </button>
       </div>
 
       {tab === 'reservations' && (
-        <div style={styles.list}>
+        <div className="flex flex-col gap-4">
           {reservations.map((r) => (
-            <div key={r.id} style={{ ...styles.card, borderLeft: `4px solid ${STATUS_COLORS[r.status] || '#ddd'}` }}>
-              <div style={styles.cardTop}>
-                <div>
-                  <strong>#{r.id}</strong> — Room {r.roomNumber}
-                  <span style={{ ...styles.badge, background: STATUS_COLORS[r.status] }}>{r.status}</span>
+            <div key={r.id} className="bg-surface-lowest rounded-2xl p-5 shadow-ambient">
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex items-center gap-2">
+                  <strong className="font-serif font-medium text-on-surface">#{r.id}</strong>
+                  <span className="text-on-surface-muted">— Room {r.roomNumber}</span>
+                  <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wide ${STATUS_CLASS[r.status] || 'bg-surface-container text-on-surface-muted'}`}>
+                    {r.status}
+                  </span>
                 </div>
-                <span>${r.rate.toFixed(2)}</span>
+                <span className="font-serif text-on-surface font-medium">${r.rate.toFixed(2)}</span>
               </div>
-              <div style={styles.meta}>Guest #{r.userId} · {r.checkInDate} → {r.checkOutDate}</div>
-              <div style={styles.actions}>
+              <div className="text-on-surface-muted text-xs mb-3">Guest #{r.userId} · {r.checkInDate} → {r.checkOutDate}</div>
+              <div className="flex gap-2">
                 {r.status === 'CONFIRMED' && (
-                  <button onClick={() => handleCheckIn(r.id)} style={styles.inBtn}>Check In</button>
+                  <button
+                    onClick={() => handleCheckIn(r.id)}
+                    className="px-4 py-1.5 bg-primary/8 text-primary border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans"
+                  >
+                    Check In
+                  </button>
                 )}
                 {r.status === 'CHECKED_IN' && (
-                  <button onClick={() => handleCheckOut(r.id)} style={styles.outBtn}>Check Out</button>
+                  <button
+                    onClick={() => handleCheckOut(r.id)}
+                    className="px-4 py-1.5 bg-surface-container text-on-surface-muted border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans"
+                  >
+                    Check Out
+                  </button>
                 )}
               </div>
             </div>
@@ -96,43 +131,58 @@ export default function ClerkDashboard() {
 
       {tab === 'rooms' && (
         <>
-          <button onClick={() => setShowAddRoom(!showAddRoom)} style={styles.addBtn}>
+          <button
+            onClick={() => setShowAddRoom(!showAddRoom)}
+            className="mb-6 px-6 py-2.5 bg-linear-to-br from-secondary to-[#8a6e50] text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans"
+          >
             {showAddRoom ? 'Cancel' : '+ Add Room'}
           </button>
 
           {showAddRoom && (
-            <form onSubmit={handleAddRoom} style={styles.addForm}>
-              <input style={styles.input} placeholder="Room Number" value={newRoom.roomNumber} onChange={setR('roomNumber')} required />
-              <select style={styles.input} value={newRoom.floor} onChange={setR('floor')}>
+            <form onSubmit={handleAddRoom} className="bg-surface-lowest rounded-2xl p-6 shadow-ambient mb-6 flex flex-col gap-5">
+              <input className={inputClass} placeholder="Room Number" value={newRoom.roomNumber} onChange={setR('roomNumber')} required />
+              <select className={selectClass} value={newRoom.floor} onChange={setR('floor')}>
                 <option value={1}>Floor 1 — Nature Retreat</option>
                 <option value={2}>Floor 2 — Urban Elegance</option>
                 <option value={3}>Floor 3 — Vintage Charm</option>
               </select>
-              <select style={styles.input} value={newRoom.roomType} onChange={setR('roomType')}>
+              <select className={selectClass} value={newRoom.roomType} onChange={setR('roomType')}>
                 {['SINGLE','DOUBLE','FAMILY','SUITE','DELUXE','STANDARD'].map(t => <option key={t}>{t}</option>)}
               </select>
-              <select style={styles.input} value={newRoom.qualityLevel} onChange={setR('qualityLevel')}>
+              <select className={selectClass} value={newRoom.qualityLevel} onChange={setR('qualityLevel')}>
                 {['EXECUTIVE','BUSINESS','COMFORT','ECONOMY'].map(t => <option key={t}>{t}</option>)}
               </select>
-              <select style={styles.input} value={newRoom.bedType} onChange={setR('bedType')}>
+              <select className={selectClass} value={newRoom.bedType} onChange={setR('bedType')}>
                 {['TWIN','FULL','QUEEN','KING'].map(t => <option key={t}>{t}</option>)}
               </select>
-              <input style={styles.input} type="number" placeholder="# Beds" value={newRoom.numBeds} onChange={setR('numBeds')} min={1} />
-              <input style={styles.input} type="number" placeholder="Daily Rate" value={newRoom.dailyRate} onChange={setR('dailyRate')} step="0.01" />
-              <input style={styles.input} placeholder="Description" value={newRoom.description} onChange={setR('description')} />
-              <label><input type="checkbox" checked={newRoom.smoking} onChange={setR('smoking')} /> Smoking</label>
-              <button type="submit" style={styles.submitBtn}>Add Room</button>
+              <input className={inputClass} type="number" placeholder="# Beds" value={newRoom.numBeds} onChange={setR('numBeds')} min={1} />
+              <input className={inputClass} type="number" placeholder="Daily Rate" value={newRoom.dailyRate} onChange={setR('dailyRate')} step="0.01" />
+              <input className={inputClass} placeholder="Description" value={newRoom.description} onChange={setR('description')} />
+              <label className="flex items-center gap-2 text-sm text-on-surface-muted cursor-pointer">
+                <input type="checkbox" checked={newRoom.smoking} onChange={setR('smoking')} className="accent-primary" />
+                Smoking
+              </label>
+              <button
+                type="submit"
+                className="py-3 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
+              >
+                Add Room
+              </button>
             </form>
           )}
 
-          <div style={styles.list}>
+          <div className="flex flex-col gap-4">
             {rooms.map((r) => (
-              <div key={r.id} style={styles.card}>
-                <div style={styles.cardTop}>
-                  <strong>Room {r.roomNumber}</strong> — Floor {r.floor} · {r.roomType} · {r.qualityLevel}
-                  <span style={{ ...styles.badge, background: r.status === 'AVAILABLE' ? '#d4edda' : '#f8d7da' }}>{r.status}</span>
+              <div key={r.id} className="bg-surface-lowest rounded-2xl p-5 shadow-ambient">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-serif font-medium text-on-surface">Room {r.roomNumber}</span>
+                  <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wide ${STATUS_CLASS[r.status] || 'bg-surface-container text-on-surface-muted'}`}>
+                    {r.status}
+                  </span>
                 </div>
-                <div style={styles.meta}>{r.numBeds}x {r.bedType} · ${r.dailyRate}/night {r.smoking ? '· Smoking' : ''}</div>
+                <div className="text-on-surface-muted text-xs">
+                  Floor {r.floor} · {r.roomType} · {r.qualityLevel} · {r.numBeds}x {r.bedType} · ${r.dailyRate}/night{r.smoking ? ' · Smoking' : ''}
+                </div>
               </div>
             ))}
           </div>
@@ -141,25 +191,3 @@ export default function ClerkDashboard() {
     </div>
   );
 }
-
-const styles = {
-  page: { maxWidth: '900px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1rem' },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  success: { background: '#efe', color: '#060', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  tabs: { display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' },
-  tab: { padding: '0.5rem 1.25rem', background: '#eee', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  activeTab: { padding: '0.5rem 1.25rem', background: '#1a1a2e', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  list: { display: 'flex', flexDirection: 'column', gap: '0.75rem' },
-  card: { background: '#fff', borderRadius: '8px', padding: '1rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' },
-  cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.25rem' },
-  badge: { marginLeft: '0.5rem', padding: '0.1rem 0.4rem', borderRadius: '3px', fontSize: '0.75rem' },
-  meta: { color: '#888', fontSize: '0.8rem', marginBottom: '0.5rem' },
-  actions: { display: 'flex', gap: '0.5rem' },
-  inBtn: { padding: '0.3rem 0.75rem', background: '#28a745', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  outBtn: { padding: '0.3rem 0.75rem', background: '#6c757d', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-  addBtn: { marginBottom: '1rem', padding: '0.5rem 1rem', background: '#e0c06e', color: '#1a1a2e', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' },
-  addForm: { background: '#fff', padding: '1.25rem', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' },
-  input: { padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '0.9rem' },
-  submitBtn: { padding: '0.5rem', background: '#1a1a2e', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-};

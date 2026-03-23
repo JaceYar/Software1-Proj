@@ -2,8 +2,9 @@ package edu.baylor.cs.controller;
 
 import edu.baylor.cs.db.tables.records.UsersRecord;
 import edu.baylor.cs.dto.RoomDto;
-import edu.baylor.cs.service.AuthService;
-import edu.baylor.cs.service.RoomService;
+import edu.baylor.cs.service.IAuthService;
+import edu.baylor.cs.service.IRoomService;
+import edu.baylor.cs.util.TokenExtractor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/rooms")
 public class RoomController {
 
-    private final RoomService roomService;
-    private final AuthService authService;
+    private final IRoomService roomService;
+    private final IAuthService authService;
 
-    public RoomController(RoomService roomService, AuthService authService) {
+    public RoomController(IRoomService roomService, IAuthService authService) {
         this.roomService = roomService;
         this.authService = authService;
     }
@@ -47,7 +48,7 @@ public class RoomController {
     public ResponseEntity<?> createRoom(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody RoomDto dto) {
-        UsersRecord user = authService.getUserFromToken(extractToken(authHeader));
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
         if (!user.getRole().equals("CLERK") && !user.getRole().equals("ADMIN")) {
             return ResponseEntity.status(403).body("Forbidden");
@@ -64,7 +65,7 @@ public class RoomController {
             @RequestHeader("Authorization") String authHeader,
             @PathVariable int id,
             @RequestBody RoomDto dto) {
-        UsersRecord user = authService.getUserFromToken(extractToken(authHeader));
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
         if (!user.getRole().equals("CLERK") && !user.getRole().equals("ADMIN")) {
             return ResponseEntity.status(403).body("Forbidden");
@@ -74,9 +75,5 @@ public class RoomController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
-
-    private String extractToken(String header) {
-        return header != null && header.startsWith("Bearer ") ? header.substring(7) : header;
     }
 }

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getReservations, cancelReservation } from '../services/api';
 
-const STATUS_COLORS = {
-  CONFIRMED: '#d4edda', CHECKED_IN: '#cce5ff',
-  CHECKED_OUT: '#e2e3e5', CANCELLED: '#f8d7da',
+const STATUS_CLASS = {
+  CONFIRMED: 'bg-primary/8 text-primary',
+  CHECKED_IN: 'bg-secondary/10 text-secondary',
+  CHECKED_OUT: 'bg-surface-container text-on-surface-muted',
+  CANCELLED: 'bg-tertiary/8 text-tertiary',
 };
 
 export default function ReservationsPage() {
@@ -34,40 +36,41 @@ export default function ReservationsPage() {
     }
   };
 
-  if (loading) return <div style={styles.page}><p>Loading...</p></div>;
+  if (loading) return <div className="max-w-3xl mx-auto px-8 py-10"><p className="text-on-surface-muted">Loading...</p></div>;
 
   return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>My Reservations</h1>
-      {error && <div style={styles.error}>{error}</div>}
+    <div className="max-w-3xl mx-auto px-8 py-10">
+      <h1 className="font-serif text-on-surface tracking-tight mb-8">My Reservations</h1>
+
+      {error && <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg mb-5">{error}</div>}
+
       {reservations.length === 0 ? (
-        <p style={{ color: '#888' }}>No reservations found.</p>
+        <p className="text-on-surface-muted">No reservations found.</p>
       ) : (
-        <div style={styles.list}>
+        <div className="flex flex-col gap-5">
           {reservations.map((r) => (
-            <div key={r.id} style={{ ...styles.card, borderLeft: `4px solid ${STATUS_COLORS[r.status] || '#ddd'}` }}>
-              <div style={styles.cardTop}>
-                <div>
-                  <strong>Room {r.roomNumber}</strong>
-                  <span style={{ ...styles.statusBadge, background: STATUS_COLORS[r.status] }}>
+            <div key={r.id} className="bg-surface-lowest rounded-2xl p-6 shadow-ambient">
+              <div className="flex justify-between items-center mb-3">
+                <div className="flex items-center gap-3">
+                  <strong className="font-serif font-medium text-on-surface">Room {r.roomNumber}</strong>
+                  <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wide ${STATUS_CLASS[r.status] || 'bg-surface-container text-on-surface-muted'}`}>
                     {r.status}
                   </span>
                 </div>
-                <span style={styles.total}>${r.rate.toFixed(2)} total</span>
+                <span className="font-serif font-semibold text-on-surface">${r.rate.toFixed(2)} total</span>
               </div>
-              <div style={styles.dates}>
-                {r.checkInDate} → {r.checkOutDate}
-              </div>
-              <div style={styles.meta}>
+              <div className="text-on-surface-muted text-sm mb-1">{r.checkInDate} → {r.checkOutDate}</div>
+              <div className="text-on-surface-muted text-xs mb-4">
                 Rate type: {r.rateType}
                 {r.cancellationFee > 0 && (
-                  <span style={{ color: '#c00', marginLeft: '1rem' }}>
-                    Cancellation fee: ${r.cancellationFee.toFixed(2)}
-                  </span>
+                  <span className="text-tertiary ml-4">Cancellation fee: ${r.cancellationFee.toFixed(2)}</span>
                 )}
               </div>
               {r.status === 'CONFIRMED' && (
-                <button onClick={() => handleCancel(r.id)} style={styles.cancelBtn}>
+                <button
+                  onClick={() => handleCancel(r.id)}
+                  className="px-5 py-2 bg-tertiary/8 text-tertiary border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans"
+                >
                   Cancel Reservation
                 </button>
               )}
@@ -78,26 +81,3 @@ export default function ReservationsPage() {
     </div>
   );
 }
-
-const styles = {
-  page: { maxWidth: '800px', margin: '0 auto', padding: '2rem' },
-  heading: { color: '#1a1a2e', marginBottom: '1.5rem' },
-  error: { background: '#fee', color: '#c00', padding: '0.75rem', borderRadius: '4px', marginBottom: '1rem' },
-  list: { display: 'flex', flexDirection: 'column', gap: '1rem' },
-  card: {
-    background: '#fff', borderRadius: '8px', padding: '1.25rem',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-  },
-  cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' },
-  statusBadge: {
-    marginLeft: '0.75rem', padding: '0.1rem 0.5rem', borderRadius: '3px',
-    fontSize: '0.75rem', fontWeight: 'bold',
-  },
-  total: { fontWeight: 'bold', color: '#1a1a2e' },
-  dates: { color: '#555', fontSize: '0.9rem', marginBottom: '0.25rem' },
-  meta: { color: '#888', fontSize: '0.8rem', marginBottom: '0.75rem' },
-  cancelBtn: {
-    padding: '0.35rem 0.9rem', background: '#dc3545', color: '#fff',
-    border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.875rem',
-  },
-};
