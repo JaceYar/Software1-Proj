@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAvailableRooms, createReservation } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const FLOOR_NAMES = { 1: 'Nature Retreat', 2: 'Urban Elegance', 3: 'Vintage Charm' };
+const FLOOR_TEXT = { 1: 'text-primary', 2: 'text-secondary', 3: 'text-tertiary' };
 
 export default function RoomsPage() {
   const { user } = useAuth();
@@ -49,56 +50,78 @@ export default function RoomsPage() {
     ? Math.max(0, (new Date(checkOut) - new Date(checkIn)) / 86400000)
     : 0;
 
-  return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>Find a Room</h1>
+  const inputClass = "border-0 border-b border-outline bg-transparent pb-2 text-on-surface outline-none font-sans text-base";
 
-      <div style={styles.searchBar}>
-        <label style={styles.label}>Check-in
-          <input type="date" value={checkIn} onChange={(e) => setCheckIn(e.target.value)}
-            min={new Date().toISOString().split('T')[0]} style={styles.input} />
+  return (
+    <div className="max-w-6xl mx-auto px-8 py-10">
+      <h1 className="font-serif text-on-surface tracking-tight mb-8">Find a Room</h1>
+
+      <div className="flex gap-8 items-end bg-surface-lowest p-8 rounded-2xl shadow-ambient mb-10">
+        <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+          Check-in
+          <input
+            type="date"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            min={new Date().toISOString().split('T')[0]}
+            className={inputClass}
+          />
         </label>
-        <label style={styles.label}>Check-out
-          <input type="date" value={checkOut} onChange={(e) => setCheckOut(e.target.value)}
-            min={checkIn || new Date().toISOString().split('T')[0]} style={styles.input} />
+        <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+          Check-out
+          <input
+            type="date"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            min={checkIn || new Date().toISOString().split('T')[0]}
+            className={inputClass}
+          />
         </label>
-        <button onClick={search} style={styles.searchBtn} disabled={!checkIn || !checkOut}>
+        <button
+          onClick={search}
+          disabled={!checkIn || !checkOut}
+          className="px-8 py-3 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans disabled:opacity-40"
+        >
           Search
         </button>
       </div>
 
-      {error && <div style={styles.error}>{error}</div>}
-      {success && <div style={styles.success}>{success}</div>}
-
-      {loading && <p>Searching...</p>}
+      {error && <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg mb-5">{error}</div>}
+      {success && <div className="bg-primary/8 text-primary px-4 py-3 rounded-lg mb-5">{success}</div>}
+      {loading && <p className="text-on-surface-muted">Searching...</p>}
 
       {searched && !loading && (
         <>
-          <p style={styles.resultCount}>
+          <p className="text-on-surface-muted text-sm mb-6">
             {rooms.length} room{rooms.length !== 1 ? 's' : ''} available
             {nights > 0 ? ` for ${nights} night${nights !== 1 ? 's' : ''}` : ''}
           </p>
-          <div style={styles.grid}>
+          <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
             {rooms.map((room) => (
-              <div key={room.id} style={styles.card}>
-                <div style={styles.cardHeader}>
-                  <span style={styles.roomNumber}>Room {room.roomNumber}</span>
-                  <span style={{ fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.06rem', color: FLOOR_COLORS[room.floor] || '#737873' }}>{FLOOR_NAMES[room.floor]}</span>
+              <div key={room.id} className="bg-surface-lowest rounded-2xl p-6 shadow-ambient">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="font-serif font-medium text-on-surface text-lg">Room {room.roomNumber}</span>
+                  <span className={`text-xs font-semibold tracking-[0.06rem] ${FLOOR_TEXT[room.floor] || 'text-on-surface-muted'}`}>
+                    {FLOOR_NAMES[room.floor]}
+                  </span>
                 </div>
-                <div style={styles.badges}>
-                  <span style={styles.badge}>{room.qualityLevel}</span>
-                  <span style={styles.badge}>{room.roomType}</span>
-                  <span style={styles.badge}>{room.numBeds}x {room.bedType}</span>
-                  {room.smoking && <span style={{ ...styles.badge, background: 'rgba(75,12,15,0.08)', color: '#4b0c0f' }}>Smoking</span>}
+                <div className="flex gap-1.5 flex-wrap mb-4">
+                  <span className="bg-surface-container text-on-surface-muted px-2.5 py-0.5 rounded-md text-xs font-medium">{room.qualityLevel}</span>
+                  <span className="bg-surface-container text-on-surface-muted px-2.5 py-0.5 rounded-md text-xs font-medium">{room.roomType}</span>
+                  <span className="bg-surface-container text-on-surface-muted px-2.5 py-0.5 rounded-md text-xs font-medium">{room.numBeds}x {room.bedType}</span>
+                  {room.smoking && <span className="bg-tertiary/8 text-tertiary px-2.5 py-0.5 rounded-md text-xs font-medium">Smoking</span>}
                 </div>
-                {room.description && <p style={styles.desc}>{room.description}</p>}
-                <div style={styles.cardFooter}>
-                  <span style={styles.rate}>${room.dailyRate.toFixed(2)}/night</span>
+                {room.description && <p className="text-on-surface-muted text-sm mb-4 leading-relaxed">{room.description}</p>}
+                <div className="flex items-center gap-3 flex-wrap pt-4">
+                  <span className="font-serif font-semibold text-on-surface text-lg">${room.dailyRate.toFixed(2)}/night</span>
                   {nights > 0 && (
-                    <span style={styles.total}>Total: ${(room.dailyRate * nights).toFixed(2)}</span>
+                    <span className="text-on-surface-muted text-sm">Total: ${(room.dailyRate * nights).toFixed(2)}</span>
                   )}
                   {user?.role === 'GUEST' && (
-                    <button onClick={() => handleBook(room)} style={styles.bookBtn}>
+                    <button
+                      onClick={() => handleBook(room)}
+                      className="ml-auto px-5 py-2 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
+                    >
                       Book Now
                     </button>
                   )}
@@ -111,73 +134,3 @@ export default function RoomsPage() {
     </div>
   );
 }
-
-const FLOOR_COLORS = { 1: '#18281e', 2: '#715a3e', 3: '#4b0c0f' };
-
-const styles = {
-  page: { maxWidth: '1100px', margin: '0 auto', padding: '2.5rem 2rem' },
-  heading: {
-    color: '#1b1c19', marginBottom: '2rem',
-    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
-  },
-  searchBar: {
-    display: 'flex', gap: '2rem', alignItems: 'flex-end',
-    background: '#ffffff', padding: '2rem 2.5rem', borderRadius: '1rem',
-    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)', marginBottom: '2.5rem',
-  },
-  label: {
-    display: 'flex', flexDirection: 'column', gap: '0.5rem',
-    fontSize: '0.7rem', color: '#737873', fontWeight: '600',
-    letterSpacing: '0.08rem', textTransform: 'uppercase',
-  },
-  input: {
-    padding: '0.5rem 0', border: 'none', borderBottom: '1px solid #737873',
-    background: 'transparent', fontSize: '1rem', outline: 'none',
-    color: '#1b1c19', fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-  searchBtn: {
-    padding: '0.75rem 2rem', background: 'linear-gradient(135deg, #18281e, #2d3e33)',
-    color: '#ffffff', border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
-    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
-    fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-  error: {
-    background: 'rgba(75, 12, 15, 0.06)', color: '#4b0c0f',
-    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
-  },
-  success: {
-    background: 'rgba(24, 40, 30, 0.06)', color: '#18281e',
-    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
-  },
-  resultCount: { color: '#737873', marginBottom: '1.5rem', fontSize: '0.875rem' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' },
-  card: {
-    background: '#ffffff', borderRadius: '1rem', padding: '1.5rem',
-    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
-  },
-  cardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' },
-  roomNumber: {
-    fontWeight: '500', fontSize: '1.1rem', color: '#1b1c19',
-    fontFamily: "'Noto Serif', Georgia, serif",
-  },
-  badges: { display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1rem' },
-  badge: {
-    background: '#f0eee9', color: '#737873',
-    padding: '0.2rem 0.6rem', borderRadius: '0.375rem', fontSize: '0.7rem',
-    fontWeight: '500', letterSpacing: '0.04rem',
-  },
-  desc: { color: '#737873', fontSize: '0.875rem', marginBottom: '1rem', lineHeight: '1.5' },
-  cardFooter: { display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', paddingTop: '1rem', borderTop: 'none' },
-  rate: {
-    fontWeight: '600', color: '#1b1c19',
-    fontFamily: "'Noto Serif', Georgia, serif", fontSize: '1.1rem',
-  },
-  total: { color: '#737873', fontSize: '0.875rem' },
-  bookBtn: {
-    marginLeft: 'auto', padding: '0.5rem 1.25rem',
-    background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
-    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
-    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
-    fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-};

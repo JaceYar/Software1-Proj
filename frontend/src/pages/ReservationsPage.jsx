@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getReservations, cancelReservation } from '../services/api';
 
-const STATUS_COLORS = {
-  CONFIRMED: { bg: 'rgba(24,40,30,0.08)', color: '#18281e' },
-  CHECKED_IN: { bg: 'rgba(113,90,62,0.1)', color: '#715a3e' },
-  CHECKED_OUT: { bg: '#f0eee9', color: '#737873' },
-  CANCELLED: { bg: 'rgba(75,12,15,0.08)', color: '#4b0c0f' },
+const STATUS_CLASS = {
+  CONFIRMED: 'bg-primary/8 text-primary',
+  CHECKED_IN: 'bg-secondary/10 text-secondary',
+  CHECKED_OUT: 'bg-surface-container text-on-surface-muted',
+  CANCELLED: 'bg-tertiary/8 text-tertiary',
 };
 
 export default function ReservationsPage() {
@@ -36,40 +36,41 @@ export default function ReservationsPage() {
     }
   };
 
-  if (loading) return <div style={styles.page}><p>Loading...</p></div>;
+  if (loading) return <div className="max-w-3xl mx-auto px-8 py-10"><p className="text-on-surface-muted">Loading...</p></div>;
 
   return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>My Reservations</h1>
-      {error && <div style={styles.error}>{error}</div>}
+    <div className="max-w-3xl mx-auto px-8 py-10">
+      <h1 className="font-serif text-on-surface tracking-tight mb-8">My Reservations</h1>
+
+      {error && <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg mb-5">{error}</div>}
+
       {reservations.length === 0 ? (
-        <p style={{ color: '#888' }}>No reservations found.</p>
+        <p className="text-on-surface-muted">No reservations found.</p>
       ) : (
-        <div style={styles.list}>
+        <div className="flex flex-col gap-5">
           {reservations.map((r) => (
-            <div key={r.id} style={styles.card}>
-              <div style={styles.cardTop}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <strong style={{ fontFamily: "'Noto Serif', Georgia, serif", fontWeight: '500' }}>Room {r.roomNumber}</strong>
-                  <span style={{ ...styles.statusBadge, background: (STATUS_COLORS[r.status] || {}).bg, color: (STATUS_COLORS[r.status] || {}).color }}>
+            <div key={r.id} className="bg-surface-lowest rounded-2xl p-6 shadow-ambient">
+              <div className="flex justify-between items-center mb-3">
+                <div className="flex items-center gap-3">
+                  <strong className="font-serif font-medium text-on-surface">Room {r.roomNumber}</strong>
+                  <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wide ${STATUS_CLASS[r.status] || 'bg-surface-container text-on-surface-muted'}`}>
                     {r.status}
                   </span>
                 </div>
-                <span style={styles.total}>${r.rate.toFixed(2)} total</span>
+                <span className="font-serif font-semibold text-on-surface">${r.rate.toFixed(2)} total</span>
               </div>
-              <div style={styles.dates}>
-                {r.checkInDate} → {r.checkOutDate}
-              </div>
-              <div style={styles.meta}>
+              <div className="text-on-surface-muted text-sm mb-1">{r.checkInDate} → {r.checkOutDate}</div>
+              <div className="text-on-surface-muted text-xs mb-4">
                 Rate type: {r.rateType}
                 {r.cancellationFee > 0 && (
-                  <span style={{ color: '#c00', marginLeft: '1rem' }}>
-                    Cancellation fee: ${r.cancellationFee.toFixed(2)}
-                  </span>
+                  <span className="text-tertiary ml-4">Cancellation fee: ${r.cancellationFee.toFixed(2)}</span>
                 )}
               </div>
               {r.status === 'CONFIRMED' && (
-                <button onClick={() => handleCancel(r.id)} style={styles.cancelBtn}>
+                <button
+                  onClick={() => handleCancel(r.id)}
+                  className="px-5 py-2 bg-tertiary/8 text-tertiary border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans"
+                >
                   Cancel Reservation
                 </button>
               )}
@@ -80,34 +81,3 @@ export default function ReservationsPage() {
     </div>
   );
 }
-
-const styles = {
-  page: { maxWidth: '800px', margin: '0 auto', padding: '2.5rem 2rem' },
-  heading: {
-    color: '#1b1c19', marginBottom: '2rem',
-    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
-  },
-  error: {
-    background: 'rgba(75,12,15,0.06)', color: '#4b0c0f',
-    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
-  },
-  list: { display: 'flex', flexDirection: 'column', gap: '1.25rem' },
-  card: {
-    background: '#ffffff', borderRadius: '1rem', padding: '1.5rem',
-    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
-  },
-  cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' },
-  statusBadge: {
-    padding: '0.2rem 0.6rem', borderRadius: '0.375rem',
-    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.04rem',
-  },
-  total: { fontWeight: '600', color: '#1b1c19', fontFamily: "'Noto Serif', Georgia, serif" },
-  dates: { color: '#737873', fontSize: '0.9rem', marginBottom: '0.25rem' },
-  meta: { color: '#737873', fontSize: '0.8rem', marginBottom: '1rem' },
-  cancelBtn: {
-    padding: '0.5rem 1.25rem', background: 'rgba(75,12,15,0.08)', color: '#4b0c0f',
-    border: 'none', borderRadius: '0.75rem', cursor: 'pointer', fontSize: '0.7rem',
-    fontWeight: '600', letterSpacing: '0.06rem', textTransform: 'uppercase',
-    fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-};

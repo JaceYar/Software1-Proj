@@ -11,61 +11,41 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={styles.nav}>
-      <Link to="/" style={styles.brand}>Stay &amp; Shop</Link>
-      <div style={styles.links}>
+    <nav className="flex items-center justify-between px-10 py-4 bg-surface-variant/60 backdrop-blur-[20px] sticky top-0 z-50">
+      <Link to="/" className="text-primary font-serif font-bold text-lg no-underline tracking-tight">
+        Stay &amp; Shop
+      </Link>
+      <div className="flex items-center gap-6">
         {user ? (
           <>
-            <Link to="/rooms" style={styles.link}>Rooms</Link>
+            <Link to="/rooms" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Rooms</Link>
             {user.role === 'GUEST' && (
               <>
-                <Link to="/reservations" style={styles.link}>My Reservations</Link>
-                <Link to="/store" style={styles.link}>Store</Link>
+                <Link to="/reservations" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">My Reservations</Link>
+                <Link to="/store" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Store</Link>
               </>
             )}
             {(user.role === 'CLERK' || user.role === 'ADMIN') && (
-              <Link to="/clerk" style={styles.link}>Clerk Dashboard</Link>
+              <Link to="/clerk" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Clerk Dashboard</Link>
             )}
             {user.role === 'ADMIN' && (
-              <Link to="/admin" style={styles.link}>Admin</Link>
+              <Link to="/admin" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Admin</Link>
             )}
-            <span style={styles.username}>{user.name} ({user.role})</span>
-            <button onClick={handleLogout} style={styles.button}>Logout</button>
+            <span className="text-on-surface text-xs font-medium">{user.name} ({user.role})</span>
+            <button
+              onClick={handleLogout}
+              className="bg-linear-to-br from-primary to-primary-container text-white border-0 px-4 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
+            >
+              Logout
+            </button>
           </>
         ) : (
           <>
-            <Link to="/login" style={styles.link}>Login</Link>
-            <Link to="/register" style={styles.link}>Register</Link>
+            <Link to="/login" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Login</Link>
+            <Link to="/register" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Register</Link>
           </>
         )}
       </div>
     </nav>
   );
 }
-
-const styles = {
-  nav: {
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    padding: '1rem 2.5rem',
-    background: 'rgba(221, 229, 219, 0.6)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    position: 'sticky', top: 0, zIndex: 100,
-  },
-  brand: {
-    color: '#18281e', fontWeight: '700', fontSize: '1.1rem', textDecoration: 'none',
-    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.01em',
-  },
-  links: { display: 'flex', alignItems: 'center', gap: '1.5rem' },
-  link: {
-    color: '#737873', textDecoration: 'none', fontSize: '0.75rem',
-    fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
-  },
-  username: { color: '#18281e', fontSize: '0.75rem', fontWeight: '500' },
-  button: {
-    background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
-    border: 'none', padding: '0.4rem 1rem', cursor: 'pointer', borderRadius: '0.75rem',
-    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
-    fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-};

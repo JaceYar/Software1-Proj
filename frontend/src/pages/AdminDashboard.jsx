@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getUsers, createClerk, resetPassword } from '../services/api';
 
+const ROLE_CLASS = {
+  ADMIN: 'bg-tertiary/8 text-tertiary',
+  CLERK: 'bg-secondary/10 text-secondary',
+  GUEST: 'bg-primary/8 text-primary',
+};
+
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
@@ -44,118 +50,98 @@ export default function AdminDashboard() {
     }
   };
 
-  const ROLE_COLORS = {
-    ADMIN: { bg: 'rgba(75,12,15,0.08)', color: '#4b0c0f' },
-    CLERK: { bg: 'rgba(113,90,62,0.1)', color: '#715a3e' },
-    GUEST: { bg: 'rgba(24,40,30,0.08)', color: '#18281e' },
-  };
+  const inputClass = "w-full border-0 border-b border-outline bg-transparent pb-2 text-on-surface outline-none font-sans text-sm";
 
   return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>Admin Dashboard</h1>
-      {error && <div style={styles.error}>{error}</div>}
-      {success && <div style={styles.success}>{success}</div>}
+    <div className="max-w-5xl mx-auto px-8 py-10">
+      <h1 className="font-serif text-on-surface tracking-tight mb-8">Admin Dashboard</h1>
 
-      <div style={styles.grid}>
-        <div style={styles.panel}>
-          <h2 style={styles.panelTitle}>Create Clerk Account</h2>
-          <form onSubmit={handleCreateClerk} style={styles.form}>
-            <input style={styles.input} placeholder="Username" value={newClerk.username}
-              onChange={(e) => setNewClerk({ ...newClerk, username: e.target.value })} required />
-            <input style={styles.input} placeholder="Full Name" value={newClerk.name}
-              onChange={(e) => setNewClerk({ ...newClerk, name: e.target.value })} />
-            <button type="submit" style={styles.btn}>Create Clerk</button>
+      {error && <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg mb-5">{error}</div>}
+      {success && <div className="bg-primary/8 text-primary px-4 py-3 rounded-lg mb-5">{success}</div>}
+
+      <div className="grid grid-cols-2 gap-6 mb-10">
+        <div className="bg-surface-lowest rounded-2xl p-8 shadow-ambient">
+          <h2 className="font-serif text-on-surface text-xl font-medium mb-5">Create Clerk Account</h2>
+          <form onSubmit={handleCreateClerk} className="flex flex-col gap-5">
+            <input
+              className={inputClass}
+              placeholder="Username"
+              value={newClerk.username}
+              onChange={(e) => setNewClerk({ ...newClerk, username: e.target.value })}
+              required
+            />
+            <input
+              className={inputClass}
+              placeholder="Full Name"
+              value={newClerk.name}
+              onChange={(e) => setNewClerk({ ...newClerk, name: e.target.value })}
+            />
+            <button
+              type="submit"
+              className="py-3 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
+            >
+              Create Clerk
+            </button>
           </form>
         </div>
 
-        <div style={styles.panel}>
-          <h2 style={styles.panelTitle}>Reset Password</h2>
-          <form onSubmit={handleResetPassword} style={styles.form}>
-            <input style={styles.input} placeholder="Username" value={resetForm.username}
-              onChange={(e) => setResetForm({ ...resetForm, username: e.target.value })} required />
-            <input style={styles.input} type="password" placeholder="New Password" value={resetForm.newPassword}
-              onChange={(e) => setResetForm({ ...resetForm, newPassword: e.target.value })} required />
-            <button type="submit" style={styles.btn}>Reset Password</button>
+        <div className="bg-surface-lowest rounded-2xl p-8 shadow-ambient">
+          <h2 className="font-serif text-on-surface text-xl font-medium mb-5">Reset Password</h2>
+          <form onSubmit={handleResetPassword} className="flex flex-col gap-5">
+            <input
+              className={inputClass}
+              placeholder="Username"
+              value={resetForm.username}
+              onChange={(e) => setResetForm({ ...resetForm, username: e.target.value })}
+              required
+            />
+            <input
+              className={inputClass}
+              type="password"
+              placeholder="New Password"
+              value={resetForm.newPassword}
+              onChange={(e) => setResetForm({ ...resetForm, newPassword: e.target.value })}
+              required
+            />
+            <button
+              type="submit"
+              className="py-3 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
+            >
+              Reset Password
+            </button>
           </form>
         </div>
       </div>
 
-      <h2 style={{ ...styles.panelTitle, marginTop: '2rem' }}>All Users ({users.length})</h2>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            {['ID', 'Username', 'Name', 'Email', 'Role'].map((h) => (
-              <th key={h} style={styles.th}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td style={styles.td}>{u.id}</td>
-              <td style={styles.td}>{u.username}</td>
-              <td style={styles.td}>{u.name}</td>
-              <td style={styles.td}>{u.email}</td>
-              <td style={styles.td}>
-                <span style={{ background: (ROLE_COLORS[u.role] || {}).bg, color: (ROLE_COLORS[u.role] || {}).color, padding: '0.2rem 0.6rem', borderRadius: '0.375rem', fontSize: '0.65rem', fontWeight: '600', letterSpacing: '0.04rem' }}>
-                  {u.role}
-                </span>
-              </td>
+      <h2 className="font-serif text-on-surface text-xl font-medium mb-5">All Users ({users.length})</h2>
+      <div className="bg-surface-lowest rounded-2xl shadow-ambient overflow-hidden">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr>
+              {['ID', 'Username', 'Name', 'Email', 'Role'].map((h) => (
+                <th key={h} className="bg-primary text-white px-5 py-4 text-left text-xs font-semibold uppercase tracking-[0.08rem] font-sans">
+                  {h}
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((u, i) => (
+              <tr key={u.id} className={i % 2 === 0 ? 'bg-surface-lowest' : 'bg-surface-low'}>
+                <td className="px-5 py-3.5 text-sm text-on-surface">{u.id}</td>
+                <td className="px-5 py-3.5 text-sm text-on-surface">{u.username}</td>
+                <td className="px-5 py-3.5 text-sm text-on-surface">{u.name}</td>
+                <td className="px-5 py-3.5 text-sm text-on-surface-muted">{u.email}</td>
+                <td className="px-5 py-3.5">
+                  <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wide ${ROLE_CLASS[u.role] || 'bg-surface-container text-on-surface-muted'}`}>
+                    {u.role}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
-
-const styles = {
-  page: { maxWidth: '1000px', margin: '0 auto', padding: '2.5rem 2rem' },
-  heading: {
-    color: '#1b1c19', marginBottom: '2rem',
-    fontFamily: "'Noto Serif', Georgia, serif", letterSpacing: '-0.02em',
-  },
-  error: {
-    background: 'rgba(75,12,15,0.06)', color: '#4b0c0f',
-    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
-  },
-  success: {
-    background: 'rgba(24,40,30,0.06)', color: '#18281e',
-    padding: '0.75rem 1rem', borderRadius: '0.5rem', marginBottom: '1.25rem',
-  },
-  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem' },
-  panel: {
-    background: '#ffffff', borderRadius: '1rem', padding: '2rem',
-    boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
-  },
-  panelTitle: {
-    color: '#1b1c19', marginBottom: '1.25rem',
-    fontFamily: "'Noto Serif', Georgia, serif", fontSize: '1.1rem', fontWeight: '500',
-  },
-  form: { display: 'flex', flexDirection: 'column', gap: '1.25rem' },
-  input: {
-    padding: '0.5rem 0', border: 'none', borderBottom: '1px solid #737873',
-    background: 'transparent', fontSize: '0.9rem', outline: 'none',
-    color: '#1b1c19', fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-  btn: {
-    padding: '0.75rem', background: 'linear-gradient(135deg, #18281e, #2d3e33)', color: '#ffffff',
-    border: 'none', borderRadius: '0.75rem', cursor: 'pointer',
-    fontSize: '0.7rem', fontWeight: '600', letterSpacing: '0.08rem', textTransform: 'uppercase',
-    fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-  table: {
-    width: '100%', borderCollapse: 'collapse', background: '#ffffff',
-    borderRadius: '1rem', overflow: 'hidden', boxShadow: '0 20px 40px rgba(27, 28, 25, 0.06)',
-  },
-  th: {
-    background: '#18281e', color: '#ffffff', padding: '1rem 1.25rem',
-    textAlign: 'left', fontSize: '0.65rem', fontWeight: '600',
-    letterSpacing: '0.08rem', textTransform: 'uppercase',
-    fontFamily: "'Manrope', system-ui, sans-serif",
-  },
-  td: {
-    padding: '0.875rem 1.25rem', fontSize: '0.875rem', color: '#1b1c19',
-    borderBottom: '1px solid #f5f3ee',
-  },
-};
