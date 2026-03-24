@@ -2,12 +2,42 @@
 import Layout from '../layouts/Layout.astro';
 
 const members = [
-  { name: "Jace Yarborough",  github: "JaceYar",        role: "Full Stack" },
-  { name: "Jonathan Deiss",   github: "FireSquid6",     role: "Full Stack" },
-  { name: "Aaron Evans",      github: "aaron-d-e",      role: "Full Stack" },
-  { name: "Erick Martinez",   github: "emartinez-06",   role: "Full Stack" },
-  { name: "James Bagwell",    github: "jamesdavid0214", role: "Full Stack" },
-  { name: "Zain Altaf",       github: "zfa2005",        role: "Full Stack" },
+  {
+    name: "Jace Yarborough", github: "JaceYar",
+    role: "Requirements Engineer",
+    roleDesc: "Leads the requirements effort — defining, documenting, and validating what the system must do.",
+    useCases: ["Admin Login", "Create Hotel Clerk Account", "Hotel Clerk Add Room"],
+  },
+  {
+    name: "Jonathan Deiss", github: "FireSquid6",
+    role: "Quality Assurance Engineer",
+    roleDesc: "Oversees test case design, validation of requirements, design, and overall system quality.",
+    useCases: ["Browse Product Catalog", "Clerk Makes Reservation", "Room Inventory & Theme Management"],
+  },
+  {
+    name: "Aaron Evans", github: "aaron-d-e",
+    role: "Project Manager",
+    roleDesc: "Coordinates group activities, manages deliverables, allocates responsibilities, and liaises with the instructor.",
+    useCases: ["Process Check-Out", "Purchase From Store", "View or Request Bill"],
+  },
+  {
+    name: "Erick Martinez", github: "emartinez-06",
+    role: "Scrum Paternal Influence",
+    roleDesc: "Facilitates agile ceremonies, removes blockers, and keeps the team aligned on sprint goals.",
+    useCases: ["Guest Registration & Authentication", "Make Reservation", "Process Check-In"],
+  },
+  {
+    name: "James Bagwell", github: "jamesdavid0214",
+    role: "Design Engineer",
+    roleDesc: "Leads the design effort — architecture, UML diagrams, UI wireframes, and system structure.",
+    useCases: ["Help & Destination Services", "Review", "Search Available Room"],
+  },
+  {
+    name: "Zain Altaf", github: "zfa2005",
+    role: "Project Librarian",
+    roleDesc: "Maintains meeting logs and ensures all design artifacts and documentation are organized and accessible.",
+    useCases: ["Cancel Reservation", "Generate Combined Bill", "Modify Reservation"],
+  },
 ];
 ---
 
@@ -96,23 +126,34 @@ const members = [
       <div class="team-grid">
         {members.map(m => (
           <div class="member-card">
-            <div class="member-avatar-wrap">
-              <img
-                class="member-avatar"
-                src={`https://github.com/${m.github}.png?size=120`}
-                alt={m.name}
-                loading="lazy"
-                onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect width=%2260%22 height=%2260%22 fill=%22%231a2030%22/><text x=%2250%%22 y=%2255%%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%234a5568%22 font-size=%2224%22>?</text></svg>'"
-              />
-              <div class="avatar-ring"></div>
+            <div class="member-top">
+              <div class="member-avatar-wrap">
+                <img
+                  class="member-avatar"
+                  src={`https://github.com/${m.github}.png?size=120`}
+                  alt={m.name}
+                  loading="lazy"
+                  onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><rect width=%2260%22 height=%2260%22 fill=%22%231a2030%22/><text x=%2250%%22 y=%2255%%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%234a5568%22 font-size=%2224%22>?</text></svg>'"
+                />
+                <div class="avatar-ring"></div>
+              </div>
+              <div class="member-info">
+                <div class="member-name">{m.name}</div>
+                <div class="member-role-tag">{m.role}</div>
+                <a class="member-gh-link" href={`https://github.com/${m.github}`} target="_blank">@{m.github}</a>
+                <div class="member-commits">
+                  <span class="commit-label">commits</span>
+                  <span class="commit-count" data-user={m.github}>—</span>
+                </div>
+              </div>
             </div>
-            <div class="member-info">
-              <div class="member-name">{m.name}</div>
-              <div class="member-handle">@{m.github}</div>
-              <a class="member-gh-link" href={`https://github.com/${m.github}`} target="_blank">github.com/{m.github}</a>
-              <div class="member-commits">
-                <span class="commit-label">commits</span>
-                <span class="commit-count" data-user={m.github}>—</span>
+            <div class="member-role-desc">{m.roleDesc}</div>
+            <div class="member-usecases">
+              <div class="uc-label">assigned use cases</div>
+              <div class="uc-list">
+                {m.useCases.map(uc => (
+                  <span class="uc-tag">{uc}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -151,7 +192,7 @@ const members = [
       margin-bottom: 1.5rem;
     }
     .prompt-sym { color: #00ff88; }
-    .prompt-cmd { color: #c8dae8; }
+    .prompt-cmd { color: #4a5568; }
     .cursor {
       color: #00ff88;
       animation: blink 1s step-end infinite;
@@ -166,7 +207,7 @@ const members = [
       margin-bottom: 0.75rem;
     }
     .tagline {
-      color: #c8dae8;
+      color: #2e3f50;
       font-size: 0.8rem;
       margin-bottom: 2rem;
       letter-spacing: 0.1em;
@@ -185,7 +226,7 @@ const members = [
       padding: 0.5rem 1rem;
       border: 1px solid #1a2030;
       border-radius: 6px;
-      color: #c8dae8;
+      color: #6a7f8f;
       font-size: 0.8rem;
       background: #0d1117;
       transition: all 0.2s;
@@ -214,7 +255,7 @@ const members = [
     }
     .section-label {
       font-size: 0.7rem;
-      color: #c8dae8;
+      color: #2e3f50;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       margin-bottom: 1.25rem;
@@ -249,7 +290,7 @@ const members = [
       letter-spacing: 0.02em;
     }
     .desc-block p {
-      color: #c8dae8;
+      color: #3a4a58;
       font-size: 0.76rem;
       line-height: 1.75;
     }
@@ -275,8 +316,7 @@ const members = [
     }
     .member-card {
       display: flex;
-      align-items: center;
-      gap: 1.25rem;
+      flex-direction: column;
       background: #050709;
       border: 1px solid #111820;
       border-radius: 10px;
@@ -314,7 +354,7 @@ const members = [
       margin-bottom: 0.1rem;
     }
     .member-handle {
-      color: #c8dae8;
+      color: #2e3f50;
       font-size: 0.72rem;
       margin-bottom: 0.3rem;
     }
@@ -330,10 +370,52 @@ const members = [
     }
     .member-card:hover .member-gh-link { color: #00ff88; }
 
+    .member-top { display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 1rem; }
+    .member-role-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      color: #00ff88;
+      border: 1px solid rgba(0,255,136,0.3);
+      background: rgba(0,255,136,0.06);
+      border-radius: 3px;
+      padding: 0.15rem 0.5rem;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.04em;
+    }
+    .member-role-desc {
+      font-size: 0.72rem;
+      color: #4a6070;
+      line-height: 1.65;
+      margin-bottom: 0.85rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid #0d1520;
+    }
+    .member-usecases {}
+    .uc-label {
+      font-size: 0.62rem;
+      color: #2e3f50;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+    }
+    .uc-list { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .uc-tag {
+      font-size: 0.65rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      border: 1px solid #1a2535;
+      color: #5a7a90;
+      background: #080d12;
+      transition: all 0.2s;
+    }
+    .member-card:hover .uc-tag {
+      border-color: #1e3545;
+      color: #7a9ab0;
+    }
     .member-commits { display: flex; align-items: center; gap: 0.5rem; }
     .commit-label {
       font-size: 0.62rem;
-      color: #c8dae8;
+      color: #1e2730;
       text-transform: uppercase;
       letter-spacing: 0.1em;
     }
@@ -354,8 +436,8 @@ const members = [
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    .footer-text { color: #c8dae8; font-size: 0.72rem; }
-    .footer-dim  { color: #c8dae8; font-size: 0.68rem; }
+    .footer-text { color: #1e2730; font-size: 0.72rem; }
+    .footer-dim  { color: #111820; font-size: 0.68rem; }
 
     @media (max-width: 600px) {
       header { padding: 3rem 0 2rem; }
