@@ -11,50 +11,50 @@ We have all of the use cases implemented, but these are the ones relevant specif
 # Use Cases: Authentication
 ## Use Case: Hotel Clerk Login
 
-Author: Jonathan Deiss
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
+- Author: Jonathan Deiss
+- Connected to Backend: YES
+- Implemented By: Team effort prompt engineering
 
 ## Use Case: Admin Login
 
-Author: Jace Yarborough
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
+- Author: Jace Yarborough
+- Connected to Backend: YES
+- Implemented By: Team effort prompt engineering
 
-Screenshot: ![Admin Login](../screenshots/login-page.png)
+![Admin Login](../screenshots/login-page.png)
 
 
 # Use Case: Hotel Clerk Add Room
 
-Author: Jace Yarborough
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
+- Author: Jace Yarborough
+- Connected to Backend: YES
+- Implemented By: Team effort prompt engineering
 
-Screenshot: ![Hotel Clerk Add Room](../screenshots/add-room.png)
+![Hotel Clerk Add Room](../screenshots/add-room.png)
 
 # Use cases: Reservations
 
 ## Use Case: Search Available Room
 
-Author: James Bagwell
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
+- Author: James Bagwell
+- Connected to Backend: YES
+- Implemented By: Team effort prompt engineering
 
 
 ## Use Case: Make Reservation
 
-Author: Erick Martinez
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
+- Author: Erick Martinez
+- Connected to Backend: YES
+- Implemented By: Team effort prompt engineering
 
 ## Use Case: Cancel Reservation
 
-Author: Zain Altaf
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
+- Author: Zain Altaf
+- Connected to Backend: YES
+- Implemented By: Team effort prompt engineering
 
 
-Screenshot: ![Search Available Room](../screenshots/reservation-page.png)
+![Search Available Room](../screenshots/reservation-page.png)
 
 
 # Design Class Diagram
