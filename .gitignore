@@ -13,3 +13,5 @@ target/
 node_modules
 ExportDrafts
 *.db
+
+image-output
