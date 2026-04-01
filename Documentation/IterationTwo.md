@@ -1,9 +1,19 @@
 # Status
 Current implementation status: Complete
-Major roadblocks: None
+
+**No roadblocks**
 
 
 # Screenshots
+
+We have all of the use cases implemented, but these are the ones relevant specifically for this deliverable, along with screenshots. Some screenshots cover multiple use cases. 
+
+# Use Cases: Authentication
+## Use Case: Hotel Clerk Login
+
+Author: Jonathan Deiss
+Connected to Backend: YES
+Implemented By: Team effort prompt engineering
 
 ## Use Case: Admin Login
 
@@ -13,29 +23,8 @@ Implemented By: Team effort prompt engineering
 
 Screenshot: ![Admin Login](../screenshots/login-page.png)
 
----
 
-## Use Case: Create Hotel Clerk Account
-
-Author: Jace Yarborough
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Create Hotel Clerk Account](Wireframes/dashboard.png)
-
----
-
-## Use Case: Hotel Clerk Login
-
-Author: Jonathan Deiss
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Hotel Clerk Login](../screenshots/login-page.png)
-
----
-
-## Use Case: Hotel Clerk Add Room
+# Use Case: Hotel Clerk Add Room
 
 Author: Jace Yarborough
 Connected to Backend: YES
@@ -43,27 +32,7 @@ Implemented By: Team effort prompt engineering
 
 Screenshot: ![Hotel Clerk Add Room](../screenshots/add-room.png)
 
----
-
-## Use Case: Room Inventory & Theme Management
-
-Author: Jonathan Deiss
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Room Inventory & Theme Management](Wireframes/hotel-system.png)
-
----
-
-## Use Case: Guest Registration & Authentication
-
-Author: Erick Martinez
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Guest Registration & Authentication](Wireframes/registration.png)
-
----
+# Use cases: Reservations
 
 ## Use Case: Search Available Room
 
@@ -71,9 +40,6 @@ Author: James Bagwell
 Connected to Backend: YES
 Implemented By: Team effort prompt engineering
 
-Screenshot: ![Search Available Room](../screenshots/reservation-page.png)
-
----
 
 ## Use Case: Make Reservation
 
@@ -81,107 +47,15 @@ Author: Erick Martinez
 Connected to Backend: YES
 Implemented By: Team effort prompt engineering
 
-Screenshot: ![Make Reservation](../screenshots/reservation-page.png)
-
----
-
 ## Use Case: Cancel Reservation
 
 Author: Zain Altaf
 Connected to Backend: YES
 Implemented By: Team effort prompt engineering
 
-Screenshot: ![Cancel Reservation](../screenshots/reservation-page.png)
 
----
+Screenshot: ![Search Available Room](../screenshots/reservation-page.png)
 
-## Use Case: Modify Reservation
-
-Author: Zain Altaf
-Connected to Backend: NO
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Modify Reservation](Wireframes/make-reservation.png)
-
----
-
-## Use Case: Process Check-In
-
-Author: Erick Martinez
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Process Check-In](Wireframes/clerk-check-in.png)
-
----
-
-## Use Case: Process Check-Out
-
-Author: Aaron
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Process Check-Out](Wireframes/clerk-check-in.png)
-
----
-
-## Use Case: Generate Combined Bill
-
-Author: Zain Altaf
-Connected to Backend: NO
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Generate Combined Bill](Wireframes/dashboard.png)
-
----
-
-## Use Case: Browse Product Catalog
-
-Author: Jonathan Deiss
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Browse Product Catalog](Wireframes/hotel-system.png)
-
----
-
-## Use Case: Purchase from Store
-
-Author: Aaron
-Connected to Backend: YES
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Purchase from Store](Wireframes/hotel-system.png)
-
----
-
-## Use Case: View or Request Bill
-
-Author: Aaron
-Connected to Backend: NO
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![View or Request Bill](Wireframes/dashboard.png)
-
----
-
-## Use Case: Leave / View a Review
-
-Author: James Bagwell
-Connected to Backend: NO
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Leave / View a Review](Wireframes/hotel-system.png)
-
----
-
-## Use Case: Help & Destinations
-
-Author: James Bagwell
-Connected to Backend: NO
-Implemented By: Team effort prompt engineering
-
-Screenshot: ![Help & Destinations](Wireframes/hotel-system.png)
 
 # Design Class Diagram
 
