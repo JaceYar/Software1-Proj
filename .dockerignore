@@ -1,0 +1,13 @@
+.git
+.github
+.idea
+.vscode
+target
+node_modules
+frontend/node_modules
+site/node_modules
+scripts/node_modules
+Documentation
+ExportDrafts
+screenshots
+*.db

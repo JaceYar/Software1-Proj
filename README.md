@@ -57,3 +57,43 @@ This project follows the **Maven Standard Directory Layout** to ensure consisten
 | **`src/site`** | Files for project site generation. |
 | **`Documentation/`** | Project deliverables, requirement docs, and diagrams. |
 | **`pom.xml`** | The Project Object Model file containing dependencies and build settings. |
+
+## Docker (single container: frontend + backend)
+
+Build and run locally:
+
+```bash
+docker build -t booking-app:local .
+docker run --rm -p 8080:8080 -v "$(pwd)/data:/data" -e SPRING_DATASOURCE_URL=jdbc:sqlite:/data/booking.db booking-app:local
+```
+
+Then open `http://localhost:8080`.
+
+Notes:
+- The frontend is built into the Spring Boot app and served by the backend in this container.
+- The SQLite database persists in the mounted `data/` directory.
+
+## Fly.io deployment
+
+1. Install and authenticate Fly CLI (`flyctl auth login`).
+2. Create the app (or change `app` in `fly.toml` first):
+   ```bash
+   flyctl apps create software1-proj
+   ```
+3. Create a persistent volume in your deployment region:
+   ```bash
+   flyctl volumes create booking_data --region iad --size 1
+   ```
+4. Deploy:
+   ```bash
+   flyctl deploy
+   ```
+5. Open the app:
+   ```bash
+   flyctl open
+   ```
+
+Operational notes:
+- Keep the Fly volume in the same region as the app for SQLite performance and consistency.
+- If you change the app name or region, update `fly.toml` accordingly.
+- On first boot, the app initializes the SQLite schema automatically.
