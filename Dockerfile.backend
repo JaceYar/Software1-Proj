@@ -1,0 +1,36 @@
+FROM maven:3.9.9-eclipse-temurin-17 AS build
+
+WORKDIR /app
+
+# Copy build metadata first to leverage Docker layer caching.
+COPY pom.xml ./
+COPY schema.sql ./
+
+# jOOQ generation in this project expects an existing SQLite database.
+RUN mkdir -p data && \
+    apt-get update && \
+    apt-get install -y sqlite3 && \
+    rm -rf /var/lib/apt/lists/* && \
+    sqlite3 data/booking.db < schema.sql
+
+COPY src ./src
+RUN mvn -DskipTests package
+
+
+FROM eclipse-temurin:17-jre-jammy
+
+WORKDIR /app
+
+RUN apt-get update && \
+    apt-get install -y sqlite3 && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=build /app/target/*.jar /app/app.jar
+COPY schema.sql /app/schema.sql
+
+RUN mkdir -p /app/data
+
+ENV SERVER_PORT=8080
+EXPOSE 8080
+
+CMD ["/bin/sh", "-c", "[ -f /app/data/booking.db ] || sqlite3 /app/data/booking.db < /app/schema.sql; exec java -jar /app/app.jar"]

@@ -1,0 +1,14 @@
+.git
+.gitignore
+.idea
+.cursor
+node_modules
+frontend/node_modules
+frontend/dist
+site/node_modules
+target
+data
+*.log
+*.md
+Documentation
+prompts
