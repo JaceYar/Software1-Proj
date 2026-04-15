@@ -9,6 +9,8 @@
 [Jira](https://csi-3471-drop-table-teams.atlassian.net/jira/software/projects/SCRUM/boards/1)
 
 **Group Proj Website** : [Group Website](https://software1-proj.vercel.app/)
+
+**Hotel Website** : [Hotel](https://hotel.aarondevelop.com/)
 ## Getting Started
 
 Follow these steps to set up your local development environment after cloning the repository.
