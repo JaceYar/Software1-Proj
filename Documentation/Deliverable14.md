@@ -7,6 +7,10 @@ We are way ahead on testing and have completed unit tests for all classes. There
 
 Nearly all of these tests mock out the modules not directly being tested, so we only have base unit tests. Integration and end to end tests that encompass the frontend (likely using playwright) could be written in the future if necessary.
 
+Group meeting summary: met and made this file
+
+**These are all automated with `mvn test`. No individual needs to specifically test each case.**
+
 # Test Results
 ### AdminControllerTest
 
