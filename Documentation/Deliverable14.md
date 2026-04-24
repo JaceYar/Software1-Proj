@@ -5,6 +5,8 @@ Current status: done. Testing complete
 
 We are way ahead on testing and have completed unit tests for all classes. There's a lot of tests, so we ran `mvn test` and had an LLM generate a table for all of them based on the output and source code. 
 
+Nearly all of these tests mock out the modules not directly being tested, so we only have base unit tests. Integration and end to end tests that encompass the frontend (likely using playwright) could be written in the future if necessary.
+
 # Test Results
 ### AdminControllerTest
 
