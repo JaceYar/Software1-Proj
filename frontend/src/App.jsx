@@ -68,7 +68,7 @@ function AppRoutes() {
                 : user.role === 'CLERK'
                 ? <Navigate to="/clerk" replace />
                 : <Navigate to="/rooms" replace />
-              : <Navigate to="/login" replace />
+              : <Navigate to="/rooms" replace />
           }
         />
       </Routes>

@@ -117,7 +117,7 @@ export default function RoomsPage() {
                   {nights > 0 && (
                     <span className="text-on-surface-muted text-sm">Total: ${(room.dailyRate * nights).toFixed(2)}</span>
                   )}
-                  {user?.role === 'GUEST' && (
+                  {(!user || user.role === 'GUEST') && (
                     <button
                       onClick={() => handleBook(room)}
                       className="ml-auto px-5 py-2 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
