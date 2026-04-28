@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
+import StatusMessage from '../components/StatusMessage';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -10,12 +11,28 @@ export default function RegisterPage() {
     address: '', creditCardNumber: '', creditCardExpiry: '',
   });
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const set = (field) => (e) => setForm({ ...form, [field]: e.target.value });
+
+  const validate = () => {
+    const next = {};
+    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) next.email = 'Enter a valid email address.';
+    if (!form.password || form.password.length < 8) next.password = 'Password must be at least 8 characters.';
+
+    const cardDigits = form.creditCardNumber.replace(/\D/g, '');
+    if (!/^\d{13,19}$/.test(cardDigits)) next.creditCardNumber = 'Enter a valid credit card number.';
+
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(form.creditCardExpiry)) next.creditCardExpiry = 'Use MM/YY format.';
+    return next;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    const nextErrors = validate();
+    setFieldErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
     try {
       await register(form);
       navigate('/rooms');
@@ -24,37 +41,89 @@ export default function RegisterPage() {
     }
   };
 
-  const inputClass = "w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50";
+  const inputClass = "w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50 mt-2";
+  const errorClass = "text-xs text-tertiary mt-1";
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-8">
-      <div className="bg-surface-lowest p-12 rounded-2xl shadow-ambient w-full max-w-md">
-        <h2 className="font-serif text-on-surface text-3xl font-medium tracking-tight m-0">Create Account</h2>
-        <p className="text-on-surface-muted text-sm mt-1 mb-8">Stay &amp; Shop Hotel</p>
+    <div className="min-h-screen bg-surface p-8 flex items-center justify-center">
+      <div className="w-full max-w-6xl bg-surface-lowest rounded-2xl shadow-ambient overflow-hidden grid lg:grid-cols-5">
+        <aside className="lg:col-span-2 bg-secondary text-white p-10 flex flex-col justify-end">
+          <p className="text-xs uppercase tracking-[0.12rem] opacity-80 mb-4">Guest Registration</p>
+          <h1 className="font-serif text-4xl leading-tight mb-3">Create your stay profile.</h1>
+          <p className="text-sm opacity-85">Register once to book faster, manage reservations, and use in-hotel services without repeated checkout details.</p>
+        </aside>
+        <section className="lg:col-span-3 p-10 md:p-12">
+          <h2 className="font-serif text-on-surface text-3xl font-medium tracking-tight m-0">Create Account</h2>
+          <p className="text-on-surface-muted text-sm mt-1 mb-8">Complete all sections to activate your guest account.</p>
 
-        {error && (
-          <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg text-sm mb-5">{error}</div>
-        )}
+          <div className="mb-5">
+            <StatusMessage type="error" message={error} />
+          </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <input className={inputClass} placeholder="Username" value={form.username} onChange={set('username')} required />
-          <input className={inputClass} type="password" placeholder="Password" value={form.password} onChange={set('password')} required />
-          <input className={inputClass} placeholder="Full Name" value={form.name} onChange={set('name')} required />
-          <input className={inputClass} type="email" placeholder="Email" value={form.email} onChange={set('email')} />
-          <input className={inputClass} placeholder="Address" value={form.address} onChange={set('address')} />
-          <input className={inputClass} placeholder="Credit Card Number" value={form.creditCardNumber} onChange={set('creditCardNumber')} />
-          <input className={inputClass} placeholder="Card Expiry (MM/YY)" value={form.creditCardExpiry} onChange={set('creditCardExpiry')} />
-          <button
-            className="w-full py-3.5 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer mt-2 font-sans"
-            type="submit"
-          >
-            Register
-          </button>
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-7">
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted mb-3">Identity</h3>
+              <div className="grid md:grid-cols-2 gap-5">
+                <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+                  Username
+                  <input className={inputClass} placeholder="Choose username" value={form.username} onChange={set('username')} required />
+                </label>
+                <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+                  Full Name
+                  <input className={inputClass} placeholder="Guest full name" value={form.name} onChange={set('name')} required />
+                </label>
+                <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted md:col-span-2">
+                  Password
+                  <input className={inputClass} type="password" placeholder="Minimum 8 characters" value={form.password} onChange={set('password')} required />
+                  {fieldErrors.password && <p className={errorClass}>{fieldErrors.password}</p>}
+                </label>
+              </div>
+            </section>
 
-        <p className="mt-6 text-center text-sm text-on-surface-muted">
-          Already have an account? <Link to="/login" className="text-primary">Login</Link>
-        </p>
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted mb-3">Contact</h3>
+              <div className="grid md:grid-cols-2 gap-5">
+                <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+                  Email
+                  <input className={inputClass} type="email" placeholder="name@example.com" value={form.email} onChange={set('email')} required />
+                  {fieldErrors.email && <p className={errorClass}>{fieldErrors.email}</p>}
+                </label>
+                <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+                  Address
+                  <input className={inputClass} placeholder="Street, city, state" value={form.address} onChange={set('address')} required />
+                </label>
+              </div>
+            </section>
+
+            <section>
+              <h3 className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted mb-3">Payment</h3>
+              <div className="grid md:grid-cols-2 gap-5">
+                <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+                  Credit Card Number
+                  <input className={inputClass} placeholder="•••• •••• •••• ••••" value={form.creditCardNumber} onChange={set('creditCardNumber')} required />
+                  {fieldErrors.creditCardNumber && <p className={errorClass}>{fieldErrors.creditCardNumber}</p>}
+                </label>
+                <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+                  Card Expiry (MM/YY)
+                  <input className={inputClass} placeholder="MM/YY" value={form.creditCardExpiry} onChange={set('creditCardExpiry')} required />
+                  {fieldErrors.creditCardExpiry && <p className={errorClass}>{fieldErrors.creditCardExpiry}</p>}
+                </label>
+              </div>
+            </section>
+
+            <button
+              className="w-full py-3.5 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer font-sans"
+              type="submit"
+            >
+              Create Account
+            </button>
+          </form>
+
+          <div className="mt-7 text-sm text-on-surface-muted flex flex-wrap gap-2">
+            <span>Already registered?</span>
+            <Link to="/login" className="text-primary font-semibold">Sign in instead</Link>
+          </div>
+        </section>
       </div>
     </div>
   );
