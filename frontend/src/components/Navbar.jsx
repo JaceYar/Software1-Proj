@@ -16,9 +16,9 @@ export default function Navbar() {
         Stay &amp; Shop
       </Link>
       <div className="flex items-center gap-6">
+        <Link to="/rooms" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Rooms</Link>
         {user ? (
           <>
-            <Link to="/rooms" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">Rooms</Link>
             {user.role === 'GUEST' && (
               <>
                 <Link to="/reservations" className="text-on-surface-muted no-underline text-xs font-semibold uppercase tracking-[0.08rem] hover:text-on-surface transition-colors">My Reservations</Link>
