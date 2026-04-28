@@ -7,36 +7,42 @@ const members = [
     role: "Requirements Engineer",
     roleDesc: "Leads the requirements effort — defining, documenting, and validating what the system must do.",
     useCases: ["Admin Login", "Create Hotel Clerk Account", "Hotel Clerk Add Room"],
+    video: "",
   },
   {
     name: "Jonathan Deiss", github: "FireSquid6",
     role: "Quality Assurance Engineer",
     roleDesc: "Oversees test case design, validation of requirements, design, and overall system quality.",
     useCases: ["Browse Product Catalog", "Clerk Makes Reservation", "Room Inventory & Theme Management"],
+    video: "",
   },
   {
     name: "Aaron Evans", github: "aaron-d-e",
     role: "Project Manager",
     roleDesc: "Coordinates group activities, manages deliverables, allocates responsibilities, and liaises with the instructor.",
     useCases: ["Process Check-Out", "Purchase From Store", "View or Request Bill"],
+    video: "",
   },
   {
     name: "Erick Martinez", github: "emartinez-06",
     role: "Scrum Paternal Influence",
     roleDesc: "Facilitates agile ceremonies, removes blockers, and keeps the team aligned on sprint goals.",
     useCases: ["Guest Registration & Authentication", "Make Reservation", "Process Check-In"],
+    video: "",
   },
   {
     name: "James Bagwell", github: "jamesdavid0214",
     role: "Design Engineer",
     roleDesc: "Leads the design effort — architecture, UML diagrams, UI wireframes, and system structure.",
     useCases: ["Help & Destination Services", "Review", "Search Available Room"],
+    video: "",
   },
   {
     name: "Zain Altaf", github: "zfa2005",
     role: "Project Librarian",
     roleDesc: "Maintains meeting logs and ensures all design artifacts and documentation are organized and accessible.",
     useCases: ["Cancel Reservation", "Generate Combined Bill", "Modify Reservation"],
+    video: "",
   },
 ];
 ---
@@ -171,6 +177,31 @@ const members = [
           </div>
         ))}
       </div>
+    </section>
+
+    <!-- VIDEOS -->
+    <section class="section">
+      <div class="section-label"><span class="label-sym">▶</span> team.videos</div>
+      <table class="videos-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Video</th>
+          </tr>
+        </thead>
+        <tbody>
+          {members.map(m => (
+            <tr>
+              <td>{m.name}</td>
+              <td>
+                {m.video
+                  ? <a href={m.video} target="_blank">Watch video</a>
+                  : <span class="video-missing">No video yet</span>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
 
     <!-- FOOTER -->
@@ -448,6 +479,40 @@ const members = [
       color: #00ff88;
       min-width: 1.5rem;
     }
+
+    /* VIDEOS TABLE */
+    .videos-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #050709;
+      border: 1px solid #111820;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 0.8rem;
+    }
+    .videos-table th,
+    .videos-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #111820;
+    }
+    .videos-table th {
+      color: #2e3f50;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      background: #080d12;
+    }
+    .videos-table tbody tr:last-child td { border-bottom: none; }
+    .videos-table tbody tr:hover { background: #080d12; }
+    .videos-table td { color: #c8dae8; }
+    .videos-table a {
+      color: #00ff88;
+      transition: color 0.2s;
+    }
+    .videos-table a:hover { color: #5cffb0; }
+    .video-missing { color: #2e3f50; font-style: italic; }
 
     /* FOOTER */
     footer {
