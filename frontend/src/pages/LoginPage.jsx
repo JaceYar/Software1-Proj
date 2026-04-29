@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/useAuth';
+import StatusMessage from '../components/StatusMessage';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -22,42 +23,56 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-8">
-      <div className="bg-surface-lowest p-12 rounded-2xl shadow-ambient w-full max-w-md">
-        <h2 className="font-serif text-on-surface text-3xl font-medium tracking-tight m-0">Welcome Back</h2>
-        <p className="text-on-surface-muted text-sm mt-1 mb-8">Stay &amp; Shop Hotel</p>
+    <div className="min-h-screen bg-surface p-8 flex items-center justify-center">
+      <div className="w-full max-w-5xl bg-surface-lowest rounded-2xl shadow-ambient overflow-hidden grid lg:grid-cols-5">
+        <aside className="lg:col-span-2 bg-primary text-white p-10 flex flex-col justify-end">
+          <p className="text-xs uppercase tracking-[0.12rem] opacity-80 mb-4">Guest Access Portal</p>
+          <h1 className="font-serif text-4xl leading-tight mb-3">Welcome back to your stay.</h1>
+          <p className="text-sm opacity-80">Sign in to manage reservations, complete check-in, and access hotel store services.</p>
+        </aside>
+        <section className="lg:col-span-3 p-10 md:p-12">
+          <h2 className="font-serif text-on-surface text-3xl font-medium tracking-tight m-0">Sign In</h2>
+          <p className="text-on-surface-muted text-sm mt-1 mb-8">Use your account credentials to continue.</p>
 
-        {error && (
-          <div className="bg-tertiary/8 text-tertiary px-4 py-3 rounded-lg text-sm mb-5">{error}</div>
-        )}
+          <div className="mb-5">
+            <StatusMessage type="error" message={error} />
+          </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <input
-            className="w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50"
-            placeholder="Username"
-            value={form.username}
-            onChange={(e) => setForm({ ...form, username: e.target.value })}
-            required
-          />
-          <input
-            className="w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50"
-            type="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required
-          />
-          <button
-            className="w-full py-3.5 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer mt-2 font-sans"
-            type="submit"
-          >
-            Login
-          </button>
-        </form>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+              Username
+              <input
+                className="mt-2 w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50"
+                placeholder="Enter username"
+                value={form.username}
+                onChange={(e) => setForm({ ...form, username: e.target.value })}
+                required
+              />
+            </label>
+            <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
+              Password
+              <input
+                className="mt-2 w-full border-0 border-b border-outline bg-transparent pb-3 text-on-surface outline-none font-sans text-base placeholder:text-on-surface-muted/50"
+                type="password"
+                placeholder="Enter password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                required
+              />
+            </label>
+            <button
+              className="w-full py-3.5 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer mt-2 font-sans"
+              type="submit"
+            >
+              Continue
+            </button>
+          </form>
 
-        <p className="mt-6 text-center text-sm text-on-surface-muted">
-          No account? <Link to="/register" className="text-primary">Register here</Link>
-        </p>
+          <div className="mt-7 text-sm text-on-surface-muted flex flex-wrap gap-2">
+            <span>Need an account?</span>
+            <Link to="/register" className="text-primary font-semibold">Create one now</Link>
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -45,6 +45,7 @@ Follow these steps to set up your local development environment after cloning th
     bun run dev
     ```
     The frontend will be available at `http://localhost:5173`.
+    See `frontend/README.md` for the updated role-based navigation and flows (Guest Auth, Make Reservation, Process Check-In).
 
 ---
 
