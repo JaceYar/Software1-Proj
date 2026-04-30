@@ -44,6 +44,20 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody ChangePasswordRequest req) {
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
+        if (user == null) return ResponseEntity.status(401).body("Unauthorized");
+        try {
+            authService.changePassword(user.getId(), req.oldPassword(), req.newPassword());
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/me")
     public ResponseEntity<?> me(@RequestHeader("Authorization") String authHeader) {
         UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));

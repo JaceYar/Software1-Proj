@@ -91,73 +91,59 @@ public class BillsRecord extends UpdatableRecordImpl<BillsRecord> {
     }
 
     /**
-     * Setter for <code>bills.payment_method</code>.
-     */
-    public void setPaymentMethod(String value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>bills.payment_method</code>.
-     */
-    public String getPaymentMethod() {
-        return (String) get(5);
-    }
-
-    /**
      * Setter for <code>bills.paid</code>.
      */
     public void setPaid(Integer value) {
-        set(6, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>bills.paid</code>.
      */
     public Integer getPaid() {
-        return (Integer) get(6);
+        return (Integer) get(5);
     }
 
     /**
      * Setter for <code>bills.corporation_id</code>.
      */
     public void setCorporationId(Integer value) {
-        set(7, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>bills.corporation_id</code>.
      */
     public Integer getCorporationId() {
-        return (Integer) get(7);
+        return (Integer) get(6);
     }
 
     /**
      * Setter for <code>bills.created_at</code>.
      */
     public void setCreatedAt(LocalDateTime value) {
-        set(8, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>bills.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>bills.paid_at</code>.
      */
     public void setPaidAt(LocalDateTime value) {
-        set(9, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>bills.paid_at</code>.
      */
     public LocalDateTime getPaidAt() {
-        return (LocalDateTime) get(9);
+        return (LocalDateTime) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -183,7 +169,7 @@ public class BillsRecord extends UpdatableRecordImpl<BillsRecord> {
     /**
      * Create a detached, initialised BillsRecord
      */
-    public BillsRecord(Integer id, Integer userId, Integer reservationId, Integer orderId, Float totalAmount, String paymentMethod, Integer paid, Integer corporationId, LocalDateTime createdAt, LocalDateTime paidAt) {
+    public BillsRecord(Integer id, Integer userId, Integer reservationId, Integer orderId, Float totalAmount, Integer paid, Integer corporationId, LocalDateTime createdAt, LocalDateTime paidAt) {
         super(Bills.BILLS);
 
         setId(id);
@@ -191,7 +177,6 @@ public class BillsRecord extends UpdatableRecordImpl<BillsRecord> {
         setReservationId(reservationId);
         setOrderId(orderId);
         setTotalAmount(totalAmount);
-        setPaymentMethod(paymentMethod);
         setPaid(paid);
         setCorporationId(corporationId);
         setCreatedAt(createdAt);

@@ -77,6 +77,23 @@ public class AuthService implements IAuthService {
         return userRepository.findById(userId);
     }
 
+    /**
+     * Updates the caller's password after verifying the old one.
+     * @throws IllegalArgumentException if the old password is incorrect or new password is invalid
+     */
+    @Override
+    public void changePassword(int userId, String oldPassword, String newPassword) {
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new IllegalArgumentException("New password must be at least 6 characters");
+        }
+        UsersRecord user = userRepository.findById(userId);
+        if (user == null) throw new IllegalArgumentException("User not found");
+        if (!passwordEncoder.matches(oldPassword, user.getPasswordHash())) {
+            throw new IllegalArgumentException("Current password is incorrect");
+        }
+        userRepository.updatePasswordHash(user.getUsername(), passwordEncoder.encode(newPassword));
+    }
+
     // -------------------------------------------------------------------------
 
     private AuthResponse createSession(UsersRecord user) {

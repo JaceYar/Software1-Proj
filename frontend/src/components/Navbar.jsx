@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
+import ChangePasswordModal from './ChangePasswordModal';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [showChangePassword, setShowChangePassword] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -39,6 +42,13 @@ export default function Navbar() {
             )}
             <span className="text-on-surface text-xs font-medium">{user.name}</span>
             <button
+              type="button"
+              onClick={() => setShowChangePassword(true)}
+              className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted hover:text-on-surface bg-transparent border-0 cursor-pointer"
+            >
+              Change Password
+            </button>
+            <button
               onClick={handleLogout}
               className="bg-linear-to-br from-primary to-primary-container text-white border-0 px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-[0.08rem] cursor-pointer font-sans"
             >
@@ -52,6 +62,7 @@ export default function Navbar() {
           </>
         )}
       </div>
+      {showChangePassword && <ChangePasswordModal onClose={() => setShowChangePassword(false)} />}
     </nav>
   );
 }

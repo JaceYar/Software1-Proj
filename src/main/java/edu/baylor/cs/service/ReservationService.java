@@ -69,7 +69,7 @@ public class ReservationService implements IReservationService {
      * @throws IllegalArgumentException if already cancelled or past check-in
      */
     @Override
-    public ReservationDto cancelReservation(int reservationId, int requestingUserId, String requestingRole) {
+    public ReservationDto cancelReservation(int reservationId, int requestingUserId, String requestingRole, Float penaltyOverride) {
         ReservationsRecord r = reservationRepository.findById(reservationId);
         if (r == null) throw new IllegalArgumentException("Reservation not found");
         if ("GUEST".equals(requestingRole) && r.getUserId() != requestingUserId) {
@@ -81,7 +81,11 @@ public class ReservationService implements IReservationService {
         }
 
         float fee = 0.0f;
-        if (r.getCreatedAt() != null) {
+        boolean canOverride = "CLERK".equals(requestingRole) || "ADMIN".equals(requestingRole);
+        if (canOverride && penaltyOverride != null) {
+            if (penaltyOverride < 0) throw new IllegalArgumentException("Penalty cannot be negative");
+            fee = penaltyOverride;
+        } else if (r.getCreatedAt() != null) {
             LocalDate created = r.getCreatedAt().toLocalDate();
             long daysSinceBooking = ChronoUnit.DAYS.between(created, LocalDate.now());
             if (daysSinceBooking > 2) {

@@ -17,6 +17,8 @@ export const register = (data) => api.post('/auth/register', data);
 export const login = (data) => api.post('/auth/login', data);
 export const logout = () => api.post('/auth/logout');
 export const getCurrentUser = () => api.get('/auth/me');
+export const changePassword = (oldPassword, newPassword) =>
+  api.post('/auth/change-password', { oldPassword, newPassword });
 
 // Rooms
 export const getRooms = () => api.get('/rooms');
@@ -28,7 +30,8 @@ export const updateRoom = (id, data) => api.put(`/rooms/${id}`, data);
 // Reservations
 export const getReservations = () => api.get('/reservations');
 export const createReservation = (data) => api.post('/reservations', data);
-export const cancelReservation = (id) => api.delete(`/reservations/${id}`);
+export const cancelReservation = (id, options = {}) =>
+  api.delete(`/reservations/${id}`, { data: options });
 export const checkIn = (id) => api.post(`/reservations/${id}/checkin`);
 export const checkOut = (id) => api.post(`/reservations/${id}/checkout`);
 

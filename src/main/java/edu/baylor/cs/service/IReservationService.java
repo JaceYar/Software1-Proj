@@ -9,7 +9,7 @@ public interface IReservationService {
     List<ReservationDto> getAllReservations();
     List<ReservationDto> getReservationsForUser(int userId);
     ReservationDto createReservation(int userId, ReservationRequest req);
-    ReservationDto cancelReservation(int reservationId, int requestingUserId, String requestingRole);
+    ReservationDto cancelReservation(int reservationId, int requestingUserId, String requestingRole, Float penaltyOverride);
     ReservationDto checkIn(int reservationId);
     ReservationDto checkOut(int reservationId);
 }

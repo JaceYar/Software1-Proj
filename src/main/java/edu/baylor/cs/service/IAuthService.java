@@ -10,4 +10,5 @@ public interface IAuthService {
     AuthResponse login(LoginRequest req);
     void logout(String token);
     UsersRecord getUserFromToken(String token);
+    void changePassword(int userId, String oldPassword, String newPassword);
 }

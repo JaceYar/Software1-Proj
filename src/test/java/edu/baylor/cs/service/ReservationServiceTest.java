@@ -112,7 +112,7 @@ class ReservationServiceTest {
         Record rec = mockReservationRecord(1, 1, 1, "101", "2025-08-01", "2025-08-05", 400.0f, "CANCELLED", 0.0f);
         when(reservationRepository.findByIdWithRoomNumber(1)).thenReturn(rec);
 
-        ReservationDto dto = reservationService.cancelReservation(1, 1, "GUEST");
+        ReservationDto dto = reservationService.cancelReservation(1, 1, "GUEST", null);
 
         verify(reservationRepository).updateCancellation(eq(1), eq(0.0f), any(LocalDateTime.class));
     }
@@ -126,7 +126,7 @@ class ReservationServiceTest {
         Record rec = mockReservationRecord(1, 1, 1, "101", "2025-08-01", "2025-08-05", 400.0f, "CANCELLED", 80.0f);
         when(reservationRepository.findByIdWithRoomNumber(1)).thenReturn(rec);
 
-        reservationService.cancelReservation(1, 1, "GUEST");
+        reservationService.cancelReservation(1, 1, "GUEST", null);
 
         // daily rate = 400/4 = 100; fee = 100 * 0.80 = 80
         verify(reservationRepository).updateCancellation(eq(1), eq(80.0f), any(LocalDateTime.class));
@@ -139,7 +139,7 @@ class ReservationServiceTest {
         when(reservationRepository.findById(1)).thenReturn(r);
 
         assertThrows(IllegalArgumentException.class,
-                () -> reservationService.cancelReservation(1, 1, "GUEST"));
+                () -> reservationService.cancelReservation(1, 1, "GUEST", null));
     }
 
     @Test
@@ -149,7 +149,7 @@ class ReservationServiceTest {
         when(reservationRepository.findById(1)).thenReturn(r);
 
         assertThrows(IllegalArgumentException.class,
-                () -> reservationService.cancelReservation(1, 1, "GUEST"));
+                () -> reservationService.cancelReservation(1, 1, "GUEST", null));
     }
 
     @Test
@@ -159,7 +159,7 @@ class ReservationServiceTest {
         when(reservationRepository.findById(1)).thenReturn(r);
 
         assertThrows(IllegalArgumentException.class,
-                () -> reservationService.cancelReservation(1, 99, "GUEST"));
+                () -> reservationService.cancelReservation(1, 99, "GUEST", null));
     }
 
     @Test

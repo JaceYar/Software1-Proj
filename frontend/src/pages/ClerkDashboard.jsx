@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { checkIn, checkOut, createRoom, getReservations, getRooms } from '../services/api';
+import { cancelReservation, checkIn, checkOut, createRoom, getReservations, getRooms, updateRoom } from '../services/api';
 import StatusMessage from '../components/StatusMessage';
 
 const STATUS_CLASS = {
@@ -24,6 +24,9 @@ export default function ClerkDashboard() {
   const [arrivalDate, setArrivalDate] = useState('');
   const [preferredRoomId, setPreferredRoomId] = useState('');
   const [showAddRoom, setShowAddRoom] = useState(false);
+  const [editingRoomId, setEditingRoomId] = useState(null);
+  const [cancelTarget, setCancelTarget] = useState(null);
+  const [cancelPenalty, setCancelPenalty] = useState('0');
   const [newRoom, setNewRoom] = useState({
     roomNumber: '',
     floor: 1,
@@ -118,28 +121,87 @@ export default function ClerkDashboard() {
     }
   };
 
-  const handleAddRoom = async (event) => {
+  const resetRoomForm = () => {
+    setNewRoom({
+      roomNumber: '',
+      floor: 1,
+      roomType: 'STANDARD',
+      qualityLevel: 'ECONOMY',
+      bedType: 'QUEEN',
+      numBeds: 1,
+      smoking: false,
+      dailyRate: 99.99,
+      description: '',
+    });
+    setEditingRoomId(null);
+  };
+
+  const handleSaveRoom = async (event) => {
     event.preventDefault();
     setError('');
     setSuccess('');
     try {
-      await createRoom(newRoom);
-      setSuccess(`Room ${newRoom.roomNumber} added.`);
-      setNewRoom({
-        roomNumber: '',
-        floor: 1,
-        roomType: 'STANDARD',
-        qualityLevel: 'ECONOMY',
-        bedType: 'QUEEN',
-        numBeds: 1,
-        smoking: false,
-        dailyRate: 99.99,
-        description: '',
-      });
+      if (editingRoomId != null) {
+        await updateRoom(editingRoomId, newRoom);
+        setSuccess(`Room ${newRoom.roomNumber} updated.`);
+      } else {
+        await createRoom(newRoom);
+        setSuccess(`Room ${newRoom.roomNumber} added.`);
+      }
+      resetRoomForm();
       setShowAddRoom(false);
       await loadData();
     } catch (err) {
-      setError(err.response?.data || 'Failed to add room.');
+      setError(err.response?.data || 'Failed to save room.');
+    }
+  };
+
+  const handleEditRoom = (room) => {
+    setNewRoom({
+      roomNumber: room.roomNumber ?? '',
+      floor: room.floor ?? 1,
+      roomType: room.roomType ?? 'STANDARD',
+      qualityLevel: room.qualityLevel ?? 'ECONOMY',
+      bedType: room.bedType ?? 'QUEEN',
+      numBeds: room.numBeds ?? 1,
+      smoking: !!room.smoking,
+      dailyRate: room.dailyRate ?? 99.99,
+      description: room.description ?? '',
+    });
+    setEditingRoomId(room.id);
+    setShowAddRoom(true);
+  };
+
+  const computeAutoPenalty = (reservation) => {
+    if (!reservation?.createdAt || !reservation?.checkInDate || !reservation?.checkOutDate) return 0;
+    const created = new Date(reservation.createdAt);
+    const today = new Date();
+    const days = Math.floor((today - created) / (1000 * 60 * 60 * 24));
+    if (days <= 2) return 0;
+    const checkIn = new Date(reservation.checkInDate);
+    const checkOut = new Date(reservation.checkOutDate);
+    const nights = Math.max(1, Math.round((checkOut - checkIn) / (1000 * 60 * 60 * 24)));
+    const dailyRate = (reservation.rate || 0) / nights;
+    return Math.round(dailyRate * 0.8 * 100) / 100;
+  };
+
+  const openCancelModal = (reservation) => {
+    setCancelTarget(reservation);
+    setCancelPenalty(String(computeAutoPenalty(reservation)));
+  };
+
+  const handleConfirmCancel = async () => {
+    if (!cancelTarget) return;
+    setError('');
+    setSuccess('');
+    try {
+      const penalty = Number(cancelPenalty);
+      await cancelReservation(cancelTarget.id, { penaltyOverride: Number.isFinite(penalty) ? penalty : 0 });
+      setSuccess(`Cancelled ${toConfirmationCode(cancelTarget.id)} with $${penalty.toFixed(2)} penalty.`);
+      setCancelTarget(null);
+      await loadData();
+    } catch (err) {
+      setError(err.response?.data || 'Cancellation failed.');
     }
   };
 
@@ -219,26 +281,39 @@ export default function ClerkDashboard() {
           ) : (
             <div className="space-y-3">
               {filteredReservations.map((reservation) => (
-                <button
+                <div
                   key={reservation.id}
-                  type="button"
-                  onClick={() => setSelectedReservationId(reservation.id)}
-                  className={`w-full text-left rounded-xl p-4 border transition-colors ${
+                  className={`w-full rounded-xl p-4 border transition-colors ${
                     selectedReservationId === reservation.id
                       ? 'border-primary/35 bg-surface-container'
                       : 'border-outline-variant/20 bg-surface'
                   }`}
                 >
-                  <div className="flex flex-wrap items-center gap-3 mb-2">
-                    <strong className="font-serif text-on-surface">{toConfirmationCode(reservation.id)}</strong>
-                    <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wide ${STATUS_CLASS[reservation.status] || 'bg-surface-container text-on-surface-muted'}`}>
-                      {reservation.status}
-                    </span>
-                  </div>
-                  <p className="text-sm text-on-surface-muted">
-                    Guest #{reservation.userId} • Room {reservation.roomNumber} • {reservation.checkInDate} to {reservation.checkOutDate}
-                  </p>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedReservationId(reservation.id)}
+                    className="w-full text-left"
+                  >
+                    <div className="flex flex-wrap items-center gap-3 mb-2">
+                      <strong className="font-serif text-on-surface">{toConfirmationCode(reservation.id)}</strong>
+                      <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold tracking-wide ${STATUS_CLASS[reservation.status] || 'bg-surface-container text-on-surface-muted'}`}>
+                        {reservation.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-on-surface-muted">
+                      Guest #{reservation.userId} • Room {reservation.roomNumber} • {reservation.checkInDate} to {reservation.checkOutDate}
+                    </p>
+                  </button>
+                  {reservation.status === 'CONFIRMED' && (
+                    <button
+                      type="button"
+                      onClick={() => openCancelModal(reservation)}
+                      className="mt-3 px-3 py-1.5 bg-tertiary/10 text-tertiary rounded-lg text-xs font-semibold uppercase tracking-[0.08rem]"
+                    >
+                      Cancel with penalty
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
           )}
@@ -323,17 +398,43 @@ export default function ClerkDashboard() {
 
         <div className="bg-surface-lowest rounded-2xl p-6 shadow-ambient">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-serif text-on-surface text-xl">5. Room Inventory Entry</h2>
+            <h2 className="font-serif text-on-surface text-xl">5. Room Inventory</h2>
             <button
               type="button"
-              onClick={() => setShowAddRoom((prev) => !prev)}
+              onClick={() => {
+                setShowAddRoom((prev) => {
+                  const next = !prev;
+                  if (!next) resetRoomForm();
+                  return next;
+                });
+                if (showAddRoom) resetRoomForm();
+              }}
               className="px-4 py-2 bg-linear-to-br from-secondary to-[#8a6e50] text-white rounded-xl text-xs font-semibold uppercase tracking-[0.08rem]"
             >
-              {showAddRoom ? 'Close' : 'Add Room'}
+              {showAddRoom ? 'Close' : editingRoomId != null ? 'Edit Room' : 'Add Room'}
             </button>
           </div>
+          {!showAddRoom && (
+            <div className="space-y-2 max-h-72 overflow-y-auto mb-4">
+              {rooms.map((room) => (
+                <div key={room.id} className="flex items-center justify-between rounded-xl border border-outline-variant/20 px-4 py-2 bg-surface">
+                  <div>
+                    <p className="text-on-surface text-sm font-semibold">Room {room.roomNumber}</p>
+                    <p className="text-xs text-on-surface-muted">{room.roomType} • {room.qualityLevel} • ${room.dailyRate}/night</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleEditRoom(room)}
+                    className="px-3 py-1.5 bg-surface-container text-on-surface rounded-lg text-xs font-semibold uppercase tracking-[0.08rem]"
+                  >
+                    Edit
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           {showAddRoom ? (
-            <form onSubmit={handleAddRoom} className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSaveRoom} className="grid grid-cols-2 gap-4">
               <label className="col-span-2 text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted">
                 Room Number
                 <input
@@ -432,14 +533,53 @@ export default function ClerkDashboard() {
                 type="submit"
                 className="col-span-2 py-3 bg-linear-to-br from-primary to-primary-container text-white rounded-xl text-xs font-semibold uppercase tracking-[0.08rem]"
               >
-                Save Room
+                {editingRoomId != null ? 'Update Room' : 'Save Room'}
               </button>
             </form>
-          ) : (
-            <p className="text-sm text-on-surface-muted">Use this section to add new room inventory entries without leaving check-in operations.</p>
-          )}
+          ) : null}
         </div>
       </section>
+
+      {cancelTarget && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+          <div className="bg-surface-lowest rounded-2xl p-6 max-w-md w-full shadow-ambient">
+            <h3 className="font-serif text-on-surface text-xl mb-3">Cancel Reservation</h3>
+            <p className="text-sm text-on-surface-muted mb-4">
+              {toConfirmationCode(cancelTarget.id)} • Guest #{cancelTarget.userId} • Room {cancelTarget.roomNumber}
+            </p>
+            <p className="text-xs text-on-surface-muted mb-2">
+              Auto-calculated penalty: <strong className="text-on-surface">${computeAutoPenalty(cancelTarget).toFixed(2)}</strong>
+            </p>
+            <label className="text-xs font-semibold uppercase tracking-[0.08rem] text-on-surface-muted block">
+              Penalty to apply
+              <input
+                type="number"
+                min={0}
+                step="0.01"
+                value={cancelPenalty}
+                onChange={(e) => setCancelPenalty(e.target.value)}
+                className="mt-2 w-full border-0 border-b border-outline bg-transparent pb-2 text-on-surface outline-none"
+              />
+            </label>
+            <div className="flex gap-2 mt-6">
+              <button
+                type="button"
+                onClick={() => setCancelTarget(null)}
+                className="flex-1 py-2.5 bg-surface-container text-on-surface rounded-xl text-xs font-semibold uppercase tracking-[0.08rem]"
+              >
+                Keep Reservation
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmCancel}
+                className="flex-1 py-2.5 bg-linear-to-br from-tertiary to-[#a05a5a] text-white rounded-xl text-xs font-semibold uppercase tracking-[0.08rem]"
+              >
+                Confirm Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

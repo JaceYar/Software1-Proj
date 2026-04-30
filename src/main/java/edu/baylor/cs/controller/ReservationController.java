@@ -50,11 +50,16 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> cancelReservation(
             @RequestHeader("Authorization") String authHeader,
-            @PathVariable int id) {
+            @PathVariable int id,
+            @RequestBody(required = false) java.util.Map<String, Object> body) {
         UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
+        Float penaltyOverride = null;
+        if (body != null && body.get("penaltyOverride") instanceof Number n) {
+            penaltyOverride = n.floatValue();
+        }
         try {
-            return ResponseEntity.ok(reservationService.cancelReservation(id, user.getId(), user.getRole()));
+            return ResponseEntity.ok(reservationService.cancelReservation(id, user.getId(), user.getRole(), penaltyOverride));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
