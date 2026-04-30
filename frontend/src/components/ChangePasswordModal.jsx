@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { changePassword } from '../services/api';
 import StatusMessage from './StatusMessage';
 
@@ -34,7 +35,7 @@ export default function ChangePasswordModal({ onClose }) {
 
   const inputClass = 'mt-2 w-full border-0 border-b border-outline bg-transparent pb-2 text-on-surface outline-none';
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
       <div className="bg-surface-lowest rounded-2xl p-6 max-w-md w-full shadow-ambient">
         <div className="flex items-center justify-between mb-4">
@@ -67,6 +68,7 @@ export default function ChangePasswordModal({ onClose }) {
           </button>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
