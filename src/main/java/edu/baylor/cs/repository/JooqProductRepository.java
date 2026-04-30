@@ -35,10 +35,12 @@ public class JooqProductRepository implements ProductRepository {
     }
 
     @Override
-    public void decrementStock(int productId, int quantity) {
-        db.update(PRODUCTS)
+    public boolean decrementStock(int productId, int quantity) {
+        int updated = db.update(PRODUCTS)
                 .set(PRODUCTS.STOCK_QUANTITY, PRODUCTS.STOCK_QUANTITY.minus(quantity))
                 .where(PRODUCTS.ID.eq(productId))
+                .and(PRODUCTS.STOCK_QUANTITY.ge(quantity))
                 .execute();
+        return updated == 1;
     }
 }

@@ -48,6 +48,9 @@ public class StoreService implements IStoreService {
         if (!reservationRepository.hasCheckedInReservationForUser(userId)) {
             throw new IllegalArgumentException("Only checked-in guests can shop in the store");
         }
+        if (req.quantity() <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than 0");
+        }
 
         Integer stock = productRepository.findStockById(req.productId());
         if (stock == null || stock < req.quantity()) {
@@ -81,11 +84,14 @@ public class StoreService implements IStoreService {
         if (orderId == null) throw new IllegalArgumentException("No active cart");
 
         Double total = orderRepository.calculateCartTotal(orderId);
-        orderRepository.markPurchased(orderId, LocalDateTime.now());
 
         for (int[] item : orderRepository.getItemsForOrder(orderId)) {
-            productRepository.decrementStock(item[0], item[1]);
+            boolean updated = productRepository.decrementStock(item[0], item[1]);
+            if (!updated) {
+                throw new IllegalArgumentException("Insufficient stock during checkout");
+            }
         }
+        orderRepository.markPurchased(orderId, LocalDateTime.now());
 
         float totalFloat = total != null ? total.floatValue() : 0.0f;
         int billId = orderRepository.insertBill(userId, orderId, totalFloat);
