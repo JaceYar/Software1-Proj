@@ -1,6 +1,7 @@
 package edu.baylor.cs.controller;
 
 import edu.baylor.cs.db.tables.records.UsersRecord;
+import edu.baylor.cs.dto.CheckoutRequest;
 import edu.baylor.cs.dto.ProductDto;
 import edu.baylor.cs.service.IAuthService;
 import edu.baylor.cs.service.IStoreService;
@@ -43,8 +44,8 @@ class StoreControllerTest {
 
     @Test
     void getCart_authenticated_returns200() throws Exception {
-        UsersRecord guest = mock(UsersRecord.class);
-        when(guest.getId()).thenReturn(1);
+        UsersRecord guest = new UsersRecord();
+        guest.setId(1);
         when(authService.getUserFromToken(any())).thenReturn(guest);
         when(storeService.getCart(1)).thenReturn(List.of(
                 Map.of("itemId", 1, "name", "Chips", "quantity", 2, "price", 2.5, "category", "SNACK")));
@@ -57,8 +58,8 @@ class StoreControllerTest {
 
     @Test
     void addToCart_authenticated_returns200() throws Exception {
-        UsersRecord guest = mock(UsersRecord.class);
-        when(guest.getId()).thenReturn(1);
+        UsersRecord guest = new UsersRecord();
+        guest.setId(1);
         when(authService.getUserFromToken(any())).thenReturn(guest);
         when(storeService.addToCart(eq(1), any())).thenReturn(Map.of("orderId", 42, "message", "Item added to cart"));
 
@@ -72,14 +73,30 @@ class StoreControllerTest {
 
     @Test
     void checkout_authenticated_returns200() throws Exception {
-        UsersRecord guest = mock(UsersRecord.class);
-        when(guest.getId()).thenReturn(1);
+        UsersRecord guest = new UsersRecord();
+        guest.setId(1);
         when(authService.getUserFromToken(any())).thenReturn(guest);
-        when(storeService.checkout(1)).thenReturn(Map.of("orderId", 42, "billId", 7, "total", 15.0));
+        when(storeService.checkout(eq(1), any(CheckoutRequest.class)))
+                .thenReturn(Map.of("orderId", 42, "billId", 7, "total", 15.0));
 
         mockMvc.perform(post("/api/store/checkout")
-                        .header("Authorization", "Bearer token"))
+                        .header("Authorization", "Bearer token")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"paymentMethod\":\"PAY_NOW\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.billId").value(7));
+    }
+
+    @Test
+    void removeFromCart_authenticated_returns200() throws Exception {
+        UsersRecord guest = new UsersRecord();
+        guest.setId(1);
+        when(authService.getUserFromToken(any())).thenReturn(guest);
+        when(storeService.removeFromCart(1, 5)).thenReturn(Map.of("orderId", 42, "message", "Item removed from cart"));
+
+        mockMvc.perform(delete("/api/store/cart/5")
+                        .header("Authorization", "Bearer token"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.orderId").value(42));
     }
 }

@@ -149,6 +149,14 @@ This keeps `booking.db` persisted across container restarts/redeploys.
 
 On first startup, backend container auto-initializes the SQLite database from `schema.sql` if the DB file does not exist.
 
+### Schema migration note
+
+If you deploy this version against an older existing `booking.db`, run this one-time migration before restarting the backend:
+
+```bash
+sqlite3 /path/to/booking.db "ALTER TABLE bills ADD COLUMN payment_method TEXT NOT NULL DEFAULT 'PAY_NOW';"
+```
+
 ## Useful Ops Commands
 
 Rebuild and restart app:

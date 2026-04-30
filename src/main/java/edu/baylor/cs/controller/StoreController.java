@@ -2,6 +2,7 @@ package edu.baylor.cs.controller;
 
 import edu.baylor.cs.db.tables.records.UsersRecord;
 import edu.baylor.cs.dto.CartItemRequest;
+import edu.baylor.cs.dto.CheckoutRequest;
 import edu.baylor.cs.service.IAuthService;
 import edu.baylor.cs.service.IStoreService;
 import edu.baylor.cs.util.TokenExtractor;
@@ -48,12 +49,27 @@ public class StoreController {
         }
     }
 
-    @PostMapping("/checkout")
-    public ResponseEntity<?> checkout(@RequestHeader("Authorization") String authHeader) {
+    @DeleteMapping("/cart/{itemId}")
+    public ResponseEntity<?> removeFromCart(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable int itemId) {
         UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
         if (user == null) return ResponseEntity.status(401).body("Unauthorized");
         try {
-            return ResponseEntity.ok(storeService.checkout(user.getId()));
+            return ResponseEntity.ok(storeService.removeFromCart(user.getId(), itemId));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<?> checkout(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody(required = false) CheckoutRequest req) {
+        UsersRecord user = authService.getUserFromToken(TokenExtractor.fromHeader(authHeader));
+        if (user == null) return ResponseEntity.status(401).body("Unauthorized");
+        try {
+            return ResponseEntity.ok(storeService.checkout(user.getId(), req));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

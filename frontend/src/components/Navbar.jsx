@@ -28,6 +28,7 @@ export default function Navbar() {
               <>
                 <NavLink to="/reservations" className={linkClass}>My Stay</NavLink>
                 <NavLink to="/store" className={linkClass}>Store</NavLink>
+                <NavLink to="/my-bill" className={linkClass}>My Bill</NavLink>
               </>
             )}
             {(user.role === 'CLERK' || user.role === 'ADMIN') && (

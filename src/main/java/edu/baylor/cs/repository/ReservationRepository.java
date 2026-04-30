@@ -7,6 +7,7 @@ import org.jooq.Record;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReservationRepository {
     boolean hasConflict(int roomId, LocalDate checkIn, LocalDate checkOut);
@@ -20,4 +21,6 @@ public interface ReservationRepository {
     void updateToCheckedIn(int id);
     void updateCancellation(int id, float fee, LocalDateTime cancelledAt);
     Integer findRoomIdById(int reservationId);
+    Optional<Integer> findCheckedInReservationIdByUserId(int userId);
+    Record findMostRecentReservationForUserWithRoom(int userId);
 }

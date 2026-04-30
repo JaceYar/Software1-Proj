@@ -66,6 +66,26 @@ public class JooqOrderRepository implements OrderRepository {
     }
 
     @Override
+    public Map<String, Integer> findCartItemById(int orderId, int itemId) {
+        return db.select(ORDER_ITEMS.PRODUCT_ID, ORDER_ITEMS.QUANTITY)
+                .from(ORDER_ITEMS)
+                .where(ORDER_ITEMS.ORDER_ID.eq(orderId))
+                .and(ORDER_ITEMS.ID.eq(itemId))
+                .fetchOne(r -> Map.of(
+                        "productId", r.get(ORDER_ITEMS.PRODUCT_ID),
+                        "quantity", r.get(ORDER_ITEMS.QUANTITY)
+                ));
+    }
+
+    @Override
+    public void deleteCartItem(int orderId, int itemId) {
+        db.deleteFrom(ORDER_ITEMS)
+                .where(ORDER_ITEMS.ORDER_ID.eq(orderId))
+                .and(ORDER_ITEMS.ID.eq(itemId))
+                .execute();
+    }
+
+    @Override
     public Double calculateCartTotal(int orderId) {
         return db.select(
                         DSL.sum(ORDER_ITEMS.PRICE_AT_PURCHASE.multiply(ORDER_ITEMS.QUANTITY)))
@@ -84,12 +104,15 @@ public class JooqOrderRepository implements OrderRepository {
     }
 
     @Override
-    public int insertBill(int userId, int orderId, float total) {
+    public int insertBill(int userId, int reservationId, int orderId, float total, String paymentMethod, int paid, LocalDateTime paidAt) {
         return db.insertInto(BILLS)
                 .set(BILLS.USER_ID, userId)
+                .set(BILLS.RESERVATION_ID, reservationId)
                 .set(BILLS.ORDER_ID, orderId)
                 .set(BILLS.TOTAL_AMOUNT, total)
-                .set(BILLS.PAID, 0)
+                .set(BILLS.PAYMENT_METHOD, paymentMethod)
+                .set(BILLS.PAID, paid)
+                .set(BILLS.PAID_AT, paidAt)
                 .returning(BILLS.ID)
                 .fetchOne()
                 .getId();

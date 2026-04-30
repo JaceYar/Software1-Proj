@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS bills (
     reservation_id INTEGER REFERENCES reservations(id),
     order_id INTEGER REFERENCES orders(id),
     total_amount REAL NOT NULL,
+    payment_method TEXT NOT NULL DEFAULT 'PAY_NOW', -- PAY_NOW, CHARGE_ROOM
     paid INTEGER NOT NULL DEFAULT 0,
     corporation_id INTEGER REFERENCES corporations(id),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

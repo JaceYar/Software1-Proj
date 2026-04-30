@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static edu.baylor.cs.db.Tables.RESERVATIONS;
 import static edu.baylor.cs.db.Tables.ROOMS;
@@ -135,5 +136,34 @@ public class JooqReservationRepository implements ReservationRepository {
     public Integer findRoomIdById(int reservationId) {
         return db.select(RESERVATIONS.ROOM_ID).from(RESERVATIONS)
                 .where(RESERVATIONS.ID.eq(reservationId)).fetchOneInto(Integer.class);
+    }
+
+    @Override
+    public Optional<Integer> findCheckedInReservationIdByUserId(int userId) {
+        Integer reservationId = db.select(RESERVATIONS.ID)
+                .from(RESERVATIONS)
+                .where(RESERVATIONS.USER_ID.eq(userId))
+                .and(RESERVATIONS.STATUS.eq("CHECKED_IN"))
+                .orderBy(RESERVATIONS.CHECK_IN_DATE.desc(), RESERVATIONS.ID.desc())
+                .limit(1)
+                .fetchOneInto(Integer.class);
+        return Optional.ofNullable(reservationId);
+    }
+
+    @Override
+    public Record findMostRecentReservationForUserWithRoom(int userId) {
+        return db.select(
+                        RESERVATIONS.ID, RESERVATIONS.USER_ID, RESERVATIONS.ROOM_ID,
+                        ROOMS.ROOM_NUMBER,
+                        RESERVATIONS.CHECK_IN_DATE, RESERVATIONS.CHECK_OUT_DATE,
+                        RESERVATIONS.RATE, RESERVATIONS.RATE_TYPE, RESERVATIONS.STATUS,
+                        RESERVATIONS.CANCELLATION_FEE, RESERVATIONS.CREATED_AT)
+                .from(RESERVATIONS)
+                .join(ROOMS).on(ROOMS.ID.eq(RESERVATIONS.ROOM_ID))
+                .where(RESERVATIONS.USER_ID.eq(userId))
+                .and(RESERVATIONS.STATUS.ne("CANCELLED"))
+                .orderBy(RESERVATIONS.CHECK_IN_DATE.desc(), RESERVATIONS.ID.desc())
+                .limit(1)
+                .fetchOne();
     }
 }

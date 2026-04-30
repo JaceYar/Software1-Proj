@@ -87,6 +87,11 @@ public class Bills extends TableImpl<BillsRecord> {
     public final TableField<BillsRecord, Float> TOTAL_AMOUNT = createField(DSL.name("total_amount"), SQLDataType.REAL.nullable(false), this, "");
 
     /**
+     * The column <code>bills.payment_method</code>.
+     */
+    public final TableField<BillsRecord, String> PAYMENT_METHOD = createField(DSL.name("payment_method"), SQLDataType.CLOB.nullable(false).defaultValue(DSL.field(DSL.raw("'PAY_NOW'"), SQLDataType.CLOB)), this, "");
+
+    /**
      * The column <code>bills.paid</code>.
      */
     public final TableField<BillsRecord, Integer> PAID = createField(DSL.name("paid"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "");

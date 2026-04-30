@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getProducts, getCart, addToCart, checkout } from '../services/api';
+import { getProducts, getCart, addToCart, removeFromCart, checkout } from '../services/api';
 
 export default function StorePage() {
   const [products, setProducts] = useState([]);
@@ -32,15 +32,27 @@ export default function StorePage() {
     }
   };
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (paymentMethod) => {
     if (cart.length === 0) return;
     setError('');
     try {
-      const res = await checkout();
-      setSuccess(`Order placed! Total: $${res.data.total.toFixed(2)}`);
+      const res = await checkout({ paymentMethod });
+      const paymentLabel = res.data.paymentMethod === 'CHARGE_ROOM' ? 'charged to room' : 'paid now';
+      setSuccess(`Order placed! Total: $${res.data.total.toFixed(2)} (${paymentLabel})`);
       loadData();
     } catch (err) {
       setError(err.response?.data || 'Checkout failed');
+    }
+  };
+
+  const handleRemove = async (itemId) => {
+    setError('');
+    setSuccess('');
+    try {
+      await removeFromCart(itemId);
+      loadData();
+    } catch (err) {
+      setError(err.response?.data || 'Could not remove item');
     }
   };
 
@@ -89,22 +101,37 @@ export default function StorePage() {
               {cart.map((item, i) => (
                 <div
                   key={item.itemId}
-                  className={`flex justify-between py-3 text-sm text-on-surface ${i < cart.length - 1 ? 'border-b border-surface-container' : ''}`}
+                  className={`grid grid-cols-[minmax(0,1fr)_auto_auto_4.75rem] gap-x-2 items-center py-3 text-sm text-on-surface ${i < cart.length - 1 ? 'border-b border-surface-container' : ''}`}
                 >
-                  <span>{item.name}</span>
-                  <span className="text-on-surface-muted">x{item.quantity}</span>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="min-w-0 break-words pr-1">{item.name}</span>
+                  <span className="text-on-surface-muted whitespace-nowrap tabular-nums shrink-0">x{item.quantity}</span>
+                  <span className="whitespace-nowrap tabular-nums shrink-0">${(item.price * item.quantity).toFixed(2)}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemove(item.itemId)}
+                    className="inline-flex h-8 w-full shrink-0 items-center justify-center box-border px-2 bg-tertiary/15 text-tertiary border border-tertiary/25 rounded-lg text-[10px] font-semibold uppercase tracking-[0.06rem] cursor-pointer font-sans"
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
               <div className="font-serif font-semibold text-on-surface mt-4 mb-5 pt-3 border-t border-surface-container">
                 Total: ${cartTotal.toFixed(2)}
               </div>
-              <button
-                onClick={handleCheckout}
-                className="w-full py-3.5 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer font-sans"
-              >
-                Checkout
-              </button>
+              <div className="grid gap-2">
+                <button
+                  onClick={() => handleCheckout('PAY_NOW')}
+                  className="w-full py-3.5 bg-linear-to-br from-primary to-primary-container text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer font-sans"
+                >
+                  Checkout - Pay Now
+                </button>
+                <button
+                  onClick={() => handleCheckout('CHARGE_ROOM')}
+                  className="w-full py-3.5 bg-linear-to-br from-secondary to-[#8a6e50] text-white border-0 rounded-xl text-xs font-semibold uppercase tracking-[0.1rem] cursor-pointer font-sans"
+                >
+                  Checkout - Charge to Room
+                </button>
+              </div>
             </>
           )}
         </div>

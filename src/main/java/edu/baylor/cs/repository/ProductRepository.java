@@ -9,4 +9,5 @@ public interface ProductRepository {
     Integer findStockById(int id);
     Float findPriceById(int id);
     boolean decrementStock(int productId, int quantity);
+    void incrementStock(int productId, int quantity);
 }

@@ -36,7 +36,12 @@ export const checkOut = (id) => api.post(`/reservations/${id}/checkout`);
 export const getProducts = () => api.get('/store/products');
 export const getCart = () => api.get('/store/cart');
 export const addToCart = (data) => api.post('/store/cart', data);
-export const checkout = () => api.post('/store/checkout');
+export const removeFromCart = (itemId) => api.delete(`/store/cart/${itemId}`);
+export const checkout = (data) => api.post('/store/checkout', data);
+
+// Bills
+export const getMyLastStayBill = () => api.get('/bills/my-last-stay');
+export const payEntireBill = (reservationId) => api.post(`/bills/reservation/${reservationId}/pay`);
 
 // Admin
 export const getUsers = () => api.get('/admin/users');

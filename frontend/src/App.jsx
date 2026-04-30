@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import RoomsPage from './pages/RoomsPage';
 import ReservationsPage from './pages/ReservationsPage';
 import StorePage from './pages/StorePage';
+import MyBillPage from './pages/MyBillPage';
 import ClerkDashboard from './pages/ClerkDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 
@@ -41,6 +42,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute roles={['GUEST']}>
               <StorePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-bill"
+          element={
+            <ProtectedRoute roles={['GUEST']}>
+              <MyBillPage />
             </ProtectedRoute>
           }
         />

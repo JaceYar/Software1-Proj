@@ -1,6 +1,7 @@
 package edu.baylor.cs.service;
 
 import edu.baylor.cs.dto.CartItemRequest;
+import edu.baylor.cs.dto.CheckoutRequest;
 import edu.baylor.cs.dto.ProductDto;
 import edu.baylor.cs.repository.OrderRepository;
 import edu.baylor.cs.repository.ProductRepository;
@@ -17,6 +18,8 @@ import java.util.Map;
  */
 @Service
 public class StoreService implements IStoreService {
+    private static final String PAY_NOW = "PAY_NOW";
+    private static final String CHARGE_ROOM = "CHARGE_ROOM";
 
     private final ReservationRepository reservationRepository;
     private final ProductRepository productRepository;
@@ -80,22 +83,71 @@ public class StoreService implements IStoreService {
         return orderRepository.findCartItemsByUserId(userId);
     }
 
+    @Override
+    @Transactional
+    public Map<String, Object> removeFromCart(int userId, int itemId) {
+        Integer orderId = orderRepository.findCartIdByUserId(userId);
+        if (orderId == null) {
+            throw new IllegalArgumentException("No active cart");
+        }
+
+        Map<String, Integer> item = orderRepository.findCartItemById(orderId, itemId);
+        if (item == null) {
+            throw new IllegalArgumentException("Cart item not found");
+        }
+
+        int productId = item.get("productId");
+        int quantity = item.get("quantity");
+        productRepository.incrementStock(productId, quantity);
+        orderRepository.deleteCartItem(orderId, itemId);
+
+        return Map.of("orderId", orderId, "message", "Item removed from cart");
+    }
+
     /**
      * Purchases all items in the user's cart.
      * Decrements stock and creates a bill entry.
      */
     @Override
     @Transactional
-    public Map<String, Object> checkout(int userId) {
+    public Map<String, Object> checkout(int userId, CheckoutRequest req) {
         Integer orderId = orderRepository.findCartIdByUserId(userId);
         if (orderId == null) throw new IllegalArgumentException("No active cart");
+
+        String paymentMethod = normalizePaymentMethod(req);
+        Integer reservationId = reservationRepository.findCheckedInReservationIdByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("No active checked-in stay found for checkout"));
 
         Double total = orderRepository.calculateCartTotal(orderId);
         orderRepository.markPurchased(orderId, LocalDateTime.now());
 
         float totalFloat = total != null ? total.floatValue() : 0.0f;
-        int billId = orderRepository.insertBill(userId, orderId, totalFloat);
+        boolean paidNow = PAY_NOW.equals(paymentMethod);
+        LocalDateTime paidAt = paidNow ? LocalDateTime.now() : null;
+        int billId = orderRepository.insertBill(
+                userId,
+                reservationId,
+                orderId,
+                totalFloat,
+                paymentMethod,
+                paidNow ? 1 : 0,
+                paidAt
+        );
 
-        return Map.of("orderId", orderId, "billId", billId, "total", total != null ? total : 0.0);
+        return Map.of(
+                "orderId", orderId,
+                "billId", billId,
+                "total", total != null ? total : 0.0,
+                "paymentMethod", paymentMethod,
+                "paid", paidNow
+        );
+    }
+
+    private String normalizePaymentMethod(CheckoutRequest req) {
+        String raw = req == null || req.paymentMethod() == null ? PAY_NOW : req.paymentMethod().trim().toUpperCase();
+        if (!PAY_NOW.equals(raw) && !CHARGE_ROOM.equals(raw)) {
+            throw new IllegalArgumentException("Invalid payment method. Use PAY_NOW or CHARGE_ROOM");
+        }
+        return raw;
     }
 }

@@ -43,4 +43,12 @@ public class JooqProductRepository implements ProductRepository {
                 .execute();
         return updated == 1;
     }
+
+    @Override
+    public void incrementStock(int productId, int quantity) {
+        db.update(PRODUCTS)
+                .set(PRODUCTS.STOCK_QUANTITY, PRODUCTS.STOCK_QUANTITY.plus(quantity))
+                .where(PRODUCTS.ID.eq(productId))
+                .execute();
+    }
 }
