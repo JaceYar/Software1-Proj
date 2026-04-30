@@ -1,12 +1,12 @@
 package edu.baylor.cs.service;
 
-import edu.baylor.cs.db.tables.records.ProductsRecord;
 import edu.baylor.cs.dto.CartItemRequest;
 import edu.baylor.cs.dto.ProductDto;
 import edu.baylor.cs.repository.OrderRepository;
 import edu.baylor.cs.repository.ProductRepository;
 import edu.baylor.cs.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,6 +44,7 @@ public class StoreService implements IStoreService {
      * @throws IllegalArgumentException if the user has no active reservation or product is out of stock
      */
     @Override
+    @Transactional
     public Map<String, Object> addToCart(int userId, CartItemRequest req) {
         if (!reservationRepository.hasCheckedInReservationForUser(userId)) {
             throw new IllegalArgumentException("Only checked-in guests can shop in the store");
@@ -53,7 +54,12 @@ public class StoreService implements IStoreService {
         }
 
         Integer stock = productRepository.findStockById(req.productId());
-        if (stock == null || stock < req.quantity()) {
+        if (stock == null) {
+            throw new IllegalArgumentException("Product not found");
+        }
+
+        boolean reserved = productRepository.decrementStock(req.productId(), req.quantity());
+        if (!reserved) {
             throw new IllegalArgumentException("Insufficient stock");
         }
 
@@ -79,18 +85,12 @@ public class StoreService implements IStoreService {
      * Decrements stock and creates a bill entry.
      */
     @Override
+    @Transactional
     public Map<String, Object> checkout(int userId) {
         Integer orderId = orderRepository.findCartIdByUserId(userId);
         if (orderId == null) throw new IllegalArgumentException("No active cart");
 
         Double total = orderRepository.calculateCartTotal(orderId);
-
-        for (int[] item : orderRepository.getItemsForOrder(orderId)) {
-            boolean updated = productRepository.decrementStock(item[0], item[1]);
-            if (!updated) {
-                throw new IllegalArgumentException("Insufficient stock during checkout");
-            }
-        }
         orderRepository.markPurchased(orderId, LocalDateTime.now());
 
         float totalFloat = total != null ? total.floatValue() : 0.0f;

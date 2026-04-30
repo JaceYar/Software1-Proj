@@ -109,8 +109,12 @@ INSERT OR IGNORE INTO rooms (room_number, floor, room_type, quality_level, bed_t
 -- Seed some sample products
 INSERT OR IGNORE INTO products (name, category, price, stock_quantity, description) VALUES
 ('Hotel Branded T-Shirt',     'CLOTHING',    24.99, 50, 'Comfortable hotel logo t-shirt'),
-('Artisan Honey Jar',          'ARTISANAL',   14.99, 30, 'Local wildflower honey'),
-('Leather Keychain',           'ACCESSORIES', 12.99, 75, 'Handcrafted leather keychain'),
-('Silk Scarf',                 'ACCESSORIES', 49.99, 20, 'Elegant silk scarf'),
-('Handmade Candle Set',        'ARTISANAL',   29.99, 40, 'Set of 3 scented candles'),
-('Hotel Robe',                 'CLOTHING',    79.99, 25, 'Plush cotton hotel robe');
+('Artisan Honey Jar',          'ARTISANAL',   14.99, 50, 'Local wildflower honey'),
+('Leather Keychain',           'ACCESSORIES', 12.99, 50, 'Handcrafted leather keychain'),
+('Silk Scarf',                 'ACCESSORIES', 49.99, 50, 'Elegant silk scarf'),
+('Handmade Candle Set',        'ARTISANAL',   29.99, 50, 'Set of 3 scented candles'),
+('Hotel Robe',                 'CLOTHING',    79.99, 50, 'Plush cotton hotel robe');
+
+-- Reset stock levels for all products.
+UPDATE products
+SET stock_quantity = 50;
