@@ -17,3 +17,5 @@ ExportDrafts
 .cursor/
 
 image-output
+
+.~lock*
